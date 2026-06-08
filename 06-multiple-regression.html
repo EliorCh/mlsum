@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 6 · רגרסיה מרובה</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Frank+Ruhl+Libre:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/styles/atom-one-dark.min.css">
+<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>
+
+<script>
+  window.addEventListener('load', () => {
+    if (window.renderMathInElement) {
+      try { renderMathInElement(document.body, { delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}], throwOnError: false, strict: false }); } catch(e){}
+    }
+    if (window.hljs) { try { document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el)); } catch(e){} }
+    document.body.classList.add('ready');
+  });
+</script>
+
+<style>
+  :root {
+    --bg: #fbf9f3; --bg-paper: #fffefa; --ink: #1c1917; --ink-soft: #44403c; --ink-mute: #78716c;
+    --rule: #e7e5e0; --rule-soft: #f1efe9;
+    --indigo-9: #312e81; --indigo-7: #4f46e5; --indigo-3: #c7d2fe; --indigo-1: #eef2ff;
+    --c-theory-h: #1d4ed8; --c-theory-bg: #eff6ff; --c-theory-edge: #bfdbfe;
+    --c-formula-h: #b45309; --c-formula-bg: #fef9e7; --c-formula-edge: #fcd34d;
+    --c-example-h: #047857; --c-example-bg: #ecfdf5; --c-example-edge: #a7f3d0;
+    --c-warn-h: #be123c; --c-warn-bg: #fff1f2; --c-warn-edge: #fecdd3;
+    --c-exercise-h: #6d28d9; --c-exercise-bg: #f5f3ff; --c-exercise-edge: #ddd6fe;
+    --c-summary-h: #334155; --c-summary-bg: #f1f5f9; --c-summary-edge: #cbd5e1;
+    --code-bg: #0f172a; --code-bg-2: #1e293b; --code-ink: #e2e8f0;
+    --shadow-sm: 0 1px 2px rgba(28,25,23,.04), 0 1px 3px rgba(28,25,23,.06);
+    --shadow: 0 4px 12px rgba(28,25,23,.05), 0 1px 3px rgba(28,25,23,.04);
+    --serif: 'Frank Ruhl Libre', Georgia, serif;
+    --sans: 'Assistant', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  body { font-family: var(--sans); color: var(--ink); background: var(--bg); line-height: 1.75; font-size: 17px; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 20% 0%, rgba(99,102,241,.035), transparent 40%), radial-gradient(circle at 80% 100%, rgba(245,158,11,.035), transparent 40%);
+    background-attachment: fixed; opacity: 0; transition: opacity .2s ease; }
+  body.ready { opacity: 1; }
+  .app { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; max-width: 1480px; margin: 0 auto; }
+  .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%); color: #e0e7ff; padding: 32px 24px; border-left: 1px solid rgba(255,255,255,.06); }
+  .sidebar::-webkit-scrollbar { width: 6px; } .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
+  .brand { font-family: var(--serif); font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; letter-spacing: -.01em; line-height: 1.2; }
+  .brand a { color: #fff; text-decoration: none; } .brand a:hover { color: #fbbf24; }
+  .brand-sub { font-size: 13px; color: #c7d2fe; margin-bottom: 28px; font-weight: 500; }
+  .brand-meta { font-size: 11px; color: #a5b4fc; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .nav-label { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: #818cf8; font-weight: 700; margin: 24px 0 12px; padding-right: 8px; }
+  .nav-list { list-style: none; } .nav-list li { margin-bottom: 2px; }
+  .nav-list a { display: flex; align-items: center; gap: 10px; padding: 9px 12px; color: #c7d2fe; text-decoration: none; border-radius: 8px; font-size: 14.5px; font-weight: 500; transition: all .15s ease; }
+  .nav-list a:hover { background: rgba(255,255,255,.06); color: #fff; }
+  .nav-list a.active { background: rgba(255,255,255,.1); color: #fff; box-shadow: inset 3px 0 0 #fbbf24; }
+  .nav-list a.pending { opacity: .5; }
+  .nav-num { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; background: rgba(255,255,255,.08); border-radius: 6px; font-size: 11px; font-weight: 700; font-family: var(--mono); }
+  .nav-list a.active .nav-num { background: #fbbf24; color: #1e1b4b; }
+  main { padding: 56px 64px 120px; max-width: 960px; }
+  .page-eyebrow { display: inline-block; font-size: 12px; font-weight: 700; color: var(--indigo-7); letter-spacing: .15em; text-transform: uppercase; background: var(--indigo-1); padding: 6px 12px; border-radius: 99px; margin-bottom: 16px; }
+  h1.page-title { font-family: var(--serif); font-size: 48px; font-weight: 700; line-height: 1.15; letter-spacing: -.02em; color: var(--ink); margin-bottom: 14px; }
+  .page-subtitle { font-size: 19px; color: var(--ink-soft); margin-bottom: 48px; font-weight: 400; line-height: 1.55; }
+  h2 { font-family: var(--serif); font-size: 32px; font-weight: 700; letter-spacing: -.015em; margin: 56px 0 20px; color: var(--ink); position: relative; padding-right: 20px; }
+  h2::before { content: ''; position: absolute; right: 0; top: 14px; bottom: 14px; width: 4px; background: var(--indigo-7); border-radius: 2px; }
+  h3 { font-family: var(--sans); font-size: 22px; font-weight: 700; margin: 32px 0 12px; color: var(--ink); letter-spacing: -.005em; }
+  h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
+  p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
+  ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
+  .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
+  .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
+  .term.amber { color: var(--c-formula-h); background: var(--c-formula-bg); border-color: var(--c-formula-edge); }
+  .katex-display { margin: 18px 0 !important; direction: ltr !important; text-align: center !important; unicode-bidi: isolate; } .katex { direction: ltr !important; unicode-bidi: isolate; }
+  .box { border-radius: 14px; margin: 24px 0; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--rule); background: var(--bg-paper); }
+  .box-head { display: flex; align-items: center; gap: 12px; padding: 14px 22px; font-weight: 700; font-size: 15px; border-bottom: 1px solid var(--rule-soft); }
+  .box-head .icon { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; flex-shrink: 0; font-size: 16px; }
+  .box-body { padding: 22px 26px; } .box-body > *:last-child { margin-bottom: 0; }
+  .box.theory { border-color: var(--c-theory-edge); } .box.theory .box-head { background: var(--c-theory-bg); color: var(--c-theory-h); } .box.theory .box-head .icon { background: var(--c-theory-h); color: #fff; }
+  .box.formula { border-color: var(--c-formula-edge); background: var(--c-formula-bg); } .box.formula .box-head { background: transparent; color: var(--c-formula-h); border-bottom-color: rgba(180,83,9,.18); } .box.formula .box-head .icon { background: var(--c-formula-h); color: #fff; } .box.formula .box-body { background: var(--c-formula-bg); } .box.formula p { color: #78350f; }
+  .box.example { border-color: var(--c-example-edge); } .box.example .box-head { background: var(--c-example-bg); color: var(--c-example-h); } .box.example .box-head .icon { background: var(--c-example-h); color: #fff; }
+  .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
+  .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
+  .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; }
+  .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
+  .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
+  .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
+  .code-label .name { margin-right: auto; opacity: .9; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: var(--shadow-sm); font-size: 15px; }
+  th, td { padding: 11px 14px; text-align: right; border-bottom: 1px solid var(--rule-soft); border-left: 1px solid var(--rule-soft); }
+  th { background: var(--c-summary-bg); font-weight: 700; color: var(--c-summary-h); }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { font-family: var(--mono); direction: ltr; text-align: center; font-size: 14px; }
+  td.highlight { background: var(--c-formula-bg); font-weight: 700; color: var(--c-formula-h); }
+  .ztable { font-family: var(--mono); direction: ltr; font-size: 12.5px; }
+  .ztable th, .ztable td { padding: 5px 8px; text-align: center; }
+  .exercise-card { background: #fff; border-radius: 10px; margin: 14px 0; border: 1px solid var(--c-exercise-edge); overflow: hidden; }
+  .exercise-tag { display: inline-block; font-size: 11px; font-weight: 700; background: var(--c-exercise-h); color: #fff; padding: 3px 10px; border-radius: 99px; margin-bottom: 10px; font-family: var(--mono); letter-spacing: .05em; direction: ltr; }
+  .exercise-q { padding: 20px 24px; background: #fafaf9; border-bottom: 1px solid var(--rule-soft); }
+  .exercise-q p:last-child { margin-bottom: 0; }
+  .reveal-btn { display: block; width: 100%; background: var(--c-exercise-bg); border: none; border-top: 1px solid var(--c-exercise-edge); padding: 13px; font-family: var(--sans); font-size: 14px; font-weight: 700; color: var(--c-exercise-h); cursor: pointer; transition: background .15s ease; }
+  .reveal-btn:hover { background: #ede9fe; } .reveal-btn::before { content: '▼ '; font-size: 10px; margin-left: 6px; transition: transform .2s ease; }
+  .exercise-card.open .reveal-btn::before { content: '▲ '; }
+  .solution { padding: 22px 26px; background: var(--c-example-bg); border-top: 1px solid var(--c-example-edge); display: none; }
+  .exercise-card.open .solution { display: block; }
+  .solution .step { background: #fff; border-radius: 8px; padding: 14px 18px; margin: 12px 0; border-right: 3px solid var(--c-example-h); }
+  .solution .step-label { font-size: 11px; font-weight: 700; color: var(--c-example-h); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; font-family: var(--mono); }
+  .solution .final-answer { background: #fff; border: 2px solid var(--c-example-h); border-radius: 10px; padding: 14px 20px; margin-top: 16px; font-weight: 600; }
+  .solution .final-answer::before { content: '✓ '; color: var(--c-example-h); font-weight: 900; }
+  .lead { font-size: 19px; color: var(--ink-soft); border-right: 3px solid var(--indigo-7); padding-right: 20px; margin: 24px 0 32px; font-weight: 400; line-height: 1.6; }
+  .keypoint { background: linear-gradient(90deg, var(--c-formula-bg) 0%, transparent 100%); padding: 14px 18px; border-radius: 8px; margin: 16px 0; border-right: 3px solid var(--c-formula-h); }
+  .keypoint::before { content: '💡 '; font-size: 18px; margin-left: 4px; }
+  .mc-list { list-style: none; margin: 12px 0; padding: 0; }
+  .mc-list li { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: #fff; border: 1px solid var(--rule); border-radius: 8px; margin-bottom: 8px; transition: all .15s ease; }
+  .mc-list li .mc-marker { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--rule); flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); background: #fff; }
+  .mc-list li.correct { background: var(--c-example-bg); border-color: var(--c-example-edge); }
+  .mc-list li.correct .mc-marker { background: var(--c-example-h); color: #fff; border-color: var(--c-example-h); }
+  .mc-list li.correct .mc-marker::after { content: '✓'; }
+  .mc-list li.wrong { background: var(--c-warn-bg); border-color: var(--c-warn-edge); }
+  .mc-list li.wrong .mc-marker { background: var(--c-warn-h); color: #fff; border-color: var(--c-warn-h); }
+  .mc-list li.wrong .mc-marker::after { content: '✗'; }
+  .mc-list li .mc-text { flex: 1; line-height: 1.55; color: var(--ink-soft); }
+  .mc-list li .mc-text .why { display: block; margin-top: 6px; font-size: 13.5px; color: var(--ink-mute); font-style: italic; }
+  .figure { background: #fff; border: 1px solid var(--rule); border-radius: 12px; padding: 18px; margin: 18px 0; text-align: center; box-shadow: var(--shadow-sm); }
+  .figure svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+  .figure .cap { font-size: 13px; color: var(--ink-mute); margin-top: 12px; font-style: italic; }
+  @media (max-width: 900px) { .app { grid-template-columns: 1fr; } .sidebar { position: static; height: auto; } main { padding: 32px 24px 80px; } h1.page-title { font-size: 36px; } h2 { font-size: 26px; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="brand"><a href="index.html">מבוא ללמידת מכונה<br>ולמדעי הנתונים</a></div>
+  <div class="brand-sub">מדריך הכנה למבחן · ד״ר אלה רבינוביץ׳</div>
+  <div class="brand-meta">MTA · קיץ 2026</div>
+
+  <div class="nav-label">פייתון ונתונים</div>
+  <ul class="nav-list">
+    <li><a href="01-numpy.html"><span class="nav-num">1</span>NumPy</a></li>
+    <li><a href="02-pandas.html"><span class="nav-num">2</span>Pandas</a></li>
+  </ul>
+
+  <div class="nav-label">סטטיסטיקה</div>
+  <ul class="nav-list">
+    <li><a href="03-descriptive-stats.html"><span class="nav-num">3</span>סטטיסטיקה תיאורית</a></li>
+    <li><a href="04-inferential-stats.html"><span class="nav-num">4</span>סטטיסטיקה מסקקת</a></li>
+  </ul>
+
+  <div class="nav-label">למידה מונחית</div>
+  <ul class="nav-list">
+    <li><a href="05-linear-regression.html"><span class="nav-num">5</span>רגרסיה לינארית</a></li>
+    <li><a href="06-multiple-regression.html" class="active"><span class="nav-num">6</span>רגרסיה מרובה</a></li>
+    <li><a href="07-classification-basics.html"><span class="nav-num">7</span>סיווג בסיסי</a></li>
+    <li><a href="08-neural-networks.html"><span class="nav-num">8</span>רשתות נוירונים</a></li>
+    <li><a href="09-evaluation.html"><span class="nav-num">9</span>הערכת סיווג</a></li>
+  </ul>
+
+  <div class="nav-label">למידה לא מונחית</div>
+  <ul class="nav-list">
+    <li><a href="10-clustering-kmeans.html"><span class="nav-num">10</span>K-Means</a></li>
+    <li><a href="11-clustering-dbscan.html"><span class="nav-num">11</span>DBSCAN</a></li>
+    <li><a href="12-image-and-self-supervised.html"><span class="nav-num">12</span>עיבוד תמונה</a></li>
+  </ul>
+
+  <div class="nav-label">נספח</div>
+  <ul class="nav-list">
+    <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
+  </ul>
+</aside>
+
+<main>
+  <span class="page-eyebrow">פרק 6 · רגרסיה מרובת משתנים</span>
+  <h1 class="page-title">Multi-collinearity ופירוש מקדמים</h1>
+  <p class="page-subtitle">מה קורה כששני משתנים בלתי תלויים בעצם תלויים אחד בשני? איך לזהות ולתקן.</p>
+
+  <p class="lead">
+    זה הנושא שמכשיל הרבה סטודנטים במבחנים. הבעיה: שני משתנים שאמורים להיות ״בלתי תלויים״ מתואמים זה עם זה.
+    התוצאה: <strong>אי אפשר לסמוך על המקדמים</strong> שהמודל נותן. נלמד איך לזהות ומה לעשות.
+  </p>
+
+  <!-- 1. WHAT IS MULTI-COLLINEARITY -->
+  <h2>מה זאת Multi-collinearity?</h2>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>הגדרה ודוגמה אינטואיטיבית</div>
+    <div class="box-body">
+      <p>
+        <span class="term">Multi-collinearity</span> מתרחשת כששני (או יותר) משתנים בלתי תלויים מקיימים <strong>קשר לינארי משמעותי ביניהם</strong>.
+      </p>
+
+      <h4>דוגמה מההרצאה</h4>
+      <p>
+        נניח שאנחנו רוצים לחזות מחיר בית, ומשתמשים בשני משתנים: שטח (במ״ר) וגודל בחדרי שינה.
+      </p>
+      <p>
+        בעיה: בתים גדולים נוטים להיות בעלי יותר חדרי שינה. שני המשתנים מתואמים חזק זה עם זה. המודל לא יודע אם מקדם מסוים מייחס את ההשפעה לשטח או למספר החדרים.
+      </p>
+
+      <div class="keypoint">
+        <strong>איך לזהות:</strong> חישוב <span class="term">pearson correlation</span> בין כל זוג משתנים בלתי תלויים. ערך מוחלט גבוה (לדוגמה $|r| > 0.7$) רומז על multi-collinearity.
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. EFFECTS -->
+  <h2>מה זה משפיע עליו (ומה לא)</h2>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>שלוש הנקודות הקריטיות מההרצאה</div>
+    <div class="box-body">
+
+      <h4>1. multi-collinearity <strong>פוגעת ב</strong>:</h4>
+      <ul>
+        <li>
+          <strong>פירוש המקדמים</strong> — אי אפשר להבדיל בין השפעת כל משתנה.
+        </li>
+        <li>
+          <strong>P-values וביטחון הסטטיסטי</strong> — נראה כאילו משתנים לא מובהקים, גם אם הם כן באמת.
+        </li>
+        <li>
+          <strong>סימני המקדמים</strong> — לפעמים מקדם יוצא בכיוון <em>הפוך</em> ממה שהגיוני (למשל ״כל חדר שינה <em>מוריד</em> את מחיר הבית״).
+        </li>
+      </ul>
+
+      <h4>2. multi-collinearity <strong>אינה פוגעת ב</strong>:</h4>
+      <ul>
+        <li>$R^2$ והאומדן הכולל.</li>
+        <li>הניבויים $\hat{y}$ בעצמם.</li>
+        <li>איכות המודל על test set.</li>
+      </ul>
+
+      <div class="keypoint">
+        <strong>זוהי נקודת המבחן הקלאסית:</strong>
+        ״האם multi-collinearity פוגעת ב־$R^2$?״ — <strong>לא!</strong>
+        ״האם היא פוגעת בפירוש המקדמים?״ — <strong>כן!</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. HOW TO FIX -->
+  <h2>איך מתקנים?</h2>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">🔧</span>שלוש דרכים מההרצאה</div>
+    <div class="box-body">
+
+      <h4>1. הכר את הנתונים שלך</h4>
+      <p>
+        לפני אימון — חשוב על הקשרים הצפויים בין המשתנים. שטח בית וחדרי שינה? מתואמים בוודאות. גובה ומשקל? בוודאי.
+      </p>
+
+      <h4>2. בדוק כל זוג</h4>
+      <p>
+        חשב <span class="term">pearson r</span> לכל זוג משתנים בלתי תלויים. כל ערך מוחלט מעל סף כלשהו (לרוב 0.7) — חשוד.
+      </p>
+
+      <h4>3. תיקון — שתי גישות</h4>
+      <ul>
+        <li>
+          <strong>הסר משתנה אחד</strong> — בחר את זה שנראה פחות חשוב או שקל יותר למדוד.
+        </li>
+        <li>
+          <strong>שלב לתוך משתנה אחד</strong> — ממוצע, סכום, או יחס. למשל ״שטח לחדר״.
+        </li>
+      </ul>
+
+      <div class="keypoint">
+        <strong>גישה פרגמטית מההרצאה:</strong>
+        אם המטרה היא רק <em>ניבוי</em> (לא להבין את הקשר), multi-collinearity מתונה — אפשר להתעלם.
+        אם המטרה היא <em>פירוש המודל</em> — חייבים לתקן.
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. DUMMY VARIABLES & MULTI-COLLINEARITY -->
+  <h2>קישור מפרק 5: Dummy encoding ו־multi-collinearity</h2>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>למה מוחקים עמודה אחת ב־dummy?</div>
+    <div class="box-body">
+      <p>
+        בפרק 5 ראינו שעונה (4 קטגוריות) מקודדת ל־4 עמודות בינאריות.
+        אבל יש בעיה: בכל שורה <strong>בדיוק עמודה אחת ערכה 1 והשאר 0</strong>.
+      </p>
+      <p>זה אומר ש:</p>
+      $$\text{winter} + \text{spring} + \text{summer} + \text{fall} = 1$$
+
+      <p><strong>זה multi-collinearity מושלם!</strong> אם תדע 3 מתוך 4 העמודות, אתה יודע את הרביעית בוודאות.</p>
+
+      <p>
+        <strong>הפתרון:</strong> משאירים רק $k-1$ עמודות (kategori reference). למשל, להוריד את ״winter״.
+        אז כל הקטגוריות האחרות נמדדות <em>יחסית</em> ל־winter.
+      </p>
+
+      <div class="keypoint">
+        <strong>קל לזכור:</strong> dummy encoding עם k קטגוריות → k−1 עמודות בלבד במודל. ספריות פייתון עושות את זה אוטומטית עם <span class="term">drop_first=True</span>.
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. COMMON MISTAKES -->
+  <h2>טעויות נפוצות</h2>
+
+  <div class="box warn">
+    <div class="box-head"><span class="icon">⚠</span>חמש טעויות שמורידות נקודות</div>
+    <div class="box-body">
+      <ol>
+        <li>
+          <strong>חשיבה ש־multi-collinearity פוגעת ב־$R^2$.</strong>
+          לא! זאת הטעות הכי נפוצה. $R^2$ ואיכות הניבוי לא מושפעים.
+        </li>
+        <li>
+          <strong>פירוש מקדמים בעיוורון.</strong>
+          ״כל חדר שינה נוסף מוריד את המחיר ב־52K״ — לא נכון אם יש multi-collinearity עם שטח.
+        </li>
+        <li>
+          <strong>חשיבה ש־feature scaling פותר multi-collinearity.</strong>
+          לא! scaling פותר בעיות אחרות (השוואת מקדמים, ביצועי KNN), אבל לא משנה את הקורלציות בין המשתנים.
+        </li>
+        <li>
+          <strong>חשיבה ש־dummy encoding מהווה multi-collinearity ולכן נמנעים ממנו.</strong>
+          הפוך — dummy עם drop_first הוא הפתרון הנכון. הקטגוריות הן <em>טבעיות</em>, רק העמודה הכי אחרונה משלימה ל־1.
+        </li>
+        <li>
+          <strong>הסתמכות על p-value לזיהוי multi-collinearity.</strong>
+          p-value גבוה לבדו לא מספיק. צריך גם לבדוק את הקורלציה בין המשתנים.
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 6. EXERCISES -->
+  <h2>תרגילי מבחן אמיתיים</h2>
+  <p>שאלות מתוך <span class="term">practice-questions-with-solutions6.pdf</span>.</p>
+
+  <!-- Exercise 1 -->
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>תרגיל 1 · practice6, שאלה 1</div>
+    <div class="box-body">
+
+      <div class="exercise-card">
+        <div class="exercise-q">
+          <span class="exercise-tag">תכונות בסיסיות של multi-collinearity</span>
+          <p>נתונה בעיית רגרסיה לינארית מרובת משתנים. סמנו נכון או לא נכון:</p>
+          <ol style="margin: 8px 24px;">
+            <li>תופעת ה־multi-collinearity פוגעת במדד $R^2$.</li>
+            <li>תופעת ה־multi-collinearity פוגעת ביכולת לפרש את המקדמים של המודל.</li>
+            <li>ניתן לפתור את multi-collinearity ע״י קידוד משתנים קטגוריים עם dummy encoding.</li>
+            <li>בהינתן שני משתנים עם multi-collinearity, המשתנה הנחוץ יותר הוא זה עם מקדם המתאם (Pearson's r) גבוה יותר למשתנה התלוי.</li>
+          </ol>
+        </div>
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+
+          <ul class="mc-list">
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>1. multi-collinearity פוגעת ב־$R^2$.</strong>
+                <span class="why">לא נכון. זאת הטעות הקלאסית. $R^2$ ואיכות הניבוי <em>לא</em> מושפעים — רק פירוש המקדמים נפגע.</span>
+              </span>
+            </li>
+            <li class="correct">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>2. פוגעת בפירוש המקדמים.</strong>
+                <span class="why">נכון. בדיוק — זאת ההשפעה העיקרית. המודל לא יודע איזה מקדם לתת לאיזה משתנה.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>3. dummy encoding פותר multi-collinearity.</strong>
+                <span class="why">לא נכון. dummy encoding הוא <em>שיטה לקידוד קטגוריות</em>, ובעצמו דורש זהירות (הסרת עמודה אחת). הוא לא פותר multi-collinearity בין משתנים מספריים.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>4. בוחרים לפי מתאם עם המשתנה התלוי.</strong>
+                <span class="why">לא בהכרח נכון. זאת היוריסטיקה הגיונית, אבל לא חוק. בוחרים לפי שילוב של: מתאם, אינטרפרטביליות, ועלות מדידה.</span>
+              </span>
+            </li>
+          </ul>
+
+          <div class="final-answer">
+            רק טענה 2 נכונה.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Exercise 2 -->
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>תרגיל 2 · practice6, שאלה 3</div>
+    <div class="box-body">
+
+      <div class="exercise-card">
+        <div class="exercise-q">
+          <span class="exercise-tag">חמישה אמירות על multi-collinearity</span>
+          <p>לפניך מספר אמירות. סמנו נכון/לא נכון:</p>
+          <ol style="margin: 8px 24px;">
+            <li>התופעה מתרחשת כאשר שניים (או יותר) משתנים בלתי תלויים מקיימים קשר לינארי משמעותי.</li>
+            <li>התופעה יכולה לגרום למשתנה עם קשר מובהק להראות לא־מובהק בטבלת סיכום הרגרסיה.</li>
+            <li>התופעה מחלישה את יכולת הניבוי — דבר שיבוא לידי ביטוי הן ב־$R^2$ והן במתאם עם test set.</li>
+            <li>multi-collinearity בין שני משתנים בלתי תלויים מורכבת לזיהוי, לכן לא תמיד נוכל לבטלה.</li>
+            <li>ניתן להפחית את התופעה ע״י feature scaling לפני בניית משוואת הרגרסיה.</li>
+          </ol>
+        </div>
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+
+          <ul class="mc-list">
+            <li class="correct">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>1. קשר לינארי בין משתנים בלתי תלויים.</strong>
+                <span class="why">נכון — זאת בדיוק ההגדרה.</span>
+              </span>
+            </li>
+            <li class="correct">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>2. משתנה מובהק נראה לא־מובהק.</strong>
+                <span class="why">נכון. זאת אחת התסמינים הקלאסיים — multi-collinearity מנפחת את ה־standard errors של המקדמים, וכתוצאה ה־p-values עולים מלאכותית.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>3. פוגעת ב־$R^2$ ובמתאם עם test set.</strong>
+                <span class="why">לא נכון. זאת הנקודה החשובה ביותר — $R^2$ והניבוי בכלל <em>לא מושפעים</em>. רק המקדמים האינדיבידואליים.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>4. קשה לזיהוי.</strong>
+                <span class="why">לא נכון. זיהוי כלל אינו מורכב — סופרים את מטריצת המתאמים של המשתנים הבלתי תלויים. ערכים גבוהים = רמז.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>5. feature scaling פותר את הבעיה.</strong>
+                <span class="why">לא נכון. scaling משנה את היחידות, לא את הקורלציות. הקשרים הלינאריים בין המשתנים נשארים זהים.</span>
+              </span>
+            </li>
+          </ul>
+
+          <div class="final-answer">
+            נכונות: 1 ו־2. &nbsp;·&nbsp; לא נכונות: 3, 4, 5.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Exercise 3 -->
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>תרגיל 3 · practice6, שאלה 4</div>
+    <div class="box-body">
+
+      <div class="exercise-card">
+        <div class="exercise-q">
+          <span class="exercise-tag">פירוש מודל מחיר בתים</span>
+          <p>
+            נתון dataframe של מכירת בתים: גודל הבית (שטח), מספר חדרי שינה, ומחיר (במאות אלפי דולרים).
+            בונים מודל רגרסיה לינארית לניבוי המחיר משני המשתנים. משוואת הרגרסיה שהתקבלה:
+          </p>
+          $$Y = 3.36 + 0.2 \cdot \text{size} - 0.52 \cdot \text{bedrooms}$$
+          <p>סטודנט נותן פרשנות. סמנו את כל הטענות הנכונות:</p>
+          <ol style="margin: 8px 24px;">
+            <li>כל חדר שינה נוסף מעלה את מחיר הבית ב־0.52 (במאות אלפי דולרים).</li>
+            <li>כל חדר שינה נוסף <em>מוריד</em> את מחיר הבית ב־0.52.</li>
+            <li>לא ניתן להשתמש במשוואה לניבוי מחירי בתים.</li>
+            <li>מחיר צפוי לבית עם שטח 1500 ו־3 חדרי שינה הוא 301.8.</li>
+            <li>מחיר צפוי לבית עם שטח 1500 ו־3 חדרי שינה הוא 304.9.</li>
+            <li>ניתן לשער ש־$R^2$ ו־$R^2_{\text{adj}}$ במודל גבוהים.</li>
+            <li>לא ניתן לתת השערות על $R^2$ ע״ס נתוני השאלה.</li>
+            <li>אחרי feature scaling התשובות לחלק מהסעיפים ישתנו.</li>
+          </ol>
+        </div>
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+
+          <p><strong>נקודת המפתח:</strong> כנראה יש multi-collinearity בין שטח לחדרי שינה (בתים גדולים = יותר חדרים). לכן המקדם השלילי של ״חדרי שינה״ הוא לא בהכרח אומר ש״חדר שינה מוריד מחיר״ — אלא תוצאה של ה־collinearity.</p>
+
+          <p>חישוב הניבוי: $Y = 3.36 + 0.2 \cdot 1500 - 0.52 \cdot 3 = 3.36 + 300 - 1.56 = 301.8$.</p>
+
+          <ul class="mc-list">
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>1. כל חדר שינה מעלה את המחיר ב־0.52.</strong>
+                <span class="why">לא נכון. המקדם הוא −0.52 (שלילי), לא 0.52.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>2. כל חדר שינה מוריד את המחיר ב־0.52.</strong>
+                <span class="why">לא לגמרי נכון. הפרשנות הזאת לא תקפה <strong>בגלל multi-collinearity</strong>. אי אפשר לקבוע את ההשפעה האמיתית של ״חדר שינה״ בנפרד מ״שטח״.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>3. לא ניתן להשתמש לניבוי.</strong>
+                <span class="why">לא נכון! זאת הנקודה הקריטית: <strong>multi-collinearity לא פוגעת בניבוי</strong>. המשוואה תקפה לחזות מחיר.</span>
+              </span>
+            </li>
+            <li class="correct">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>4. ניבוי = 301.8.</strong>
+                <span class="why">נכון: $3.36 + 0.2 \cdot 1500 - 0.52 \cdot 3 = 3.36 + 300 - 1.56 = 301.8$.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>5. ניבוי = 304.9.</strong>
+                <span class="why">לא נכון, סעיף 4 הוא הניבוי הנכון.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>6. $R^2$ גבוה.</strong>
+                <span class="why">לא ניתן לדעת. הנתונים לא מספקים מידע על $R^2$ באופן ישיר. רק כי משוואה התקבלה לא אומר שהתאמת המודל טובה.</span>
+              </span>
+            </li>
+            <li class="correct">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>7. לא ניתן לתת השערות על $R^2$.</strong>
+                <span class="why">נכון — אין מספיק מידע בשאלה כדי להעריך את $R^2$.</span>
+              </span>
+            </li>
+            <li class="correct">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>8. אחרי scaling חלק יישתנה.</strong>
+                <span class="why">נכון. גודל המקדמים יישתנה (כי שטח ב־מ״ר הרבה גדול מחדרי שינה ב־יחידות). אבל הניבוי והכיווניות (חיובי/שלילי) יישארו. multi-collinearity עצמה לא תשתנה.</span>
+              </span>
+            </li>
+          </ul>
+
+          <div class="final-answer">
+            נכונות: 4, 7, 8. (1, 2 לא נכונים בגלל multi-collinearity; 3 לא נכון כי הניבוי כן עובד; 5 חישוב שגוי; 6 חוסר מידע.)
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <h2>סיכום מהיר לזיכרון</h2>
+
+  <div class="box summary">
+    <div class="box-head"><span class="icon">📌</span>שבע נקודות שאתה חייב לזכור</div>
+    <div class="box-body">
+      <ol>
+        <li>
+          <strong>הגדרה:</strong> multi-collinearity = קשר לינארי בין משתנים בלתי תלויים.
+        </li>
+        <li>
+          <strong>פוגעת ב:</strong> פירוש מקדמים, p-values, סימני מקדמים.
+        </li>
+        <li>
+          <strong>לא פוגעת ב:</strong> $R^2$, איכות ניבוי, performance על test set.
+        </li>
+        <li>
+          <strong>זיהוי:</strong> חישוב Pearson $r$ בין כל זוג משתנים. $|r| > 0.7$ זה איתות אזהרה.
+        </li>
+        <li>
+          <strong>פתרון:</strong> הסר משתנה אחד, או שלב לשניים למשתנה אחד.
+        </li>
+        <li>
+          <strong>Dummy encoding</strong> דורש הסרת עמודה אחת ($k-1$ עמודות) — אחרת multi-collinearity מושלם.
+        </li>
+        <li>
+          <strong>Feature scaling לא פותר multi-collinearity.</strong> זאת טעות נפוצה.
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div style="height: 60px"></div>
+
+  <div style="display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid var(--rule); margin-top:48px;">
+    <a href="05-linear-regression.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">→ פרק 5: רגרסיה לינארית</a>
+    <a href="07-classification-basics.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">פרק 7: סיווג בסיסי ←</a>
+  </div>
+</main>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הכנה למבחן · הרצאה 9 — הערכת סיווג</title>
+
+<!-- Fonts: distinctive Hebrew display + workhorse body + clean code mono -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Frank+Ruhl+Libre:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+<!-- Highlight.js -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/styles/atom-one-dark.min.css">
+<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>
+
+<script>
+  // Wait for both libraries to load, then render math + highlight code QUIETLY
+  window.addEventListener('load', () => {
+    if (window.renderMathInElement) {
+      try {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false}
+          ],
+          throwOnError: false,
+          errorColor: '#be123c',
+          strict: false
+        });
+      } catch (e) { /* quiet */ }
+    }
+    if (window.hljs) {
+      try { document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el)); }
+      catch (e) { /* quiet */ }
+    }
+    document.body.classList.add('ready');
+  });
+</script>
+
+<style>
+  :root {
+    /* Surface colors - warm paper feel */
+    --bg: #fbf9f3;
+    --bg-paper: #fffefa;
+    --ink: #1c1917;
+    --ink-soft: #44403c;
+    --ink-mute: #78716c;
+    --rule: #e7e5e0;
+    --rule-soft: #f1efe9;
+
+    /* Brand */
+    --indigo-9: #312e81;
+    --indigo-7: #4f46e5;
+    --indigo-3: #c7d2fe;
+    --indigo-1: #eef2ff;
+
+    /* Semantic colors for boxes */
+    --c-theory-h:   #1d4ed8;  --c-theory-bg:   #eff6ff;  --c-theory-edge:   #bfdbfe;
+    --c-formula-h:  #b45309;  --c-formula-bg:  #fef9e7;  --c-formula-edge:  #fcd34d;
+    --c-example-h:  #047857;  --c-example-bg:  #ecfdf5;  --c-example-edge:  #a7f3d0;
+    --c-warn-h:     #be123c;  --c-warn-bg:     #fff1f2;  --c-warn-edge:     #fecdd3;
+    --c-exercise-h: #6d28d9;  --c-exercise-bg: #f5f3ff;  --c-exercise-edge: #ddd6fe;
+    --c-summary-h:  #334155;  --c-summary-bg:  #f1f5f9;  --c-summary-edge:  #cbd5e1;
+
+    --code-bg: #0f172a;
+    --code-bg-2: #1e293b;
+    --code-ink: #e2e8f0;
+
+    --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.04), 0 1px 3px rgba(28, 25, 23, 0.06);
+    --shadow: 0 4px 12px rgba(28, 25, 23, 0.05), 0 1px 3px rgba(28, 25, 23, 0.04);
+    --shadow-md: 0 8px 24px rgba(28, 25, 23, 0.08);
+
+    /* Typography */
+    --serif: 'Frank Ruhl Libre', Georgia, serif;
+    --sans: 'Assistant', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.75;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(99, 102, 241, 0.035), transparent 40%),
+      radial-gradient(circle at 80% 100%, rgba(245, 158, 11, 0.035), transparent 40%);
+    background-attachment: fixed;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  body.ready { opacity: 1; }
+
+  /* ============ LAYOUT ============ */
+  .app {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    min-height: 100vh;
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  /* ============ SIDEBAR (right side for RTL) ============ */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%);
+    color: #e0e7ff;
+    padding: 32px 24px;
+    border-left: 1px solid rgba(255,255,255,0.06);
+  }
+  .sidebar::-webkit-scrollbar { width: 6px; }
+  .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+
+  .brand {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .brand-sub {
+    font-size: 13px;
+    color: #c7d2fe;
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+  .brand-meta {
+    font-size: 11px;
+    color: #a5b4fc;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .nav-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #818cf8;
+    font-weight: 700;
+    margin: 24px 0 12px;
+    padding-right: 8px;
+  }
+  .nav-list { list-style: none; }
+  .nav-list li { margin-bottom: 2px; }
+  .nav-list a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    color: #c7d2fe;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14.5px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+  }
+  .nav-list a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+  .nav-list a.active {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    box-shadow: inset 3px 0 0 #fbbf24;
+  }
+  .nav-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--mono);
+  }
+  .nav-list a.active .nav-num { background: #fbbf24; color: #1e1b4b; }
+
+  /* ============ MAIN ============ */
+  main {
+    padding: 56px 64px 120px;
+    max-width: 960px;
+  }
+
+  /* Page header */
+  .page-eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--indigo-7);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--indigo-1);
+    padding: 6px 12px;
+    border-radius: 99px;
+    margin-bottom: 16px;
+  }
+  h1.page-title {
+    font-family: var(--serif);
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .page-subtitle {
+    font-size: 19px;
+    color: var(--ink-soft);
+    margin-bottom: 48px;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  /* Headings */
+  h2 {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin: 56px 0 20px;
+    color: var(--ink);
+    position: relative;
+    padding-right: 20px;
+  }
+  h2::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 14px;
+    bottom: 14px;
+    width: 4px;
+    background: var(--indigo-7);
+    border-radius: 2px;
+  }
+  h3 {
+    font-family: var(--sans);
+    font-size: 22px;
+    font-weight: 700;
+    margin: 32px 0 12px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  h4 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 18px 0 8px;
+    color: var(--ink-soft);
+  }
+
+  /* Hebrew prose paragraphs */
+  p {
+    margin-bottom: 14px;
+    color: var(--ink-soft);
+  }
+  p strong { color: var(--ink); font-weight: 700; }
+
+  ul, ol {
+    margin: 12px 24px 18px;
+    color: var(--ink-soft);
+  }
+  li { margin-bottom: 8px; }
+
+  /* ====== KEY RULE: English/code/term INSIDE Hebrew sentences ======
+     ONLY for short tokens — never full formulas.
+     For full formulas: ALWAYS use display math on its own line.            */
+  .term {
+    font-family: var(--mono);
+    direction: ltr;
+    display: inline-block;
+    font-size: 0.88em;
+    background: #f5f5f4;
+    padding: 1px 8px;
+    border-radius: 5px;
+    color: #be185d;
+    border: 1px solid #e7e5e4;
+    vertical-align: baseline;
+    /* Important: prevents bidi reordering of surrounding Hebrew */
+    unicode-bidi: isolate;
+  }
+  .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
+  .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
+  .term.amber { color: var(--c-formula-h); background: var(--c-formula-bg); border-color: var(--c-formula-edge); }
+
+  /* Standalone math on its own line - always use a wrapper */
+  .math-line {
+    direction: ltr;
+    text-align: center;
+    margin: 18px 0;
+    font-size: 1.05em;
+    unicode-bidi: isolate;
+  }
+  .math-line.left { text-align: right; }
+  /* KaTeX display math by default centered */
+  .katex-display { margin: 18px 0 !important; direction: ltr !important; text-align: center !important; unicode-bidi: isolate; } .katex { direction: ltr !important; unicode-bidi: isolate; }
+
+  /* ============ CONTENT BOXES ============ */
+  .box {
+    border-radius: 14px;
+    margin: 24px 0;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--rule);
+    background: var(--bg-paper);
+  }
+  .box-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 22px;
+    font-weight: 700;
+    font-size: 15px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .box-head .icon {
+    width: 30px; height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    flex-shrink: 0;
+    font-size: 16px;
+  }
+  .box-body { padding: 22px 26px; }
+  .box-body > *:last-child { margin-bottom: 0; }
+
+  /* Theory */
+  .box.theory { border-color: var(--c-theory-edge); }
+  .box.theory .box-head { background: var(--c-theory-bg); color: var(--c-theory-h); }
+  .box.theory .box-head .icon { background: var(--c-theory-h); color: #fff; }
+
+  /* Formula box - amber paper texture feel */
+  .box.formula { border-color: var(--c-formula-edge); background: var(--c-formula-bg); }
+  .box.formula .box-head {
+    background: transparent;
+    color: var(--c-formula-h);
+    border-bottom-color: rgba(180, 83, 9, 0.18);
+  }
+  .box.formula .box-head .icon { background: var(--c-formula-h); color: #fff; }
+  .box.formula .box-body { background: var(--c-formula-bg); }
+  .box.formula p { color: #78350f; }
+
+  /* Example */
+  .box.example { border-color: var(--c-example-edge); }
+  .box.example .box-head { background: var(--c-example-bg); color: var(--c-example-h); }
+  .box.example .box-head .icon { background: var(--c-example-h); color: #fff; }
+
+  /* Warning */
+  .box.warn { border-color: var(--c-warn-edge); }
+  .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); }
+  .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
+
+  /* Exercise */
+  .box.exercise { border-color: var(--c-exercise-edge); }
+  .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); }
+  .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
+
+  /* Summary */
+  .box.summary { border-color: var(--c-summary-edge); }
+  .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); }
+  .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
+
+  /* ============ CODE BLOCKS ============ */
+  pre {
+    background: var(--code-bg) !important;
+    border-radius: 0 0 12px 12px;
+    padding: 18px 22px !important;
+    margin: 0 0 16px 0;
+    overflow-x: auto;
+    direction: ltr;
+    font-size: 14px;
+    line-height: 1.7;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--code-bg-2);
+    border-top: none;
+  }
+  pre code {
+    font-family: var(--mono) !important;
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    color: var(--code-ink) !important;
+  }
+  .code-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--code-bg-2);
+    color: #94a3b8;
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 10px 16px;
+    border-radius: 12px 12px 0 0;
+    direction: ltr;
+    border: 1px solid var(--code-bg-2);
+    border-bottom: 1px solid #334155;
+    margin-top: 18px;
+  }
+  .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
+  .code-label .dot.red { background: #ef4444; }
+  .code-label .dot.amber { background: #f59e0b; }
+  .code-label .dot.green { background: #22c55e; }
+  .code-label .name { margin-right: auto; opacity: 0.9; }
+
+  /* Output below code */
+  .code-output {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    direction: ltr;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-soft);
+    white-space: pre-wrap;
+  }
+  .code-output::before {
+    content: '› output';
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  /* ============ TABLES ============ */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 16px 0;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    font-size: 15px;
+  }
+  th, td {
+    padding: 11px 14px;
+    text-align: right;
+    border-bottom: 1px solid var(--rule-soft);
+    border-left: 1px solid var(--rule-soft);
+  }
+  th { background: var(--c-summary-bg); font-weight: 700; color: var(--c-summary-h); }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num {
+    font-family: var(--mono);
+    direction: ltr;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  /* Confusion matrix style */
+  table.confusion {
+    text-align: center;
+  }
+  table.confusion th, table.confusion td {
+    text-align: center;
+    padding: 14px 18px;
+  }
+  table.confusion td.diag { background: #ecfdf5; font-weight: 700; color: var(--c-example-h); }
+  table.confusion td.off { background: #fff1f2; color: var(--c-warn-h); }
+  table.confusion .header-cell {
+    background: var(--c-theory-bg);
+    color: var(--c-theory-h);
+    font-family: var(--mono);
+    font-size: 13px;
+    direction: ltr;
+  }
+  table.confusion .row-label {
+    background: var(--c-theory-bg);
+    color: var(--c-theory-h);
+    font-family: var(--mono);
+    font-size: 13px;
+    direction: ltr;
+    text-align: left;
+    padding-left: 14px;
+  }
+
+  /* ============ EXERCISE / SOLUTION TOGGLE ============ */
+  .exercise-card {
+    background: #fff;
+    border-radius: 10px;
+    margin: 14px 0;
+    border: 1px solid var(--c-exercise-edge);
+    overflow: hidden;
+  }
+  .exercise-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--c-exercise-h);
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 99px;
+    margin-bottom: 10px;
+    font-family: var(--mono);
+    letter-spacing: 0.05em;
+    direction: ltr;
+  }
+  .exercise-q {
+    padding: 20px 24px;
+    background: #fafaf9;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .exercise-q p:last-child { margin-bottom: 0; }
+  .reveal-btn {
+    display: block;
+    width: 100%;
+    background: var(--c-exercise-bg);
+    border: none;
+    border-top: 1px solid var(--c-exercise-edge);
+    padding: 13px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--c-exercise-h);
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .reveal-btn:hover { background: #ede9fe; }
+  .reveal-btn::before { content: '▼ '; font-size: 10px; margin-left: 6px; transition: transform 0.2s ease; }
+  .exercise-card.open .reveal-btn::before { content: '▲ '; }
+  .solution {
+    padding: 22px 26px;
+    background: var(--c-example-bg);
+    border-top: 1px solid var(--c-example-edge);
+    display: none;
+  }
+  .exercise-card.open .solution { display: block; }
+  .solution .step {
+    background: #fff;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    border-right: 3px solid var(--c-example-h);
+  }
+  .solution .step-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--c-example-h);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-family: var(--mono);
+  }
+  .solution .final-answer {
+    background: #fff;
+    border: 2px solid var(--c-example-h);
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin-top: 16px;
+    font-weight: 600;
+  }
+  .solution .final-answer::before {
+    content: '✓ ';
+    color: var(--c-example-h);
+    font-weight: 900;
+  }
+
+  /* ============ MISC ELEMENTS ============ */
+  .lead {
+    font-size: 19px;
+    color: var(--ink-soft);
+    border-right: 3px solid var(--indigo-7);
+    padding-right: 20px;
+    margin: 24px 0 32px;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  .keypoint {
+    background: linear-gradient(90deg, var(--c-formula-bg) 0%, transparent 100%);
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin: 16px 0;
+    border-right: 3px solid var(--c-formula-h);
+  }
+  .keypoint::before {
+    content: '💡 ';
+    font-size: 18px;
+    margin-left: 4px;
+  }
+
+  /* Multiple choice answer (for ROC/AUC type questions) */
+  .mc-list {
+    list-style: none;
+    margin: 12px 0;
+    padding: 0;
+  }
+  .mc-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .mc-list li:hover { background: #fafaf9; }
+  .mc-list li .mc-marker {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--rule);
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink-mute);
+    background: #fff;
+  }
+  .mc-list li.correct {
+    background: var(--c-example-bg);
+    border-color: var(--c-example-edge);
+  }
+  .mc-list li.correct .mc-marker {
+    background: var(--c-example-h);
+    color: #fff;
+    border-color: var(--c-example-h);
+  }
+  .mc-list li.correct .mc-marker::after { content: '✓'; }
+  .mc-list li.wrong {
+    background: var(--c-warn-bg);
+    border-color: var(--c-warn-edge);
+  }
+  .mc-list li.wrong .mc-marker {
+    background: var(--c-warn-h);
+    color: #fff;
+    border-color: var(--c-warn-h);
+  }
+  .mc-list li.wrong .mc-marker::after { content: '✗'; }
+  .mc-list li .mc-text {
+    flex: 1;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .mc-list li .mc-text .why {
+    display: block;
+    margin-top: 6px;
+    font-size: 13.5px;
+    color: var(--ink-mute);
+    font-style: italic;
+  }
+
+  /* Venn diagram inline figure */
+  .figure {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 18px;
+    margin: 18px 0;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .figure svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+  .figure .cap {
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-top: 12px;
+    font-style: italic;
+  }
+
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; }
+    main { padding: 32px 24px 80px; }
+    h1.page-title { font-size: 36px; }
+    h2 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar">
+  <div class="brand"><a href="index.html">מבוא ללמידת מכונה<br>ולמדעי הנתונים</a></div>
+  <div class="brand-sub">מדריך הכנה למבחן · ד״ר אלה רבינוביץ׳</div>
+  <div class="brand-meta">MTA · קיץ 2026</div>
+
+  <div class="nav-label">פייתון ונתונים</div>
+  <ul class="nav-list">
+    <li><a href="01-numpy.html"><span class="nav-num">1</span>NumPy</a></li>
+    <li><a href="02-pandas.html"><span class="nav-num">2</span>Pandas</a></li>
+  </ul>
+
+  <div class="nav-label">סטטיסטיקה</div>
+  <ul class="nav-list">
+    <li><a href="03-descriptive-stats.html"><span class="nav-num">3</span>סטטיסטיקה תיאורית</a></li>
+    <li><a href="04-inferential-stats.html"><span class="nav-num">4</span>סטטיסטיקה מסקקת</a></li>
+  </ul>
+
+  <div class="nav-label">למידה מונחית</div>
+  <ul class="nav-list">
+    <li><a href="05-linear-regression.html"><span class="nav-num">5</span>רגרסיה לינארית</a></li>
+    <li><a href="06-multiple-regression.html"><span class="nav-num">6</span>רגרסיה מרובה</a></li>
+    <li><a href="07-classification-basics.html"><span class="nav-num">7</span>סיווג בסיסי</a></li>
+    <li><a href="08-neural-networks.html"><span class="nav-num">8</span>רשתות נוירונים</a></li>
+    <li><a href="09-evaluation.html" class="active"><span class="nav-num">9</span>הערכת סיווג</a></li>
+  </ul>
+
+  <div class="nav-label">למידה לא מונחית</div>
+  <ul class="nav-list">
+    <li><a href="10-clustering-kmeans.html"><span class="nav-num">10</span>K-Means</a></li>
+    <li><a href="11-clustering-dbscan.html"><span class="nav-num">11</span>DBSCAN</a></li>
+    <li><a href="12-image-and-self-supervised.html"><span class="nav-num">12</span>עיבוד תמונה</a></li>
+  </ul>
+
+  <div class="nav-label">נספח</div>
+  <ul class="nav-list">
+    <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
+  </ul>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<main id="top">
+  <span class="page-eyebrow">הרצאה 9 · הערכת ביצועי מסווגים</span>
+  <h1 class="page-title">למה Accuracy לא מספיק?</h1>
+  <p class="page-subtitle">איך מודדים באמת אם מסווג עובד טוב — Precision, Recall, F1, ROC ו־AUC.</p>
+
+  <p class="lead">
+    בכל בחינה יש שאלה אחת לפחות עם מטריצת בלבול שצריך לחשב ממנה אחוזי דיוק.
+    הנושא הזה לא קשה אבל קל לטעות באיזה מספר הולך לאיזה מקום — הרבה סטודנטים מבלבלים בין precision ו־recall.
+    בסוף הפרק הזה תדע בדיוק מה כל מדד מודד, איך לחשב אותו, ומתי משתמשים בו.
+  </p>
+
+  <!-- ====================================================== -->
+  <!-- ============ 1. למה Accuracy לא מספיק? ============= -->
+  <!-- ====================================================== -->
+  <h2>הבעיה: למה Accuracy לבד לא מספיק?</h2>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>הדוגמה הקלאסית של ההרצאה: תפוזים מול תפוחים</div>
+    <div class="box-body">
+      <p>
+        נניח שיש לנו אוכלוסייה עם <strong>75% תפוזים</strong> ו־<strong>25% תפוחים</strong>.
+        בונים מסווג טיפש לגמרי שעונה <em>״תפוז״</em> על כל דוגמה ללא תלות בקלט (קוראים לזה <span class="term">majority voice classifier</span>).
+      </p>
+      <p>
+        מה תהיה ה־<span class="term">accuracy</span> של המסווג הזה?
+      </p>
+      <p>
+        בערך <strong>75%</strong> — כי הוא צודק על כל התפוזים (ויש המון כאלה), וטועה על כל התפוחים.
+        בעיני סטודנט תמים זה נשמע נהדר, אבל המסווג <strong>לא יודע לזהות תפוח אף פעם</strong>.
+      </p>
+      <div class="keypoint">
+        <strong>המסקנה מההרצאה:</strong>
+        כש־class אחד הרבה יותר נפוץ מאחר (אוכלוסייה <span class="term">imbalanced</span>),
+        מדד accuracy בלבד יכול לתת אשליה של ביצועים טובים. צריך מדדים נוספים.
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- ============ 2. Confusion Matrix ===================== -->
+  <!-- ====================================================== -->
+  <h2>הכלי המרכזי: Confusion Matrix</h2>
+
+  <p>
+    מטריצת בלבול היא טבלה שמשווה את <strong>החיזויים של המודל</strong> מול <strong>התוויות האמיתיות</strong>.
+    במקרה הבינארי יש 4 שילובים אפשריים.
+  </p>
+
+  <div class="figure">
+    <table class="confusion" style="max-width: 560px; margin: 0 auto;">
+      <tr>
+        <td></td>
+        <td class="header-cell">predicted positive</td>
+        <td class="header-cell">predicted negative</td>
+      </tr>
+      <tr>
+        <td class="row-label">actual positive</td>
+        <td class="diag"><strong>TP</strong><br><span style="font-size:12px;">true positive</span></td>
+        <td class="off"><strong>FN</strong><br><span style="font-size:12px;">false negative</span></td>
+      </tr>
+      <tr>
+        <td class="row-label">actual negative</td>
+        <td class="off"><strong>FP</strong><br><span style="font-size:12px;">false positive</span></td>
+        <td class="diag"><strong>TN</strong><br><span style="font-size:12px;">true negative</span></td>
+      </tr>
+    </table>
+    <div class="cap">המודל צדק על האלכסון (ירוק). טעה מחוץ לאלכסון (אדום).</div>
+  </div>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>איך לזכור את ארבעת השמות</div>
+    <div class="box-body">
+      <p>
+        <strong>שלב 1:</strong> המילה השנייה היא מה שהמודל אמר (positive או negative).
+      </p>
+      <p>
+        <strong>שלב 2:</strong> המילה הראשונה היא האם הוא צדק או טעה (true או false).
+      </p>
+      <p>
+        אז:
+      </p>
+      <ul>
+        <li><span class="term green">TP</span> — המודל אמר positive, וצדק.</li>
+        <li><span class="term green">TN</span> — המודל אמר negative, וצדק.</li>
+        <li><span class="term">FP</span> — המודל אמר positive, אבל טעה (הוא בעצם negative). קוראים לזה גם <em>״התרעת שווא״</em>.</li>
+        <li><span class="term">FN</span> — המודל אמר negative, אבל טעה (פספס positive אמיתי).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Venn diagram from lecture -->
+  <div class="figure">
+    <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="bluefill">
+          <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.15"/>
+        </radialGradient>
+        <radialGradient id="greenfill">
+          <stop offset="0%" stop-color="#10b981" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#10b981" stop-opacity="0.15"/>
+        </radialGradient>
+      </defs>
+      <!-- predicted (blue circle, on left) -->
+      <circle cx="180" cy="140" r="110" fill="url(#bluefill)" stroke="#3b82f6" stroke-width="2"/>
+      <!-- actual (green circle, on right) -->
+      <circle cx="320" cy="140" r="110" fill="url(#greenfill)" stroke="#10b981" stroke-width="2"/>
+      <!-- labels -->
+      <text x="120" y="80" text-anchor="middle" font-family="Assistant" font-size="14" font-weight="700" fill="#1d4ed8">predicted pos</text>
+      <text x="380" y="80" text-anchor="middle" font-family="Assistant" font-size="14" font-weight="700" fill="#047857">actual pos</text>
+      <!-- FP -->
+      <text x="125" y="150" text-anchor="middle" font-family="JetBrains Mono" font-size="22" font-weight="700" fill="#1d4ed8">FP</text>
+      <!-- TP -->
+      <text x="250" y="150" text-anchor="middle" font-family="JetBrains Mono" font-size="22" font-weight="700" fill="#065f46">TP</text>
+      <!-- FN -->
+      <text x="375" y="150" text-anchor="middle" font-family="JetBrains Mono" font-size="22" font-weight="700" fill="#047857">FN</text>
+      <!-- TN (outside both) -->
+      <text x="250" y="265" text-anchor="middle" font-family="JetBrains Mono" font-size="14" fill="#64748b">TN — מחוץ לשני המעגלים</text>
+    </svg>
+    <div class="cap">דיאגרמת וון: TP זה החיתוך. FP — חזה positive אבל לא היה. FN — היה positive אבל לא חזה.</div>
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- ============ 3. Precision & Recall =================== -->
+  <!-- ====================================================== -->
+  <h2>שני המדדים החשובים: Precision ו־Recall</h2>
+
+  <div class="box formula">
+    <div class="box-head"><span class="icon">📐</span>נוסחאות שחייבים לזכור בעל פה</div>
+    <div class="box-body">
+      <p><strong>Precision</strong> — מתוך כל מה שחזיתי כ־positive, כמה באמת היו positive:</p>
+
+      $$\text{Precision} = \frac{TP}{TP + FP}$$
+
+      <p><strong>Recall</strong> — מתוך כל ה־positive האמיתיים בעולם, כמה תפסתי:</p>
+
+      $$\text{Recall} = \frac{TP}{TP + FN}$$
+
+      <p><strong>F1 Score</strong> — הממוצע ההרמוני של השניים, מקבל ערך גבוה רק כששניהם גבוהים:</p>
+
+      $$\text{F1} = \frac{2 \cdot P \cdot R}{P + R}$$
+
+      <p><strong>Accuracy</strong> — בסך הכל, איזה אחוז סיווגתי נכון:</p>
+
+      $$\text{Accuracy} = \frac{TP + TN}{TP + FP + TN + FN}$$
+    </div>
+  </div>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">🎯</span>איך להבדיל בין Precision ל־Recall בעל פה</div>
+    <div class="box-body">
+      <h4>טריק 1 — מה במכנה?</h4>
+      <p>
+        ב־precision המכנה הוא <strong>מה שהמודל אמר positive</strong>.
+        ב־recall המכנה הוא <strong>מה שבאמת positive בעולם</strong>.
+      </p>
+
+      <h4>טריק 2 — מה השאלה?</h4>
+      <ul>
+        <li>
+          <strong>Precision</strong> עונה על השאלה:
+          ״כשהמודל אמר חיובי, באיזו תכיפות הוא צדק?״
+        </li>
+        <li>
+          <strong>Recall</strong> עונה על השאלה:
+          ״מכל המקרים החיוביים שהיו בעולם, כמה המודל הצליח לתפוס?״
+        </li>
+      </ul>
+
+      <div class="keypoint">
+        <strong>דוגמה מעולם הרפואה:</strong>
+        מסווג שמזהה סרטן. אם המסווג מחמיץ מקרה (false negative) — זה אסון.
+        לכן במקרה של זיהוי סרטן מעדיפים <strong>recall גבוה</strong> (לא לפספס אף חולה),
+        גם במחיר של precision נמוך יותר (כמה התרעות שווא).
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- ============ 4. דוגמה מספרית ========================= -->
+  <!-- ====================================================== -->
+  <h2>דוגמה מספרית מההרצאה</h2>
+
+  <div class="box example">
+    <div class="box-head"><span class="icon">🔢</span>חישוב מטריצת בלבול בינארית</div>
+    <div class="box-body">
+      <p>בהרצאה הראו פלט של פייתון:</p>
+
+      <div class="code-output">array([[1188,   35],
+       [  30,  747]])</div>
+
+      <p>זה מתפרש כך:</p>
+      <table class="confusion" style="max-width: 480px;">
+        <tr><td></td><td class="header-cell">pred 0</td><td class="header-cell">pred 1</td></tr>
+        <tr><td class="row-label">actual 0</td><td class="diag">1188</td><td class="off">35</td></tr>
+        <tr><td class="row-label">actual 1</td><td class="off">30</td><td class="diag">747</td></tr>
+      </table>
+
+      <p>נחשב את המדדים עבור מחלקה 1 (לפי convention זו ה־positive class):</p>
+
+      <div class="step" style="background:#fff; border-radius:8px; padding:12px 18px; margin:10px 0; border-right:3px solid #047857;">
+        <p style="margin-bottom:6px;"><strong>זיהוי המספרים:</strong></p>
+        <ul style="margin: 4px 18px;">
+          <li>TP = 747 (חזה 1, היה 1)</li>
+          <li>FP = 35 (חזה 1, היה 0)</li>
+          <li>FN = 30 (חזה 0, היה 1)</li>
+          <li>TN = 1188 (חזה 0, היה 0)</li>
+        </ul>
+      </div>
+
+      <p><strong>Precision:</strong></p>
+      $$P = \frac{747}{747 + 35} = \frac{747}{782} \approx 0.955$$
+
+      <p><strong>Recall:</strong></p>
+      $$R = \frac{747}{747 + 30} = \frac{747}{777} \approx 0.961$$
+
+      <p><strong>Accuracy:</strong></p>
+      $$\text{Acc} = \frac{747 + 1188}{747 + 35 + 30 + 1188} = \frac{1935}{2000} = 0.968$$
+
+      <p><strong>F1:</strong></p>
+      $$F_1 = \frac{2 \cdot 0.955 \cdot 0.961}{0.955 + 0.961} \approx 0.958$$
+    </div>
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- ============ 5. רב־מחלקתי ============================ -->
+  <!-- ====================================================== -->
+  <h2>הרחבה: כשיש יותר משתי מחלקות</h2>
+
+  <p>
+    במקרה של 3 מחלקות (A, B, C), הגישה היא <strong>one-vs-rest</strong> — מחשבים precision ו־recall <em>לכל מחלקה בנפרד</em>,
+    כאילו היא ה־positive וכל השאר ביחד הם ה־negative.
+  </p>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>איך קוראים מטריצה רב־מחלקתית</div>
+    <div class="box-body">
+      <p>נסתכל על מטריצה כללית. השורות = מחלקה אמיתית, העמודות = חיזוי:</p>
+
+      <table class="confusion">
+        <tr>
+          <td></td>
+          <td class="header-cell">pred A</td>
+          <td class="header-cell">pred B</td>
+          <td class="header-cell">pred C</td>
+        </tr>
+        <tr>
+          <td class="row-label">actual A</td>
+          <td class="diag">50</td><td class="off">10</td><td class="off">10</td>
+        </tr>
+        <tr>
+          <td class="row-label">actual B</td>
+          <td class="off">20</td><td class="diag">50</td><td class="off">20</td>
+        </tr>
+        <tr>
+          <td class="row-label">actual C</td>
+          <td class="off">5</td><td class="off">5</td><td class="diag">50</td>
+        </tr>
+      </table>
+
+      <h4>כלל זהב לזיהוי מספרים</h4>
+      <p>
+        עבור מחלקה X:
+      </p>
+      <ul>
+        <li><strong>TP של X</strong> = התא על האלכסון בשורה X (ועמודה X).</li>
+        <li><strong>סכום העמודה של X</strong> = כל מה שהמודל חזה כ־X = TP + FP.</li>
+        <li><strong>סכום השורה של X</strong> = כל מה שבאמת היה X = TP + FN.</li>
+      </ul>
+
+      <p>אז למחלקה A:</p>
+      <ul>
+        <li>TP = 50 (התא [A, A]).</li>
+        <li>סכום עמודה A = 50 + 20 + 5 = 75. אז FP = 75 - 50 = 25.</li>
+        <li>סכום שורה A = 50 + 10 + 10 = 70. אז FN = 70 - 50 = 20.</li>
+      </ul>
+
+      <p>מכאן:</p>
+
+      $$P_A = \frac{50}{75} \approx 0.667 \quad ; \quad R_A = \frac{50}{70} \approx 0.714$$
+    </div>
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- ============ 6. ROC ו־AUC ============================ -->
+  <!-- ====================================================== -->
+  <h2>מדדי סף: ROC ו־AUC</h2>
+
+  <p>
+    כל מסווג בינארי שמחזיר <strong>הסתברות</strong> (כמו logistic regression) דורש <strong>סף החלטה</strong>:
+    אם ההסתברות מעל הסף → נסווג כ־1, אחרת → 0. בדרך כלל הסף הוא 0.5, אבל אפשר לשנות אותו.
+  </p>
+
+  <div class="box formula">
+    <div class="box-head"><span class="icon">📐</span>שני המדדים שצריך לדעת</div>
+    <div class="box-body">
+      <p><strong>TPR</strong> (True Positive Rate) — זהה ל־recall:</p>
+      $$\text{TPR} = \frac{TP}{TP + FN}$$
+
+      <p><strong>FPR</strong> (False Positive Rate) — אחוז ה־negative שהמסווג טעה לגביהם:</p>
+      $$\text{FPR} = \frac{FP}{FP + TN}$$
+
+      <p><strong>ROC Curve</strong> הוא גרף של TPR כפונקציה של FPR, עבור כל ערכי הסף האפשריים.</p>
+      <p><strong>AUC</strong> (Area Under Curve) הוא <strong>השטח</strong> מתחת ל־ROC.</p>
+    </div>
+  </div>
+
+  <div class="figure">
+    <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
+      <!-- Background -->
+      <rect x="60" y="20" width="380" height="280" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+      <!-- Grid lines -->
+      <g stroke="#e2e8f0" stroke-width="0.5">
+        <line x1="60" y1="76" x2="440" y2="76"/>
+        <line x1="60" y1="132" x2="440" y2="132"/>
+        <line x1="60" y1="188" x2="440" y2="188"/>
+        <line x1="60" y1="244" x2="440" y2="244"/>
+        <line x1="136" y1="20" x2="136" y2="300"/>
+        <line x1="212" y1="20" x2="212" y2="300"/>
+        <line x1="288" y1="20" x2="288" y2="300"/>
+        <line x1="364" y1="20" x2="364" y2="300"/>
+      </g>
+      <!-- Axes -->
+      <line x1="60" y1="300" x2="440" y2="300" stroke="#1c1917" stroke-width="1.5"/>
+      <line x1="60" y1="20" x2="60" y2="300" stroke="#1c1917" stroke-width="1.5"/>
+      <!-- Random diagonal -->
+      <line x1="60" y1="300" x2="440" y2="20" stroke="#10b981" stroke-width="2" stroke-dasharray="6,5"/>
+      <text x="280" y="200" font-family="Assistant" font-size="13" fill="#047857">random guess</text>
+      <!-- Good ROC curve -->
+      <path d="M 60 300 Q 70 100, 130 60 Q 250 30, 440 20"
+            fill="none" stroke="#4338ca" stroke-width="3"/>
+      <!-- Excellent ROC -->
+      <path d="M 60 300 L 60 30 L 440 20"
+            fill="none" stroke="#1d4ed8" stroke-width="2" stroke-dasharray="3,3" opacity="0.5"/>
+      <!-- AUC label -->
+      <text x="200" y="120" font-family="Assistant" font-size="14" font-weight="700" fill="#4338ca">AUC = השטח</text>
+      <text x="200" y="138" font-family="Assistant" font-size="11" fill="#4338ca">(ככל שגדול יותר — טוב יותר)</text>
+      <!-- Axis labels -->
+      <text x="250" y="335" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#1c1917">FPR (False Positive Rate)</text>
+      <text x="30" y="160" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#1c1917" transform="rotate(-90, 30, 160)">TPR (True Positive Rate)</text>
+      <!-- 0 and 1 marks -->
+      <text x="55" y="316" text-anchor="end" font-family="JetBrains Mono" font-size="11" fill="#64748b">0.0</text>
+      <text x="55" y="24" text-anchor="end" font-family="JetBrains Mono" font-size="11" fill="#64748b">1.0</text>
+      <text x="60" y="316" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#64748b">0.0</text>
+      <text x="440" y="316" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#64748b">1.0</text>
+    </svg>
+    <div class="cap">מסווג טוב (כחול עבה) — עולה מהר ל־TPR גבוה עם FPR נמוך. מסווג רנדומלי (ירוק) — קו אלכסון. מסווג מושלם (כחול דק) — פינה שמאלית עליונה.</div>
+  </div>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>איך לקרוא ערכי AUC</div>
+    <div class="box-body">
+      <ul>
+        <li><strong>AUC = 1.0</strong> → מסווג מושלם.</li>
+        <li><strong>AUC = 0.5</strong> → מסווג אקראי, חסר תועלת.</li>
+        <li><strong>AUC < 0.5</strong> → המסווג הופך — לעיתים פשוט הוא מסווג ההפך ממה שהתכוונו.</li>
+      </ul>
+      <div class="keypoint">
+        <strong>חשוב:</strong> ערך AUC <strong>לא תלוי בסף ההחלטה</strong>. הוא מודד עד כמה המסווג <em>מדרג</em> טוב — כלומר עד כמה הסתברויות של חיובי גבוהות מהסתברויות של שלילי, ללא קשר לאיפה נשים את הסף.
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- ============ 7. קוד פייתון =========================== -->
+  <!-- ====================================================== -->
+  <h2>הקוד מההרצאה</h2>
+
+  <p>בהרצאה הראו שתי פונקציות עיקריות מ־sklearn:</p>
+
+  <div class="code-label">
+    <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
+    <span class="name">classification_metrics.py</span>
+  </div>
+<pre><code class="language-python">from sklearn.metrics import confusion_matrix, classification_report
+
+# מטריצת בלבול בסיסית
+cm = confusion_matrix(y_test, y_predicted, labels=[0, 1])
+print(cm)
+# array([[1188,   35],
+#        [  30,  747]])
+
+# דוח מלא: precision, recall, f1, support לכל מחלקה
+report = classification_report(y_test, y_predicted, digits=3)
+print(report)
+#               precision    recall  f1-score   support
+#            0      0.975     0.971     0.973      1223
+#            1      0.955     0.961     0.958       777
+#
+#     accuracy                          0.968      2000
+#    macro avg      0.965     0.966     0.966      2000
+# weighted avg      0.968     0.968     0.968      2000
+</code></pre>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>מה זה macro avg ו־weighted avg?</div>
+    <div class="box-body">
+      <p>שתי דרכים שונות לחשב מדד כולל מתוך המדדים פר־class:</p>
+      <ul>
+        <li>
+          <strong>macro avg</strong> — ממוצע פשוט של המדדים לכל המחלקות. כל מחלקה תורמת באותה מידה, ללא קשר לגודלה.
+        </li>
+        <li>
+          <strong>weighted avg</strong> — ממוצע משוקלל לפי <span class="term">support</span> (מספר הדוגמאות במחלקה).
+          מחלקות גדולות תורמות יותר.
+        </li>
+      </ul>
+      <div class="keypoint">
+        <strong>הבדל חשוב:</strong> במקרה של <span class="term">imbalanced classes</span>, macro avg חושף ביצועים גרועים על מחלקות קטנות.
+        weighted avg יסתיר את הבעיה כי המחלקה הגדולה תקבל את רוב המשקל.
+      </div>
+    </div>
+  </div>
+
+  <p>קוד נוסף מההרצאה לחישוב <strong>הסתברויות</strong> וניתוח עם סף שונה:</p>
+
+  <div class="code-label">
+    <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
+    <span class="name">threshold_tuning.py</span>
+  </div>
+<pre><code class="language-python">from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression()
+model.fit(X_train_scaled, y_train)
+
+# במקום predict, נשתמש ב-predict_proba כדי לקבל הסתברויות
+y_prob = model.predict_proba(X_test_scaled)
+attrition_prob = y_prob[:, 1]   # ההסתברות למחלקה 1
+
+# סף ברירת מחדל הוא 0.5:
+y_pred_default = (attrition_prob >= 0.5).astype(int)
+
+# אם רוצים יותר recall (לתפוס יותר מקרים חיוביים) - נוריד את הסף:
+y_pred_lower = (attrition_prob >= 0.3).astype(int)
+</code></pre>
+
+  <!-- ====================================================== -->
+  <!-- ============ 8. טעויות נפוצות ========================== -->
+  <!-- ====================================================== -->
+  <h2>טעויות שמורידות נקודות</h2>
+
+  <div class="box warn">
+    <div class="box-head"><span class="icon">⚠</span>חמש טעויות שכל סטודנט עושה</div>
+    <div class="box-body">
+      <ol>
+        <li>
+          <strong>בלבול בין precision ל־recall</strong> — שמור את הטריק:
+          P מכניס FP במכנה (אותו אות), R מכניס FN במכנה (כי R הוא הפוך ל־P, ובאמת FN זה מה ש־P לא רואה).
+        </li>
+        <li>
+          <strong>קריאת המטריצה הפוך</strong> — לפעמים שורה = חיזוי, עמודה = אמת.
+          תמיד <strong>קרא את הכותרות</strong>! בקורס שלנו הקונבנציה היא <strong>שורה = actual</strong>, <strong>עמודה = predicted</strong>.
+        </li>
+        <li>
+          <strong>שכחת FN/FP במונה</strong> — המונה תמיד <strong>TP</strong> בלבד. המכנה הוא מה שמשתנה.
+        </li>
+        <li>
+          <strong>ערבוב precision של מחלקה אחת עם recall של אחרת</strong> —
+          תמיד תרשום בצד <span class="term">P_A</span>, <span class="term">R_A</span>, <span class="term">P_B</span>, <span class="term">R_B</span> וכך הלאה.
+        </li>
+        <li>
+          <strong>טענה ש־AUC משתנה כששינו את הסף</strong> — לא נכון!
+          AUC הוא תכונה של המודל עצמו, של איך הוא מדרג הסתברויות.
+          הוא <strong>בלתי תלוי בסף</strong>. רק TPR ו־FPR נקודתיים תלויים בסף.
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- ============ 9. תרגילי מבחן ========================= -->
+  <!-- ====================================================== -->
+  <h2>תרגילי מבחן אמיתיים</h2>
+  <p>השאלות הבאות לקוחות מתוך <span class="term">practice-questions-with-solutions9.pdf</span>. נסה לפתור לבד לפני שאתה לוחץ ״הצג פתרון״.</p>
+
+  <!-- Exercise 1: 3-class confusion matrix -->
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>תרגיל 1 · practice9, שאלה 1</div>
+    <div class="box-body">
+
+      <div class="exercise-card">
+        <div class="exercise-q">
+          <span class="exercise-tag">3-class confusion matrix</span>
+          <p>במשימת סיווג לשלוש מחלקות, התקבלה מטריצת בלבול הבאה:</p>
+
+          <table class="confusion" style="max-width: 540px;">
+            <tr>
+              <td></td>
+              <td class="header-cell">predicted A</td>
+              <td class="header-cell">predicted B</td>
+              <td class="header-cell">predicted C</td>
+            </tr>
+            <tr>
+              <td class="row-label">actual A</td>
+              <td>50</td><td>10</td><td>10</td>
+            </tr>
+            <tr>
+              <td class="row-label">actual B</td>
+              <td>20</td><td>50</td><td>20</td>
+            </tr>
+            <tr>
+              <td class="row-label">actual C</td>
+              <td>5</td><td>5</td><td>50</td>
+            </tr>
+          </table>
+
+          <p>ענו על השאלות הבאות, הראו את החישוב איפה שנדרש:</p>
+          <ol style="margin: 10px 24px;">
+            <li>מספר הדוגמאות הכולל שהשתתפו במשימת הסיווג.</li>
+            <li>מספר דוגמאות הסיווג ששייכות בפועל למחלקה B.</li>
+            <li>ה־precision של מחלקה A.</li>
+            <li>ה־recall של מחלקה A.</li>
+            <li>ה־precision של מחלקה C.</li>
+            <li>ה־recall של מחלקה C.</li>
+            <li>הדיוק הכללי (accuracy).</li>
+          </ol>
+        </div>
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+
+          <div class="step">
+            <div class="step-label">סעיף 1 · סך כל הדוגמאות</div>
+            <p>סוכמים את כל התאים במטריצה:</p>
+            $$50+10+10+20+50+20+5+5+50 = 220$$
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף 2 · סך הדוגמאות שבאמת היו B</div>
+            <p>סוכמים את <strong>שורה B</strong> (כי השורה היא ה־actual):</p>
+            $$20 + 50 + 20 = 90$$
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף 3 · Precision של A</div>
+            <p>מה במונה: TP של A = 50 (התא [A, A]).</p>
+            <p>מה במכנה: <strong>סכום עמודה A</strong> = כל מה שהמודל חזה כ־A:</p>
+            $$50 + 20 + 5 = 75$$
+            <p>אז:</p>
+            $$P_A = \frac{50}{75} = \frac{2}{3} \approx 0.667$$
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף 4 · Recall של A</div>
+            <p>מה במונה: TP של A = 50.</p>
+            <p>מה במכנה: <strong>סכום שורה A</strong> = כל מה שבאמת היה A:</p>
+            $$50 + 10 + 10 = 70$$
+            <p>אז:</p>
+            $$R_A = \frac{50}{70} = \frac{5}{7} \approx 0.714$$
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף 5 · Precision של C</div>
+            <p>סכום עמודה C = 10 + 20 + 50 = 80.</p>
+            $$P_C = \frac{50}{80} = \frac{5}{8} = 0.625$$
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף 6 · Recall של C</div>
+            <p>סכום שורה C = 5 + 5 + 50 = 60.</p>
+            $$R_C = \frac{50}{60} = \frac{5}{6} \approx 0.833$$
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף 7 · Accuracy כללי</div>
+            <p>סכום האלכסון חלקי סך הכל:</p>
+            $$\text{Acc} = \frac{50+50+50}{220} = \frac{150}{220} \approx 0.682$$
+          </div>
+
+          <div class="final-answer">
+            <strong>תשובות סופיות:</strong><br>
+            1) 220 &nbsp;·&nbsp; 2) 90 &nbsp;·&nbsp; 3) 50/75 &nbsp;·&nbsp; 4) 50/70 &nbsp;·&nbsp; 5) 50/80 &nbsp;·&nbsp; 6) 50/60 &nbsp;·&nbsp; 7) 150/220
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Exercise 2: ROC and AUC multiple choice -->
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>תרגיל 2 · practice9, שאלה 3</div>
+    <div class="box-body">
+
+      <div class="exercise-card">
+        <div class="exercise-q">
+          <span class="exercise-tag">ROC and AUC</span>
+          <p>
+            מודל סיווג בינארי נועד לחזות האם לקוח יעזוב חברה (<span class="term">attrition=1</span>).
+            עבור המודל חושב ROC curve וערך AUC.
+          </p>
+          <p>סמנו את כל הטענות הנכונות:</p>
+          <ul style="list-style: none; margin: 12px 0; padding: 0; color: var(--ink-soft);">
+            <li>א. ה־ROC curve מציג את מדד precision כפונקציה של recall עבור ספים שונים.</li>
+            <li>ב. מדד AUC קרוב ל־1 מעיד שבדרך כלל המודל מדרג דוגמאות חיוביות עם הסתברות גבוהה יותר מדוגמאות שליליות.</li>
+            <li>ג. שינוי סף (threshold) ההחלטה הבינארית משנה את ערך ה־AUC של אותו המודל.</li>
+            <li>ד. אם מדד AUC שווה 0.5, המשמעות היא שהמודל תמיד טועה בסיווג.</li>
+          </ul>
+        </div>
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <p><strong>רק טענה ב׳ נכונה.</strong> בואו נעבור אחת אחת:</p>
+
+          <ul class="mc-list">
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>א. ROC מציג precision כפונקציה של recall.</strong>
+                <span class="why">לא נכון. ROC מציג <strong>TPR (recall) כפונקציה של FPR</strong>, לא precision מול recall. הגרף של precision מול recall קיים ונקרא <span class="term">PR curve</span> — אבל זה לא ROC.</span>
+              </span>
+            </li>
+            <li class="correct">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>ב. AUC קרוב ל־1 → המודל מדרג חיוביים גבוה משליליים.</strong>
+                <span class="why">נכון. זאת בדיוק המשמעות הפרובביליסטית של AUC: ההסתברות שדוגמה חיובית אקראית תקבל הסתברות גבוהה יותר מדוגמה שלילית אקראית.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>ג. שינוי סף משנה את AUC.</strong>
+                <span class="why">לא נכון. AUC הוא <strong>שטח</strong> מתחת לכל הקימור, שמייצג כבר את <em>כל</em> הספים האפשריים. הוא תכונה של המודל עצמו, לא של נקודה ספציפית על הקימור.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>ד. AUC = 0.5 → תמיד טועה.</strong>
+                <span class="why">לא נכון. AUC = 0.5 משמעו <strong>ניחוש אקראי</strong> — צודק חצי מהפעמים, טועה חצי. אם <em>תמיד</em> טועה, AUC היה 0.</span>
+              </span>
+            </li>
+          </ul>
+
+          <div class="final-answer">
+            התשובה הנכונה היחידה היא <strong>ב׳</strong>.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- ============ Self-Supervised Learning ============== -->
+  <!-- ====================================================== -->
+  <h2>Self-Supervised Learning עם Autoencoders</h2>
+
+  <p class="lead">
+    החלק השני של הרצאה 9 — שיטה אלגנטית לאמן רשתות נוירונים <strong>בלי תוויות מראש</strong>.
+    Autoencoder לומד לדחוס נתונים ולשחזר אותם. הוא שמיש מאוד לזיהוי אנומליות, דחיסה, ו־anomaly detection.
+  </p>
+
+  <!-- AUTOENCODER STRUCTURE -->
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>מבנה Autoencoder</div>
+    <div class="box-body">
+      <p>Autoencoder מורכב <strong>משני רכיבים</strong>:</p>
+      <ul>
+        <li>
+          <strong>Encoder</strong> — דוחס את הקלט ומסיר רעש. יוצר ״latent space״ (״bottleneck״) — ייצוג קומפקטי וצפוף של הנתונים.
+        </li>
+        <li>
+          <strong>Decoder</strong> — לוקח את הייצוג הדחוס ומנסה לשחזר את הקלט המקורי בנאמנות גבוהה ככל האפשר.
+        </li>
+      </ul>
+
+      <p>היעד באימון: <strong>input ≈ output</strong>. הרשת לומדת לקודד את ה־data באופן יעיל.</p>
+
+      <h4>למה זה ״self-supervised״?</h4>
+      <p>כי אין כאן ״תוויות״ מבחוץ. ה־supervision מגיע מהקלט עצמו — הרשת מנסה לחזות את הקלט שלה. אין צורך באנוטציה ידנית.</p>
+    </div>
+  </div>
+
+  <div class="figure">
+    <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">
+      <!-- Input layer -->
+      <g>
+        <text x="60" y="20" text-anchor="middle" font-family="Assistant" font-size="13" font-weight="700" fill="#1d4ed8">input</text>
+        <circle cx="60" cy="50" r="10" fill="#10b981"/>
+        <circle cx="60" cy="80" r="10" fill="#10b981"/>
+        <circle cx="60" cy="110" r="10" fill="#10b981"/>
+        <circle cx="60" cy="140" r="10" fill="#10b981"/>
+        <circle cx="60" cy="170" r="10" fill="#10b981"/>
+      </g>
+      <!-- Encoder hidden layer -->
+      <g>
+        <circle cx="180" cy="65" r="10" fill="#10b981"/>
+        <circle cx="180" cy="100" r="10" fill="#10b981"/>
+        <circle cx="180" cy="135" r="10" fill="#10b981"/>
+        <circle cx="180" cy="170" r="10" fill="#10b981"/>
+      </g>
+      <!-- Bottleneck (latent) -->
+      <g>
+        <text x="300" y="20" text-anchor="middle" font-family="Assistant" font-size="13" font-weight="700" fill="#be123c">latent</text>
+        <text x="300" y="36" text-anchor="middle" font-family="Assistant" font-size="11" fill="#be123c">representation</text>
+        <circle cx="300" cy="95" r="12" fill="#ef4444"/>
+        <circle cx="300" cy="130" r="12" fill="#ef4444"/>
+      </g>
+      <!-- Decoder hidden layer -->
+      <g>
+        <circle cx="420" cy="65" r="10" fill="#06b6d4"/>
+        <circle cx="420" cy="100" r="10" fill="#06b6d4"/>
+        <circle cx="420" cy="135" r="10" fill="#06b6d4"/>
+        <circle cx="420" cy="170" r="10" fill="#06b6d4"/>
+      </g>
+      <!-- Output -->
+      <g>
+        <text x="540" y="20" text-anchor="middle" font-family="Assistant" font-size="13" font-weight="700" fill="#1d4ed8">output</text>
+        <circle cx="540" cy="50" r="10" fill="#06b6d4"/>
+        <circle cx="540" cy="80" r="10" fill="#06b6d4"/>
+        <circle cx="540" cy="110" r="10" fill="#06b6d4"/>
+        <circle cx="540" cy="140" r="10" fill="#06b6d4"/>
+        <circle cx="540" cy="170" r="10" fill="#06b6d4"/>
+      </g>
+      <!-- Lines (simplified) -->
+      <g stroke="#cbd5e1" stroke-width="0.6">
+        <line x1="60" y1="50" x2="180" y2="65"/>
+        <line x1="60" y1="80" x2="180" y2="100"/>
+        <line x1="60" y1="110" x2="180" y2="135"/>
+        <line x1="60" y1="140" x2="180" y2="170"/>
+        <line x1="180" y1="100" x2="300" y2="95"/>
+        <line x1="180" y1="135" x2="300" y2="130"/>
+        <line x1="300" y1="95" x2="420" y2="100"/>
+        <line x1="300" y1="130" x2="420" y2="135"/>
+        <line x1="420" y1="100" x2="540" y2="80"/>
+        <line x1="420" y1="135" x2="540" y2="140"/>
+      </g>
+      <!-- Labels for encoder/decoder -->
+      <text x="120" y="210" text-anchor="middle" font-family="Assistant" font-size="13" font-weight="700" fill="#047857">encoder</text>
+      <text x="480" y="210" text-anchor="middle" font-family="Assistant" font-size="13" font-weight="700" fill="#0891b2">decoder</text>
+    </svg>
+    <div class="cap">מבנה autoencoder: הקלט מצטמצם דרך ה־encoder לייצוג latent דחוס במרכז, ואז מתפרס חזרה דרך ה־decoder. היעד: שהפלט יהיה זהה לקלט.</div>
+  </div>
+
+  <!-- LOSS FUNCTION -->
+  <div class="box formula">
+    <div class="box-head"><span class="icon">📐</span>פונקציית ה־Loss: Reconstruction Loss</div>
+    <div class="box-body">
+      <p>איך מאמנים autoencoder? עם <strong>reconstruction loss</strong> — שגיאה בין הקלט לפלט. הנוסחה מההרצאה:</p>
+
+      $$\text{MSE}(X, \hat{X}) = \frac{1}{m}\sum_{i=1}^{m}(x_i - \hat{x}_i)^2$$
+
+      <p>כאשר:</p>
+      <ul>
+        <li>$m$ — אורך וקטור ה־features.</li>
+        <li>$x_i$ — ה־feature ה־$i$ האמיתי בקלט.</li>
+        <li>$\hat{x}_i$ — ה־feature ה־$i$ שהרשת ניבאה (פלט ה־decoder).</li>
+      </ul>
+
+      <p>זה בדיוק MSE — אבל במקום להשוות $y$ מול $\hat{y}$, משווים את הקלט מול עצמו (אחרי שעבר את ה־encoder+decoder).</p>
+    </div>
+  </div>
+
+  <!-- ANOMALY DETECTION -->
+  <h3>שימוש 1: זיהוי אנומליות (Anomaly Detection)</h3>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>הרעיון</div>
+    <div class="box-body">
+      <p>זאת הסיבה הפרקטית העיקרית להשתמש ב־autoencoder. הגיון:</p>
+      <ol>
+        <li>אמן autoencoder על <strong>נתונים תקינים בלבד</strong> (״normal״).</li>
+        <li>הרשת לומדת לשחזר היטב נתונים שדומים למה שראתה באימון.</li>
+        <li>על נתונים <strong>חריגים</strong> שלא ראתה — היא תיכשל בשחזור. ה־reconstruction loss יהיה גבוה.</li>
+        <li>כל קלט עם loss מעל סף מסוים → אנומליה.</li>
+      </ol>
+
+      <div class="keypoint">
+        <strong>דוגמה מההרצאה:</strong> זיהוי הונאות בכרטיסי אשראי. מאמנים autoencoder על עסקאות חוקיות. עסקת הונאה — הרשת לא תצליח לשחזר → loss גבוה → התראה.
+      </div>
+
+      <h4>למה autoencoder עדיף על קלאסטרינג רגיל לזיהוי anomalies?</h4>
+      <ul>
+        <li>קלאסטרינג מבוסס מרחק (כמו K-Means) — מוצא outliers בענן נקודות.</li>
+        <li>Autoencoder לומד <strong>תבנית לא־לינארית</strong> (manifold) — יכול לזהות נקודות שמפרות את ה<em>תבנית</em>, גם אם הן לא רחוקות במרחק רגיל.</li>
+        <li>טוב במיוחד עבור <span class="term">non-spherical layouts</span> — צורות מורכבות.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DRIFT DETECTION -->
+  <h3>שימוש 2: Drift Detection</h3>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>מה זה drift?</div>
+    <div class="box-body">
+      <p>
+        <span class="term">Drift</span> פירושו שהתפלגות הנתונים <em>משתנה עם הזמן</em>. מודל שאומן על נתונים מ־2022 יכול להיכשל בעולם של 2026.
+      </p>
+
+      <h4>שלושת סוגי ה־drift מההרצאה</h4>
+      <ul>
+        <li>
+          <strong>Novel topic</strong> — מופיע נושא חדש שלא היה קיים. דוגמה: ״PCR when going abroad״ צץ אחרי 2020.
+        </li>
+        <li>
+          <strong>Diminishing topic</strong> — נושא קיים נעלם מהדאטה. דוגמה: ״Delta variant symptoms״ דועך.
+        </li>
+        <li>
+          <strong>Change in volume</strong> — אותם נושאים, אבל היחס ביניהם משתנה. דוגמה: יותר חיפושים על Delta, פחות על Johnson & Johnson.
+        </li>
+      </ul>
+
+      <h4>איך מזהים את הנקודה שבה ה־drift התחיל?</h4>
+      <p>שיטה נפוצה: מודדים <strong>similarity</strong> ל־anchor dataset (חתך ראשוני של הנתונים) כפונקציה של זמן. כאשר ה־similarity יורד באופן עקבי — זה ה־<span class="term">drift point</span>.</p>
+
+      <div class="keypoint">
+        <strong>הקשר לאוטואנקודרים:</strong> אם reconstruction loss של autoencoder על נתונים חדשים גדל באופן עקבי לעומת data ההיסטורי — סימן ל־drift. הנתונים השתנו, ואין למודל יכולת לשחזר אותם כמו פעם.
+      </div>
+    </div>
+  </div>
+
+  <!-- MINI EXERCISE FOR AUTOENCODERS -->
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>תרגיל הבנה · autoencoders</div>
+    <div class="box-body">
+
+      <div class="exercise-card">
+        <div class="exercise-q">
+          <span class="exercise-tag">Autoencoder concepts</span>
+          <p>סמנו נכון או לא נכון:</p>
+          <ol style="margin: 8px 24px;">
+            <li>אימון autoencoder דורש תוויות (labels) של המחלקות.</li>
+            <li>ב־autoencoder אידיאלי, ה־output זהה ל־input.</li>
+            <li>פונקציית ה־loss המקובלת היא cross entropy.</li>
+            <li>גודל ה־bottleneck (latent space) חייב להיות גדול יותר מהקלט.</li>
+            <li>autoencoder יכול לשמש לזיהוי הונאות בנתוני עסקאות.</li>
+          </ol>
+        </div>
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+
+          <ul class="mc-list">
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>1. דורש labels.</strong>
+                <span class="why">לא נכון. זאת בדיוק הסיבה ש־autoencoder נחשב <em>self-supervised</em> — הוא לומד מהקלט עצמו, בלי תוויות חיצוניות.</span>
+              </span>
+            </li>
+            <li class="correct">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>2. output ≈ input.</strong>
+                <span class="why">נכון. זה היעד של האימון.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>3. cross entropy.</strong>
+                <span class="why">לא נכון. ב־autoencoder על נתונים רציפים, ה־loss המקובל הוא <strong>MSE</strong> (reconstruction loss). cross entropy הוא ל־סיווג.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>4. bottleneck גדול מהקלט.</strong>
+                <span class="why">לא נכון. ההפך! ה־bottleneck חייב להיות <em>קטן יותר</em>. אם הוא גדול יותר או שווה — הרשת תוכל פשוט להעתיק את הקלט בלי ללמוד כלום.</span>
+              </span>
+            </li>
+            <li class="correct">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>5. זיהוי הונאות.</strong>
+                <span class="why">נכון. זאת אחת הדוגמאות הקלאסיות. מאמנים על עסקאות חוקיות, נכשלים בשחזור של הונאות.</span>
+              </span>
+            </li>
+          </ul>
+
+          <div class="final-answer">
+            נכונות: 2 ו־5.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- ============ 10. סיכום ============================== -->
+  <!-- ====================================================== -->
+  <h2>סיכום מהיר לזיכרון</h2>
+
+  <div class="box summary">
+    <div class="box-head"><span class="icon">📌</span>שבע נקודות שאתה חייב לזכור</div>
+    <div class="box-body">
+      <ol>
+        <li>
+          <strong>Accuracy לבד מטעה</strong> כשיש imbalanced classes (כמו הדוגמה של 75% תפוזים).
+        </li>
+        <li>
+          <strong>Confusion matrix:</strong> שורה = actual, עמודה = predicted (בקורס שלנו).
+        </li>
+        <li>
+          <strong>Precision</strong> = TP / (TP + FP) — מתוך מה שחזיתי positive, כמה צדקתי.
+        </li>
+        <li>
+          <strong>Recall</strong> = TP / (TP + FN) — מתוך כל ה־positive האמיתיים, כמה תפסתי.
+        </li>
+        <li>
+          <strong>F1</strong> = הממוצע ההרמוני של P ו־R. גבוה רק כששניהם גבוהים.
+        </li>
+        <li>
+          <strong>במטריצה רב־מחלקתית:</strong> סכום עמודה X = TP+FP של X. סכום שורה X = TP+FN של X.
+        </li>
+        <li>
+          <strong>AUC לא תלוי בסף.</strong> AUC = 1 מושלם, 0.5 אקראי.
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div style="height: 80px"></div>
+</main>
+
+</div>
+</body>
+</html>

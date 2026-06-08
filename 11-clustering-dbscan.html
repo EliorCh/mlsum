@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 11 · DBSCAN</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Frank+Ruhl+Libre:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/styles/atom-one-dark.min.css">
+<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>
+
+<script>
+  window.addEventListener('load', () => {
+    if (window.renderMathInElement) {
+      try { renderMathInElement(document.body, { delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}], throwOnError: false, strict: false }); } catch(e){}
+    }
+    if (window.hljs) { try { document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el)); } catch(e){} }
+    document.body.classList.add('ready');
+  });
+</script>
+
+<style>
+  :root {
+    --bg: #fbf9f3; --bg-paper: #fffefa; --ink: #1c1917; --ink-soft: #44403c; --ink-mute: #78716c;
+    --rule: #e7e5e0; --rule-soft: #f1efe9;
+    --indigo-9: #312e81; --indigo-7: #4f46e5; --indigo-3: #c7d2fe; --indigo-1: #eef2ff;
+    --c-theory-h: #1d4ed8; --c-theory-bg: #eff6ff; --c-theory-edge: #bfdbfe;
+    --c-formula-h: #b45309; --c-formula-bg: #fef9e7; --c-formula-edge: #fcd34d;
+    --c-example-h: #047857; --c-example-bg: #ecfdf5; --c-example-edge: #a7f3d0;
+    --c-warn-h: #be123c; --c-warn-bg: #fff1f2; --c-warn-edge: #fecdd3;
+    --c-exercise-h: #6d28d9; --c-exercise-bg: #f5f3ff; --c-exercise-edge: #ddd6fe;
+    --c-summary-h: #334155; --c-summary-bg: #f1f5f9; --c-summary-edge: #cbd5e1;
+    --code-bg: #0f172a; --code-bg-2: #1e293b; --code-ink: #e2e8f0;
+    --shadow-sm: 0 1px 2px rgba(28,25,23,.04), 0 1px 3px rgba(28,25,23,.06);
+    --shadow: 0 4px 12px rgba(28,25,23,.05), 0 1px 3px rgba(28,25,23,.04);
+    --serif: 'Frank Ruhl Libre', Georgia, serif;
+    --sans: 'Assistant', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  body { font-family: var(--sans); color: var(--ink); background: var(--bg); line-height: 1.75; font-size: 17px; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 20% 0%, rgba(99,102,241,.035), transparent 40%), radial-gradient(circle at 80% 100%, rgba(245,158,11,.035), transparent 40%);
+    background-attachment: fixed; opacity: 0; transition: opacity .2s ease; }
+  body.ready { opacity: 1; }
+  .app { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; max-width: 1480px; margin: 0 auto; }
+  .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%); color: #e0e7ff; padding: 32px 24px; border-left: 1px solid rgba(255,255,255,.06); }
+  .sidebar::-webkit-scrollbar { width: 6px; } .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
+  .brand { font-family: var(--serif); font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; letter-spacing: -.01em; line-height: 1.2; }
+  .brand a { color: #fff; text-decoration: none; } .brand a:hover { color: #fbbf24; }
+  .brand-sub { font-size: 13px; color: #c7d2fe; margin-bottom: 28px; font-weight: 500; }
+  .brand-meta { font-size: 11px; color: #a5b4fc; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .nav-label { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: #818cf8; font-weight: 700; margin: 24px 0 12px; padding-right: 8px; }
+  .nav-list { list-style: none; } .nav-list li { margin-bottom: 2px; }
+  .nav-list a { display: flex; align-items: center; gap: 10px; padding: 9px 12px; color: #c7d2fe; text-decoration: none; border-radius: 8px; font-size: 14.5px; font-weight: 500; transition: all .15s ease; }
+  .nav-list a:hover { background: rgba(255,255,255,.06); color: #fff; }
+  .nav-list a.active { background: rgba(255,255,255,.1); color: #fff; box-shadow: inset 3px 0 0 #fbbf24; }
+  .nav-list a.pending { opacity: .5; }
+  .nav-num { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; background: rgba(255,255,255,.08); border-radius: 6px; font-size: 11px; font-weight: 700; font-family: var(--mono); }
+  .nav-list a.active .nav-num { background: #fbbf24; color: #1e1b4b; }
+  main { padding: 56px 64px 120px; max-width: 960px; }
+  .page-eyebrow { display: inline-block; font-size: 12px; font-weight: 700; color: var(--indigo-7); letter-spacing: .15em; text-transform: uppercase; background: var(--indigo-1); padding: 6px 12px; border-radius: 99px; margin-bottom: 16px; }
+  h1.page-title { font-family: var(--serif); font-size: 48px; font-weight: 700; line-height: 1.15; letter-spacing: -.02em; color: var(--ink); margin-bottom: 14px; }
+  .page-subtitle { font-size: 19px; color: var(--ink-soft); margin-bottom: 48px; font-weight: 400; line-height: 1.55; }
+  h2 { font-family: var(--serif); font-size: 32px; font-weight: 700; letter-spacing: -.015em; margin: 56px 0 20px; color: var(--ink); position: relative; padding-right: 20px; }
+  h2::before { content: ''; position: absolute; right: 0; top: 14px; bottom: 14px; width: 4px; background: var(--indigo-7); border-radius: 2px; }
+  h3 { font-family: var(--sans); font-size: 22px; font-weight: 700; margin: 32px 0 12px; color: var(--ink); letter-spacing: -.005em; }
+  h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
+  p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
+  ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
+  .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
+  .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
+  .term.amber { color: var(--c-formula-h); background: var(--c-formula-bg); border-color: var(--c-formula-edge); }
+  .katex-display { margin: 18px 0 !important; direction: ltr !important; text-align: center !important; unicode-bidi: isolate; } .katex { direction: ltr !important; unicode-bidi: isolate; }
+  .box { border-radius: 14px; margin: 24px 0; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--rule); background: var(--bg-paper); }
+  .box-head { display: flex; align-items: center; gap: 12px; padding: 14px 22px; font-weight: 700; font-size: 15px; border-bottom: 1px solid var(--rule-soft); }
+  .box-head .icon { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; flex-shrink: 0; font-size: 16px; }
+  .box-body { padding: 22px 26px; } .box-body > *:last-child { margin-bottom: 0; }
+  .box.theory { border-color: var(--c-theory-edge); } .box.theory .box-head { background: var(--c-theory-bg); color: var(--c-theory-h); } .box.theory .box-head .icon { background: var(--c-theory-h); color: #fff; }
+  .box.formula { border-color: var(--c-formula-edge); background: var(--c-formula-bg); } .box.formula .box-head { background: transparent; color: var(--c-formula-h); border-bottom-color: rgba(180,83,9,.18); } .box.formula .box-head .icon { background: var(--c-formula-h); color: #fff; } .box.formula .box-body { background: var(--c-formula-bg); } .box.formula p { color: #78350f; }
+  .box.example { border-color: var(--c-example-edge); } .box.example .box-head { background: var(--c-example-bg); color: var(--c-example-h); } .box.example .box-head .icon { background: var(--c-example-h); color: #fff; }
+  .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
+  .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
+  .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; }
+  .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
+  .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
+  .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
+  .code-label .name { margin-right: auto; opacity: .9; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: var(--shadow-sm); font-size: 15px; }
+  th, td { padding: 11px 14px; text-align: right; border-bottom: 1px solid var(--rule-soft); border-left: 1px solid var(--rule-soft); }
+  th { background: var(--c-summary-bg); font-weight: 700; color: var(--c-summary-h); }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { font-family: var(--mono); direction: ltr; text-align: center; font-size: 14px; }
+  td.highlight { background: var(--c-formula-bg); font-weight: 700; color: var(--c-formula-h); }
+  .ztable { font-family: var(--mono); direction: ltr; font-size: 12.5px; }
+  .ztable th, .ztable td { padding: 5px 8px; text-align: center; }
+  .exercise-card { background: #fff; border-radius: 10px; margin: 14px 0; border: 1px solid var(--c-exercise-edge); overflow: hidden; }
+  .exercise-tag { display: inline-block; font-size: 11px; font-weight: 700; background: var(--c-exercise-h); color: #fff; padding: 3px 10px; border-radius: 99px; margin-bottom: 10px; font-family: var(--mono); letter-spacing: .05em; direction: ltr; }
+  .exercise-q { padding: 20px 24px; background: #fafaf9; border-bottom: 1px solid var(--rule-soft); }
+  .exercise-q p:last-child { margin-bottom: 0; }
+  .reveal-btn { display: block; width: 100%; background: var(--c-exercise-bg); border: none; border-top: 1px solid var(--c-exercise-edge); padding: 13px; font-family: var(--sans); font-size: 14px; font-weight: 700; color: var(--c-exercise-h); cursor: pointer; transition: background .15s ease; }
+  .reveal-btn:hover { background: #ede9fe; } .reveal-btn::before { content: '▼ '; font-size: 10px; margin-left: 6px; transition: transform .2s ease; }
+  .exercise-card.open .reveal-btn::before { content: '▲ '; }
+  .solution { padding: 22px 26px; background: var(--c-example-bg); border-top: 1px solid var(--c-example-edge); display: none; }
+  .exercise-card.open .solution { display: block; }
+  .solution .step { background: #fff; border-radius: 8px; padding: 14px 18px; margin: 12px 0; border-right: 3px solid var(--c-example-h); }
+  .solution .step-label { font-size: 11px; font-weight: 700; color: var(--c-example-h); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; font-family: var(--mono); }
+  .solution .final-answer { background: #fff; border: 2px solid var(--c-example-h); border-radius: 10px; padding: 14px 20px; margin-top: 16px; font-weight: 600; }
+  .solution .final-answer::before { content: '✓ '; color: var(--c-example-h); font-weight: 900; }
+  .lead { font-size: 19px; color: var(--ink-soft); border-right: 3px solid var(--indigo-7); padding-right: 20px; margin: 24px 0 32px; font-weight: 400; line-height: 1.6; }
+  .keypoint { background: linear-gradient(90deg, var(--c-formula-bg) 0%, transparent 100%); padding: 14px 18px; border-radius: 8px; margin: 16px 0; border-right: 3px solid var(--c-formula-h); }
+  .keypoint::before { content: '💡 '; font-size: 18px; margin-left: 4px; }
+  .mc-list { list-style: none; margin: 12px 0; padding: 0; }
+  .mc-list li { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: #fff; border: 1px solid var(--rule); border-radius: 8px; margin-bottom: 8px; transition: all .15s ease; }
+  .mc-list li .mc-marker { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--rule); flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); background: #fff; }
+  .mc-list li.correct { background: var(--c-example-bg); border-color: var(--c-example-edge); }
+  .mc-list li.correct .mc-marker { background: var(--c-example-h); color: #fff; border-color: var(--c-example-h); }
+  .mc-list li.correct .mc-marker::after { content: '✓'; }
+  .mc-list li.wrong { background: var(--c-warn-bg); border-color: var(--c-warn-edge); }
+  .mc-list li.wrong .mc-marker { background: var(--c-warn-h); color: #fff; border-color: var(--c-warn-h); }
+  .mc-list li.wrong .mc-marker::after { content: '✗'; }
+  .mc-list li .mc-text { flex: 1; line-height: 1.55; color: var(--ink-soft); }
+  .mc-list li .mc-text .why { display: block; margin-top: 6px; font-size: 13.5px; color: var(--ink-mute); font-style: italic; }
+  .figure { background: #fff; border: 1px solid var(--rule); border-radius: 12px; padding: 18px; margin: 18px 0; text-align: center; box-shadow: var(--shadow-sm); }
+  .figure svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+  .figure .cap { font-size: 13px; color: var(--ink-mute); margin-top: 12px; font-style: italic; }
+  @media (max-width: 900px) { .app { grid-template-columns: 1fr; } .sidebar { position: static; height: auto; } main { padding: 32px 24px 80px; } h1.page-title { font-size: 36px; } h2 { font-size: 26px; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="brand"><a href="index.html">מבוא ללמידת מכונה<br>ולמדעי הנתונים</a></div>
+  <div class="brand-sub">מדריך הכנה למבחן · ד״ר אלה רבינוביץ׳</div>
+  <div class="brand-meta">MTA · קיץ 2026</div>
+
+  <div class="nav-label">פייתון ונתונים</div>
+  <ul class="nav-list">
+    <li><a href="01-numpy.html"><span class="nav-num">1</span>NumPy</a></li>
+    <li><a href="02-pandas.html"><span class="nav-num">2</span>Pandas</a></li>
+  </ul>
+
+  <div class="nav-label">סטטיסטיקה</div>
+  <ul class="nav-list">
+    <li><a href="03-descriptive-stats.html"><span class="nav-num">3</span>סטטיסטיקה תיאורית</a></li>
+    <li><a href="04-inferential-stats.html"><span class="nav-num">4</span>סטטיסטיקה מסקקת</a></li>
+  </ul>
+
+  <div class="nav-label">למידה מונחית</div>
+  <ul class="nav-list">
+    <li><a href="05-linear-regression.html"><span class="nav-num">5</span>רגרסיה לינארית</a></li>
+    <li><a href="06-multiple-regression.html"><span class="nav-num">6</span>רגרסיה מרובה</a></li>
+    <li><a href="07-classification-basics.html"><span class="nav-num">7</span>סיווג בסיסי</a></li>
+    <li><a href="08-neural-networks.html"><span class="nav-num">8</span>רשתות נוירונים</a></li>
+    <li><a href="09-evaluation.html"><span class="nav-num">9</span>הערכת סיווג</a></li>
+  </ul>
+
+  <div class="nav-label">למידה לא מונחית</div>
+  <ul class="nav-list">
+    <li><a href="10-clustering-kmeans.html"><span class="nav-num">10</span>K-Means</a></li>
+    <li><a href="11-clustering-dbscan.html" class="active"><span class="nav-num">11</span>DBSCAN</a></li>
+    <li><a href="12-image-and-self-supervised.html"><span class="nav-num">12</span>עיבוד תמונה</a></li>
+  </ul>
+
+  <div class="nav-label">נספח</div>
+  <ul class="nav-list">
+    <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
+  </ul>
+</aside>
+
+<main>
+  <span class="page-eyebrow">פרק 11 · DBSCAN וקיבוץ מבוסס צפיפות</span>
+  <h1 class="page-title">DBSCAN, PCA<br>וקיבוץ מתקדם</h1>
+  <p class="page-subtitle">DBSCAN — קיבוץ בצורות לא־סטנדרטיות. PCA — הורדת מימד. שני הכלים החזקים ביותר ב־unsupervised.</p>
+
+  <p class="lead">
+    K-Means עובד טוב כאשר הקבוצות עגולות וצפופות באופן דומה. אבל מה אם יש לנו צורות מוזרות,
+    קבוצות בעלות צפיפות שונה, או רעש? DBSCAN פותר את כל אלה.
+    בסוף הפרק נכסה גם את PCA — הכלי המרכזי להורדת מימד.
+  </p>
+
+  <!-- 1. WHY DBSCAN -->
+  <h2>למה DBSCAN?</h2>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>הבעיות של K-Means</div>
+    <div class="box-body">
+      <p>ל־K-Means יש כמה חולשות מרכזיות:</p>
+      <ul>
+        <li>צריך לדעת את <strong>$K$</strong> מראש.</li>
+        <li>לא מתמודד עם <strong>צורות לא־עגולות</strong> (חצי־ירח, ספירלה).</li>
+        <li>לא מבדיל בין נקודות תקינות לבין <strong>רעש</strong> (outliers) — מכריח כל נקודה ל־cluster.</li>
+      </ul>
+
+      <p><strong>DBSCAN</strong> (<span class="term">Density-Based Spatial Clustering of Applications with Noise</span>) פותר את כל אלה:</p>
+      <ul>
+        <li>לא דורש $K$ — מספר ה־clusters מתגלה אוטומטית.</li>
+        <li>מתמודד עם <strong>צורות שרירותיות</strong>.</li>
+        <li>מזהה <strong>noise</strong> כקטגוריה נפרדת.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2. KEY CONCEPTS -->
+  <h2>שלושת סוגי הנקודות</h2>
+
+  <div class="box formula">
+    <div class="box-head"><span class="icon">📐</span>הגדרות מההרצאה</div>
+    <div class="box-body">
+      <p>DBSCAN מוגדר על ידי שני פרמטרים:</p>
+      <ul>
+        <li><strong>ε (אפסילון)</strong> — רדיוס שכונה.</li>
+        <li><strong>m</strong> — מספר נקודות מינימלי בשכונה.</li>
+      </ul>
+
+      <h4>ε-שכונה של נקודה p</h4>
+      <p>אוסף כל הנקודות במרחק $\leq \varepsilon$ מ־$p$:</p>
+      $$N_\varepsilon(p) = \{q \;|\; \text{dist}(p, q) \leq \varepsilon\}$$
+
+      <h4>שלושת סוגי הנקודות</h4>
+      <ul>
+        <li>
+          <strong>Core point (נקודת ליבה)</strong> — נקודה $p$ כך ש־$|N_\varepsilon(p)| \geq m$. כלומר, השכונה שלה צפופה.
+        </li>
+        <li>
+          <strong>Border point (נקודת גבול)</strong> — נקודה שאינה core, אבל נכנסת ל־$\varepsilon$-שכונה של נקודת core כלשהי.
+        </li>
+        <li>
+          <strong>Noise point (רעש / outlier)</strong> — לא core ולא border. ״לבד״ — לא חלק משום cluster.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3. ALGORITHM -->
+  <h2>אלגוריתם DBSCAN</h2>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>איך הקלאסטרים נבנים</div>
+    <div class="box-body">
+      <ol>
+        <li>בחר נקודת core שעדיין לא סווגה.</li>
+        <li>חשב את <strong>density-reachability</strong> שלה — אוסף כל הנקודות שאפשר להגיע אליהן דרך שרשרת של core points.</li>
+        <li>הגדר את האוסף הזה כ־cluster חדש.</li>
+        <li>חזור על 1-3 עד שאין יותר core points לא־מסווגות.</li>
+        <li>הקצה את כל הנקודות שנשארו (אינן core ואינן border) כ־<strong>noise</strong>.</li>
+      </ol>
+
+      <div class="keypoint">
+        <strong>הבדל מהותי מ־K-Means:</strong> DBSCAN לא מבוסס על מרכזים, אלא על <em>צפיפות</em>. אם יש שני אזורים צפופים מחוברים בשרשרת — DBSCAN יראה אותם כ־cluster אחד, גם אם הצורה מוזרה.
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. PARAMETERS -->
+  <h2>השפעת הפרמטרים</h2>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>ε ו־m — איך הם משפיעים</div>
+    <div class="box-body">
+
+      <h4>השפעת ε (לפי m קבוע)</h4>
+      <ul>
+        <li>
+          <strong>ε קטן</strong> → ה־data מתפצל ל־clusters קטנים וצפופים. הרבה נקודות מסומנות כ־noise.
+        </li>
+        <li>
+          <strong>ε גדול</strong> → clusters קיימים <em>מתמזגים</em>. מספר נקודות ה־noise <em>יורד</em>.
+        </li>
+      </ul>
+
+      <h4>השפעת m (לפי ε קבוע)</h4>
+      <ul>
+        <li>
+          <strong>m קטן</strong> → יותר clusters. קבוצות קטנות הופכות ל־clusters. פחות outliers, פחות border points.
+        </li>
+        <li>
+          <strong>m גדול</strong> → קבוצות קטנות לא מקבלות הכרה כ־clusters. יותר outliers, יותר border points.
+        </li>
+      </ul>
+
+      <h4>בחירת m</h4>
+      <p>חוק אצבע ממוצע (לפי מרחק Euclidean): $m \approx 2 \cdot d$, כאשר $d$ = מספר תכונות.</p>
+      <p>לדוגמה: data 2D → m = 4.</p>
+
+      <h4>בחירת ε — שיטת K-distance plot</h4>
+      <p>לכל נקודה, חשב את המרחק לשכן ה־k-י שלה (כאשר k = m). שרטט את הערכים בסדר עולה. ה־ε האופטימלי נמצא <strong>בנקודת המרפק</strong> של הגרף.</p>
+    </div>
+  </div>
+
+  <!-- 5. K-MEANS vs DBSCAN -->
+  <h2>השוואה: K-Means מול DBSCAN</h2>
+
+  <div class="box example">
+    <div class="box-head"><span class="icon">⚖</span>מתי להעדיף כל אחד</div>
+    <div class="box-body">
+      <table>
+        <tr>
+          <th></th><th>K-Means</th><th>DBSCAN</th>
+        </tr>
+        <tr>
+          <td>צריך לדעת מראש</td>
+          <td>$K$</td>
+          <td>$\varepsilon$, $m$</td>
+        </tr>
+        <tr>
+          <td>צורות clusters</td>
+          <td>עגולות / קמורות</td>
+          <td>שרירותיות</td>
+        </tr>
+        <tr>
+          <td>טיפול ב־outliers</td>
+          <td>נכפים ל־cluster</td>
+          <td>מסומנים כ־noise</td>
+        </tr>
+        <tr>
+          <td>צפיפויות שונות</td>
+          <td>אין בעיה</td>
+          <td>בעיה (DBSCAN מניח צפיפות אחידה)</td>
+        </tr>
+        <tr>
+          <td>מורכבות זמן</td>
+          <td>$O(nki)$</td>
+          <td>$O(n \log n)$ עם spatial index</td>
+        </tr>
+      </table>
+
+      <div class="keypoint">
+        <strong>כלל אצבע:</strong> נתונים עגולים, רעש מועט → K-Means. צורות מוזרות או הרבה outliers → DBSCAN.
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. PCA -->
+  <h2>PCA — הורדת מימד</h2>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>מה PCA עושה?</div>
+    <div class="box-body">
+      <p>בנתונים עם הרבה משתנים (high-dimensional), קשה לוויזואליזציה ולעיתים יש redundancy.
+      <span class="term">PCA</span> (Principal Component Analysis) הופך משתנים מתואמים לקבוצה <em>בלתי מתואמת</em> של ״principal components״ (PCs).</p>
+
+      <h4>שתי גישות להורדת מימד</h4>
+      <ul>
+        <li>
+          <strong>Feature selection</strong> — בחירת תת־קבוצה של התכונות המקוריות.
+          $(x_1, x_2, x_3, x_4, x_5) \to (x_2, x_3)$. <em>קל לפרש.</em>
+        </li>
+        <li>
+          <strong>Feature extraction (PCA)</strong> — יצירת תכונות חדשות שהן צירופים לינאריים של המקוריות.
+          $(x_1, ..., x_5) \to (x'_1, x'_2)$. <em>קשה לפרש, אבל יותר יעיל.</em>
+        </li>
+      </ul>
+
+      <h4>תכונות חשובות של PCs</h4>
+      <ul>
+        <li>כל PC הוא <strong>צירוף לינארי</strong> של התכונות המקוריות. למשל: $\text{PC1} = 0.82 \cdot F_1 + 0.76 \cdot F_2 + \ldots$</li>
+        <li>ה־PC הראשון מסביר את <strong>השונות הכי גדולה</strong> בנתונים.</li>
+        <li>כל PC הוא <strong>בלתי מתואם</strong> עם יתר ה־PCs.</li>
+        <li>הסכום של ה־PCs מסביר את כל השונות (אם n PCs ל־n features).</li>
+      </ul>
+
+      <div class="keypoint">
+        <strong>שאלת מבחן קלאסית:</strong> ״מה קורה ב־PCA על שתי features עם מתאם 1?״ — PC1 מכסה 100% מהשונות, PC2 מכסה 0%. למה? כי הנקודות כולן על קו ישר — אין שונות בכיוון הניצב.
+      </div>
+    </div>
+  </div>
+
+  <!-- PCA NUMERICAL EXAMPLE -->
+  <h2>דוגמה נומרית של PCA מההרצאה</h2>
+
+  <div class="box example">
+    <div class="box-head"><span class="icon">🔢</span>חישוב PCA על מטריצת covariance</div>
+    <div class="box-body">
+      <p>זה בדיוק הסוג של תרגיל שיופיע במבחן. נתונה <strong>מטריצת covariance</strong> של data דו־מימדי:</p>
+
+      $$C = \begin{bmatrix} 4 & 1 \\ 1 & 2 \end{bmatrix}$$
+
+      <h4>שלב 1 · חישוב ערכים עצמיים (eigenvalues)</h4>
+      <p>פותרים את המשוואה $\det(C - \lambda I) = 0$:</p>
+      $$(4 - \lambda)(2 - \lambda) - 1 \cdot 1 = 0$$
+      $$\lambda^2 - 6\lambda + 7 = 0$$
+      $$\lambda = \frac{6 \pm \sqrt{36 - 28}}{2} = \frac{6 \pm 2\sqrt{2}}{2}$$
+      $$\lambda_1 = 4.41, \quad \lambda_2 = 1.59$$
+
+      <h4>שלב 2 · חישוב וקטורים עצמיים (eigenvectors)</h4>
+      <p>פותרים $(C - \lambda I) u = 0$ לכל $\lambda$, ומנרמלים לאורך 1:</p>
+      $$u_1 = [0.92, \;0.38], \quad u_2 = [-0.38, \;0.92]$$
+
+      <p>אלה שני ה־<strong>principal components</strong> (PCs) של ה־data.</p>
+
+      <h4>שלב 3 · משמעות פרקטית של ה־PCs</h4>
+      <p>כל PC הוא צירוף לינארי של ה־features המקוריים:</p>
+      $$\text{PC1} = 0.92 \cdot \text{feature1} + 0.38 \cdot \text{feature2}$$
+      $$\text{PC2} = -0.38 \cdot \text{feature1} + 0.92 \cdot \text{feature2}$$
+
+      <p>המקדמים (loadings) אומרים לנו כמה כל feature מקורי תורם ל־PC. ב־PC1, feature1 דומיננטי (0.92), feature2 חלש יותר (0.38). זה אומר ש־PC1 ״לוכד״ בעיקר את הוריאציה של feature1.</p>
+
+      <h4>שלב 4 · אחוז שונות מוסברת (explained variance ratio)</h4>
+      <p>השונות שכל PC מסביר היא הערך העצמי שלו, חלקי סכום כל הערכים העצמיים:</p>
+
+      $$\text{PC1 ratio} = \frac{4.41}{4.41 + 1.59} = \frac{4.41}{6.00} = 0.735$$
+
+      $$\text{PC2 ratio} = \frac{1.59}{4.41 + 1.59} = \frac{1.59}{6.00} = 0.265$$
+
+      <p>כלומר PC1 מסביר 73.5% מהשונות, PC2 מסביר 26.5%. סך הכל 100%.</p>
+
+      <div class="keypoint">
+        <strong>נקודות חשובות מההרצאה:</strong>
+        <ul>
+          <li>הוקטורים העצמיים <em>בכיוון</em> ה־PCs. תמיד אורכם 1.</li>
+          <li>הערכים העצמיים פרופורציוניים לשונות. הגבוה ביותר → PC1.</li>
+          <li>מטריצת covariance תמיד <strong>סימטרית וריאלית</strong> → תמיד $M$ וקטורים עצמיים <em>אורתוגונליים</em>. זה מה שמבטיח ש־PCs בלתי מתואמים זה עם זה.</li>
+          <li>גם תמיד $\lambda \geq 0$ (כי הקובריאנס positive semi-definite).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. EXERCISES -->
+  <h2>תרגילי מבחן אמיתיים</h2>
+
+  <!-- Exercise 1 -->
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>תרגיל 1 · practice11, שאלה 1</div>
+    <div class="box-body">
+
+      <div class="exercise-card">
+        <div class="exercise-q">
+          <span class="exercise-tag">השפעת ε על DBSCAN</span>
+          <p>ב־DBSCAN, מה עשוי לקרות כאשר נגדיל את הערך של ε תוך שמירה על m קבוע (סמנו תשובה אחת):</p>
+          <ol style="margin: 8px 24px;">
+            <li>מספר האשכולות יגדל ומספר נקודות הרעש יגדל.</li>
+            <li>אשכולות קיימים עלולים להתמזג ומספר נקודות הרעש יקטן.</li>
+            <li>מספר נקודות הליבה (core points) יקטן בהכרח.</li>
+            <li>מספר האשכולות לא ישתנה כלל.</li>
+          </ol>
+        </div>
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+
+          <p><strong>תזכורת:</strong> ε גדול → השכונות גדלות → יותר נקודות עוברות את הסף $\geq m$ ונחשבות core → יותר נקודות מתחברות.</p>
+
+          <ul class="mc-list">
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>1. יותר אשכולות, יותר רעש.</strong>
+                <span class="why">לא נכון. כש־ε גדל, אשכולות <em>מתמזגים</em> ורעש <em>קטן</em>.</span>
+              </span>
+            </li>
+            <li class="correct">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>2. אשכולות מתמזגים, פחות רעש.</strong>
+                <span class="why">נכון. שכונות יותר גדולות → אשכולות שהיו נפרדים מתחברים. גם נקודות שהיו רעש מתחברות לקלאסטרים.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>3. פחות core points.</strong>
+                <span class="why">לא נכון. ההפך — יותר core points, כי כל שכונה גדולה יותר.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>4. מספר אשכולות לא ישתנה.</strong>
+                <span class="why">לא נכון. כל שינוי בפרמטר משפיע.</span>
+              </span>
+            </li>
+          </ul>
+
+          <div class="final-answer">
+            התשובה: <strong>ב</strong> — אשכולות מתמזגים, רעש קטן.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Exercise 2 -->
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>תרגיל 2 · practice11, שאלה 2</div>
+    <div class="box-body">
+
+      <div class="exercise-card">
+        <div class="exercise-q">
+          <span class="exercise-tag">PCA על משתנים מתואמים מושלמים</span>
+          <p>מפעילים PCA על dataset עם שני features שיש ביניהם מתאם חיובי מושלם:</p>
+          $$\text{pearsonsr}(\text{feature1}, \text{feature2}) = 1$$
+          <p>תאר בקצרה איך תתחלק השונות המוסברת על פני שני ה־principal components.</p>
+        </div>
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+
+          <p><strong>אינטואיציה:</strong> כש־$r = 1$, כל הנקודות נמצאות על קו ישר (קשר לינארי מושלם). הקו הזה הוא הציר היחיד שיש בו שונות.</p>
+
+          <p>PCA מחפש את הצירים החדשים לפי השונות המוסברת:</p>
+          <ul>
+            <li><strong>PC1</strong> — לאורך הקו הישר → מסביר <strong>100%</strong> מהשונות.</li>
+            <li><strong>PC2</strong> — ניצב לקו → אין שום שונות בכיוון הזה → מסביר <strong>0%</strong>.</li>
+          </ul>
+
+          <div class="final-answer">
+            PC1 = 100%, PC2 = 0%. כל התצפיות נמצאות על קו ישר — זה הציר היחיד שמסביר את השונות.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BONUS EXERCISE -->
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>תרגיל בונוס · השוואה בין שני מסווגי clustering</div>
+    <div class="box-body">
+
+      <div class="exercise-card">
+        <div class="exercise-q">
+          <span class="exercise-tag">K-Means vs DBSCAN — מתי לבחור מה?</span>
+          <p>סמנו נכון או לא נכון לכל אחד:</p>
+          <ol style="margin: 8px 24px;">
+            <li>אם הנתונים הם שני חצי־ירחים שזורים — DBSCAN ייתן תוצאות טובות יותר מ־K-Means.</li>
+            <li>DBSCAN דורש לדעת מראש את מספר הקלאסטרים.</li>
+            <li>אם יש outliers רבים, DBSCAN ידע לסמן אותם כ־noise.</li>
+            <li>K-Means עובד היטב כאשר ה־clusters בעלי גדלים וצפיפויות שונות מאוד.</li>
+            <li>DBSCAN מבוסס על חישוב מרכזים, בדומה ל־K-Means.</li>
+          </ol>
+        </div>
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+
+          <ul class="mc-list">
+            <li class="correct">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>1. חצי־ירחים — DBSCAN.</strong>
+                <span class="why">נכון. K-Means יחתוך אותם לארבעה רבעים (כי הוא מבוסס מרחק ממרכז). DBSCAN יזהה את שני החצי־ירחים נכון.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>2. DBSCAN דורש לדעת מספר clusters.</strong>
+                <span class="why">לא נכון! זה היתרון הגדול שלו. DBSCAN מגלה את מספר ה־clusters אוטומטית.</span>
+              </span>
+            </li>
+            <li class="correct">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>3. DBSCAN ויסון noise.</strong>
+                <span class="why">נכון. נקודות שאינן core ואינן border מסומנות כ־noise (-1 ב־sklearn).</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>4. K-Means עם גדלים שונים מאוד.</strong>
+                <span class="why">לא נכון. K-Means נוטה לפצל clusters גדולים ל־smaller, ולשייך נקודות מקלאסטר קטן לקרוב יותר. עובד טוב יותר עם clusters בגדלים דומים.</span>
+              </span>
+            </li>
+            <li class="wrong">
+              <span class="mc-marker"></span>
+              <span class="mc-text">
+                <strong>5. DBSCAN עם centroids.</strong>
+                <span class="why">לא נכון. DBSCAN מבוסס <em>צפיפות</em>, לא מרכזים. אין לו centroids.</span>
+              </span>
+            </li>
+          </ul>
+
+          <div class="final-answer">
+            נכונות: 1 ו־3.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <h2>סיכום מהיר לזיכרון</h2>
+
+  <div class="box summary">
+    <div class="box-head"><span class="icon">📌</span>תשע נקודות שאתה חייב לזכור</div>
+    <div class="box-body">
+      <ol>
+        <li>
+          <strong>DBSCAN</strong> = Density-Based Spatial Clustering of Applications with Noise.
+        </li>
+        <li>
+          <strong>שני פרמטרים:</strong> ε (רדיוס) ו־m (מינימום נקודות בשכונה).
+        </li>
+        <li>
+          <strong>שלושת סוגי נקודות:</strong> core ($|N_\varepsilon| \geq m$), border (בשכונת core), noise (לא שניהם).
+        </li>
+        <li>
+          <strong>ε גדל</strong> → אשכולות מתמזגים, רעש קטן.
+        </li>
+        <li>
+          <strong>m גדל</strong> → פחות אשכולות, יותר רעש.
+        </li>
+        <li>
+          <strong>חוק אצבע ל־m:</strong> $\approx 2 \cdot d$ (d = מספר features). 2D → m=4.
+        </li>
+        <li>
+          <strong>DBSCAN לא דורש לדעת K מראש</strong> — מגלה אוטומטית.
+        </li>
+        <li>
+          <strong>PCA</strong> מוצא צירים חדשים (PCs) שמקסמים שונות, בלתי מתואמים זה עם זה.
+        </li>
+        <li>
+          <strong>מתאם 1 בין features</strong> → PC1 מסביר 100%, PC2 מסביר 0% (כי אין שונות ניצבת).
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div style="height: 60px"></div>
+
+  <div style="display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid var(--rule); margin-top:48px;">
+    <a href="10-clustering-kmeans.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">→ פרק 10: K-Means</a>
+    <a href="index.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">חזרה לעמוד הבית ←</a>
+  </div>
+</main>
+
+</div>
+</body>
+</html>
