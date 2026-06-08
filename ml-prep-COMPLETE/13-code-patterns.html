@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>נספח · תבניות קוד למטלות</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Frank+Ruhl+Libre:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/styles/atom-one-dark.min.css">
+<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>
+
+<script>
+  window.addEventListener('load', () => {
+    if (window.renderMathInElement) {
+      try { renderMathInElement(document.body, { delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}], throwOnError: false, strict: false }); } catch(e){}
+    }
+    if (window.hljs) { try { document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el)); } catch(e){} }
+    document.body.classList.add('ready');
+  });
+</script>
+
+<style>
+  :root {
+    --bg: #fbf9f3; --bg-paper: #fffefa; --ink: #1c1917; --ink-soft: #44403c; --ink-mute: #78716c;
+    --rule: #e7e5e0; --rule-soft: #f1efe9;
+    --indigo-9: #312e81; --indigo-7: #4f46e5; --indigo-3: #c7d2fe; --indigo-1: #eef2ff;
+    --c-theory-h: #1d4ed8; --c-theory-bg: #eff6ff; --c-theory-edge: #bfdbfe;
+    --c-formula-h: #b45309; --c-formula-bg: #fef9e7; --c-formula-edge: #fcd34d;
+    --c-example-h: #047857; --c-example-bg: #ecfdf5; --c-example-edge: #a7f3d0;
+    --c-warn-h: #be123c; --c-warn-bg: #fff1f2; --c-warn-edge: #fecdd3;
+    --c-exercise-h: #6d28d9; --c-exercise-bg: #f5f3ff; --c-exercise-edge: #ddd6fe;
+    --c-summary-h: #334155; --c-summary-bg: #f1f5f9; --c-summary-edge: #cbd5e1;
+    --code-bg: #0f172a; --code-bg-2: #1e293b; --code-ink: #e2e8f0;
+    --shadow-sm: 0 1px 2px rgba(28,25,23,.04), 0 1px 3px rgba(28,25,23,.06);
+    --shadow: 0 4px 12px rgba(28,25,23,.05), 0 1px 3px rgba(28,25,23,.04);
+    --serif: 'Frank Ruhl Libre', Georgia, serif;
+    --sans: 'Assistant', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  body { font-family: var(--sans); color: var(--ink); background: var(--bg); line-height: 1.75; font-size: 17px; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 20% 0%, rgba(99,102,241,.035), transparent 40%), radial-gradient(circle at 80% 100%, rgba(245,158,11,.035), transparent 40%);
+    background-attachment: fixed; opacity: 0; transition: opacity .2s ease; }
+  body.ready { opacity: 1; }
+  .app { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; max-width: 1480px; margin: 0 auto; }
+  .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%); color: #e0e7ff; padding: 32px 24px; border-left: 1px solid rgba(255,255,255,.06); }
+  .sidebar::-webkit-scrollbar { width: 6px; } .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
+  .brand { font-family: var(--serif); font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; letter-spacing: -.01em; line-height: 1.2; }
+  .brand a { color: #fff; text-decoration: none; } .brand a:hover { color: #fbbf24; }
+  .brand-sub { font-size: 13px; color: #c7d2fe; margin-bottom: 28px; font-weight: 500; }
+  .brand-meta { font-size: 11px; color: #a5b4fc; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .nav-label { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: #818cf8; font-weight: 700; margin: 24px 0 12px; padding-right: 8px; }
+  .nav-list { list-style: none; } .nav-list li { margin-bottom: 2px; }
+  .nav-list a { display: flex; align-items: center; gap: 10px; padding: 9px 12px; color: #c7d2fe; text-decoration: none; border-radius: 8px; font-size: 14.5px; font-weight: 500; transition: all .15s ease; }
+  .nav-list a:hover { background: rgba(255,255,255,.06); color: #fff; }
+  .nav-list a.active { background: rgba(255,255,255,.1); color: #fff; box-shadow: inset 3px 0 0 #fbbf24; }
+  .nav-list a.pending { opacity: .5; }
+  .nav-num { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; background: rgba(255,255,255,.08); border-radius: 6px; font-size: 11px; font-weight: 700; font-family: var(--mono); }
+  .nav-list a.active .nav-num { background: #fbbf24; color: #1e1b4b; }
+  main { padding: 56px 64px 120px; max-width: 960px; }
+  .page-eyebrow { display: inline-block; font-size: 12px; font-weight: 700; color: var(--indigo-7); letter-spacing: .15em; text-transform: uppercase; background: var(--indigo-1); padding: 6px 12px; border-radius: 99px; margin-bottom: 16px; }
+  h1.page-title { font-family: var(--serif); font-size: 48px; font-weight: 700; line-height: 1.15; letter-spacing: -.02em; color: var(--ink); margin-bottom: 14px; }
+  .page-subtitle { font-size: 19px; color: var(--ink-soft); margin-bottom: 48px; font-weight: 400; line-height: 1.55; }
+  h2 { font-family: var(--serif); font-size: 32px; font-weight: 700; letter-spacing: -.015em; margin: 56px 0 20px; color: var(--ink); position: relative; padding-right: 20px; }
+  h2::before { content: ''; position: absolute; right: 0; top: 14px; bottom: 14px; width: 4px; background: var(--indigo-7); border-radius: 2px; }
+  h3 { font-family: var(--sans); font-size: 22px; font-weight: 700; margin: 32px 0 12px; color: var(--ink); letter-spacing: -.005em; }
+  h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
+  p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
+  ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
+  .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
+  .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
+  .term.amber { color: var(--c-formula-h); background: var(--c-formula-bg); border-color: var(--c-formula-edge); }
+  .katex-display { margin: 18px 0 !important; direction: ltr !important; text-align: center !important; unicode-bidi: isolate; } .katex { direction: ltr !important; unicode-bidi: isolate; }
+  .box { border-radius: 14px; margin: 24px 0; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--rule); background: var(--bg-paper); }
+  .box-head { display: flex; align-items: center; gap: 12px; padding: 14px 22px; font-weight: 700; font-size: 15px; border-bottom: 1px solid var(--rule-soft); }
+  .box-head .icon { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; flex-shrink: 0; font-size: 16px; }
+  .box-body { padding: 22px 26px; } .box-body > *:last-child { margin-bottom: 0; }
+  .box.theory { border-color: var(--c-theory-edge); } .box.theory .box-head { background: var(--c-theory-bg); color: var(--c-theory-h); } .box.theory .box-head .icon { background: var(--c-theory-h); color: #fff; }
+  .box.formula { border-color: var(--c-formula-edge); background: var(--c-formula-bg); } .box.formula .box-head { background: transparent; color: var(--c-formula-h); border-bottom-color: rgba(180,83,9,.18); } .box.formula .box-head .icon { background: var(--c-formula-h); color: #fff; } .box.formula .box-body { background: var(--c-formula-bg); } .box.formula p { color: #78350f; }
+  .box.example { border-color: var(--c-example-edge); } .box.example .box-head { background: var(--c-example-bg); color: var(--c-example-h); } .box.example .box-head .icon { background: var(--c-example-h); color: #fff; }
+  .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
+  .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
+  .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; }
+  .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
+  .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
+  .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
+  .code-label .name { margin-right: auto; opacity: .9; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: var(--shadow-sm); font-size: 15px; }
+  th, td { padding: 11px 14px; text-align: right; border-bottom: 1px solid var(--rule-soft); border-left: 1px solid var(--rule-soft); }
+  th { background: var(--c-summary-bg); font-weight: 700; color: var(--c-summary-h); }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { font-family: var(--mono); direction: ltr; text-align: center; font-size: 14px; }
+  td.highlight { background: var(--c-formula-bg); font-weight: 700; color: var(--c-formula-h); }
+  .ztable { font-family: var(--mono); direction: ltr; font-size: 12.5px; }
+  .ztable th, .ztable td { padding: 5px 8px; text-align: center; }
+  .exercise-card { background: #fff; border-radius: 10px; margin: 14px 0; border: 1px solid var(--c-exercise-edge); overflow: hidden; }
+  .exercise-tag { display: inline-block; font-size: 11px; font-weight: 700; background: var(--c-exercise-h); color: #fff; padding: 3px 10px; border-radius: 99px; margin-bottom: 10px; font-family: var(--mono); letter-spacing: .05em; direction: ltr; }
+  .exercise-q { padding: 20px 24px; background: #fafaf9; border-bottom: 1px solid var(--rule-soft); }
+  .exercise-q p:last-child { margin-bottom: 0; }
+  .reveal-btn { display: block; width: 100%; background: var(--c-exercise-bg); border: none; border-top: 1px solid var(--c-exercise-edge); padding: 13px; font-family: var(--sans); font-size: 14px; font-weight: 700; color: var(--c-exercise-h); cursor: pointer; transition: background .15s ease; }
+  .reveal-btn:hover { background: #ede9fe; } .reveal-btn::before { content: '▼ '; font-size: 10px; margin-left: 6px; transition: transform .2s ease; }
+  .exercise-card.open .reveal-btn::before { content: '▲ '; }
+  .solution { padding: 22px 26px; background: var(--c-example-bg); border-top: 1px solid var(--c-example-edge); display: none; }
+  .exercise-card.open .solution { display: block; }
+  .solution .step { background: #fff; border-radius: 8px; padding: 14px 18px; margin: 12px 0; border-right: 3px solid var(--c-example-h); }
+  .solution .step-label { font-size: 11px; font-weight: 700; color: var(--c-example-h); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; font-family: var(--mono); }
+  .solution .final-answer { background: #fff; border: 2px solid var(--c-example-h); border-radius: 10px; padding: 14px 20px; margin-top: 16px; font-weight: 600; }
+  .solution .final-answer::before { content: '✓ '; color: var(--c-example-h); font-weight: 900; }
+  .lead { font-size: 19px; color: var(--ink-soft); border-right: 3px solid var(--indigo-7); padding-right: 20px; margin: 24px 0 32px; font-weight: 400; line-height: 1.6; }
+  .keypoint { background: linear-gradient(90deg, var(--c-formula-bg) 0%, transparent 100%); padding: 14px 18px; border-radius: 8px; margin: 16px 0; border-right: 3px solid var(--c-formula-h); }
+  .keypoint::before { content: '💡 '; font-size: 18px; margin-left: 4px; }
+  .mc-list { list-style: none; margin: 12px 0; padding: 0; }
+  .mc-list li { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: #fff; border: 1px solid var(--rule); border-radius: 8px; margin-bottom: 8px; transition: all .15s ease; }
+  .mc-list li .mc-marker { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--rule); flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); background: #fff; }
+  .mc-list li.correct { background: var(--c-example-bg); border-color: var(--c-example-edge); }
+  .mc-list li.correct .mc-marker { background: var(--c-example-h); color: #fff; border-color: var(--c-example-h); }
+  .mc-list li.correct .mc-marker::after { content: '✓'; }
+  .mc-list li.wrong { background: var(--c-warn-bg); border-color: var(--c-warn-edge); }
+  .mc-list li.wrong .mc-marker { background: var(--c-warn-h); color: #fff; border-color: var(--c-warn-h); }
+  .mc-list li.wrong .mc-marker::after { content: '✗'; }
+  .mc-list li .mc-text { flex: 1; line-height: 1.55; color: var(--ink-soft); }
+  .mc-list li .mc-text .why { display: block; margin-top: 6px; font-size: 13.5px; color: var(--ink-mute); font-style: italic; }
+  .figure { background: #fff; border: 1px solid var(--rule); border-radius: 12px; padding: 18px; margin: 18px 0; text-align: center; box-shadow: var(--shadow-sm); }
+  .figure svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+  .figure .cap { font-size: 13px; color: var(--ink-mute); margin-top: 12px; font-style: italic; }
+  @media (max-width: 900px) { .app { grid-template-columns: 1fr; } .sidebar { position: static; height: auto; } main { padding: 32px 24px 80px; } h1.page-title { font-size: 36px; } h2 { font-size: 26px; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="brand"><a href="index.html">מבוא ללמידת מכונה<br>ולמדעי הנתונים</a></div>
+  <div class="brand-sub">מדריך הכנה למבחן · ד״ר אלה רבינוביץ׳</div>
+  <div class="brand-meta">MTA · קיץ 2026</div>
+
+  <div class="nav-label">פייתון ונתונים</div>
+  <ul class="nav-list">
+    <li><a href="01-numpy.html"><span class="nav-num">1</span>NumPy</a></li>
+    <li><a href="02-pandas.html"><span class="nav-num">2</span>Pandas</a></li>
+  </ul>
+
+  <div class="nav-label">סטטיסטיקה</div>
+  <ul class="nav-list">
+    <li><a href="03-descriptive-stats.html"><span class="nav-num">3</span>סטטיסטיקה תיאורית</a></li>
+    <li><a href="04-inferential-stats.html"><span class="nav-num">4</span>סטטיסטיקה מסקקת</a></li>
+  </ul>
+
+  <div class="nav-label">למידה מונחית</div>
+  <ul class="nav-list">
+    <li><a href="05-linear-regression.html"><span class="nav-num">5</span>רגרסיה לינארית</a></li>
+    <li><a href="06-multiple-regression.html"><span class="nav-num">6</span>רגרסיה מרובה</a></li>
+    <li><a href="07-classification-basics.html"><span class="nav-num">7</span>סיווג בסיסי</a></li>
+    <li><a href="08-neural-networks.html"><span class="nav-num">8</span>רשתות נוירונים</a></li>
+    <li><a href="09-evaluation.html"><span class="nav-num">9</span>הערכת סיווג</a></li>
+  </ul>
+
+  <div class="nav-label">למידה לא מונחית</div>
+  <ul class="nav-list">
+    <li><a href="10-clustering-kmeans.html"><span class="nav-num">10</span>K-Means</a></li>
+    <li><a href="11-clustering-dbscan.html"><span class="nav-num">11</span>DBSCAN</a></li>
+    <li><a href="12-image-and-self-supervised.html"><span class="nav-num">12</span>עיבוד תמונה</a></li>
+  </ul>
+
+  <div class="nav-label">נספח</div>
+  <ul class="nav-list">
+    <li><a href="13-code-patterns.html" class="active"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
+  </ul>
+</aside>
+
+  <span class="page-eyebrow">נספח · פרק 13 · תבניות קוד</span>
+  <h1 class="page-title">תבניות קוד למטלות</h1>
+  <p class="page-subtitle">פטרנים מעשיים שמופיעים במטלות אבל לא במצגות — datetime, matplotlib, sklearn pipeline, ועוד.</p>
+
+  <p class="lead">
+    הפרקים 1-12 בנויים סביב <strong>תיאוריה ומבחן</strong>. אבל המטלות (assignments) דורשות לכתוב קוד עם ספריות
+    שלא תמיד מודגמות פרטנית בהרצאות. הפרק הזה נותן לך את <strong>התבניות</strong> — דוגמאות קצרות שמראות איך לבצע
+    משימות שהמטלות דורשות. <em>זה לא פתרון למטלות</em>, אלא הראיות של ה־patterns שצריך להכיר.
+  </p>
+
+  <div class="keypoint">
+    <strong>מתי להשתמש בפרק:</strong> פתח אותו <em>תוך כדי</em> כתיבת המטלה כשתיתקל בפעולה שלא יודע איך לעשות. דמה אותו ל־cheatsheet, לא לחומר לימודי מסודר.
+  </div>
+
+  <!-- =================== 1. JSON & FILE I/O =================== -->
+  <h2>1. עבודה עם קבצי JSON ובדיקת קיום קובץ</h2>
+
+  <p>שמיש ב־<strong>Homework 0</strong> ובכל מקום שבו יש <span class="term">config.json</span>.</p>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>קריאת JSON וטיפול בשגיאות</div>
+    <div class="box-body">
+
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">json_pattern.py</span></div>
+<pre><code class="language-python">import json
+import os
+
+# קריאת config
+with open('config.json', 'r', encoding='utf8') as f:
+    config = json.load(f)
+
+input_file = config['input_file_path']
+
+# בדיקה שהקובץ קיים — לפני שמנסים לפתוח אותו
+if not os.path.exists(input_file):
+    print(f"Error: file {input_file} does not exist")
+    exit(1)   # יציאה עם קוד שגיאה
+
+# קריאת הקובץ עצמו
+with open(input_file, 'r', encoding='utf8') as f:
+    content = f.read()
+</code></pre>
+
+      <h4>חלופה: try/except (גמיש יותר)</h4>
+<pre><code class="language-python">try:
+    with open(input_file, 'r', encoding='utf8') as f:
+        content = f.read()
+except FileNotFoundError:
+    print(f"Error: file {input_file} not found")
+    exit(1)
+</code></pre>
+
+      <div class="keypoint">
+        <strong>טריק:</strong> <span class="term">with open(...)</span> סוגר את הקובץ אוטומטית גם אם יש שגיאה באמצע. תמיד עדיף על <span class="term">f = open(...)</span>.
+      </div>
+    </div>
+  </div>
+
+  <!-- =================== 2. PANDAS DATETIME =================== -->
+  <h2>2. עבודה עם תאריכים ב־Pandas</h2>
+
+  <p>שמיש ב־<strong>Homework 1 Task 1</strong> (שאלות 7-9 — שבועות, שעות).</p>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>המרת מחרוזות לאובייקטי תאריך</div>
+    <div class="box-body">
+      <p>עמודות תאריך ב־CSV נטענות כ־<span class="term">str</span>. כדי לעבוד איתן באמת — צריך להמיר ל־<span class="term">datetime</span>.</p>
+
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">datetime_basics.py</span></div>
+<pre><code class="language-python">import pandas as pd
+
+df = pd.read_csv('sales.csv')
+df['Date'] = pd.to_datetime(df['Date'])      # מ-'2019-02-15' לאובייקט datetime
+df['Time'] = pd.to_datetime(df['Time'])      # אותו דבר לזמן 'HH:MM'
+
+# אחרי ההמרה — אפשר לחלץ מרכיבים עם accessor .dt
+df['year']       = df['Date'].dt.year         # 2019
+df['month']      = df['Date'].dt.month        # 1-12
+df['day']        = df['Date'].dt.day          # 1-31
+df['hour']       = df['Time'].dt.hour         # 0-23
+df['day_of_week']= df['Date'].dt.dayofweek    # Monday=0, Sunday=6
+df['week']       = df['Date'].dt.isocalendar().week   # מספר שבוע ISO
+</code></pre>
+
+      <h4>סינון לפי טווח תאריכים</h4>
+<pre><code class="language-python"># שבוע הראשון של פברואר 2019: 1-7 לחודש
+mask = (df['Date'] >= '2019-02-01') & (df['Date'] <= '2019-02-07')
+first_week = df[mask]
+
+# או באמצעות month/day:
+first_week = df[(df['Date'].dt.month == 2) & (df['Date'].dt.day <= 7)]
+</code></pre>
+
+      <div class="keypoint">
+        <strong>שאלת קלאסיקה במטלה:</strong> ״מכירות לפי שעה״ → <span class="term">df.groupby(df['Time'].dt.hour)['Total'].sum()</span>. כלומר: קודם להמיר ל־datetime, אז groupby על השעה שמחולצת.
+      </div>
+
+      <h4>שבוע קלנדרי (ISO week)</h4>
+      <p>אם המטלה מדברת על ״לפי שבוע״, מדובר ב־ISO week (לא ״שבוע 1 לחודש״):</p>
+<pre><code class="language-python"># הוסף עמודת ISO week
+df['iso_week'] = df['Date'].dt.isocalendar().week
+
+# סכום מכירות לפי שבוע
+weekly = df.groupby('iso_week')['Total'].sum().sort_index()
+</code></pre>
+    </div>
+  </div>
+
+  <!-- =================== 3. MATPLOTLIB =================== -->
+  <h2>3. גרפים עם Matplotlib</h2>
+
+  <p>שמיש ב־<strong>Homework 1 Task 1</strong> (שאלות 4, 5, 7, 8, 9 — bar/stacked/line).</p>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>3.1 · Bar Chart בודד</div>
+    <div class="box-body">
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">bar_chart.py</span></div>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+import pandas as pd
+
+# נתונים: מספר מוצרים פר־קטגוריה
+counts = df.groupby('Product line')['Quantity'].sum()
+
+# גרף בסיסי — DataFrame/Series ל-bar
+counts.plot(kind='bar')
+plt.title('Total products sold per product line')
+plt.xlabel('Product line')
+plt.ylabel('Quantity')
+plt.xticks(rotation=45)        # סובב labels אם ארוכים
+plt.tight_layout()             # מונע חיתוך של labels
+plt.show()
+</code></pre>
+    </div>
+  </div>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>3.2 · Stacked Bar — חלוקה לפי קטגוריה שנייה</div>
+    <div class="box-body">
+      <p>השאלה הקלאסית: ״גרף עמודות של מכירות פר־מוצר, מפוצל לפי מגדר״.</p>
+
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">stacked_bar.py</span></div>
+<pre><code class="language-python"># שלב 1: groupby על שתי עמודות, ואז unstack
+table = df.groupby(['Product line', 'Gender'])['Quantity'].sum().unstack()
+
+# table נראה כך:
+#                       Gender   Female   Male
+# Product line
+# Electronic accessories            45     50
+# Fashion accessories               60     30
+# ...
+
+# שלב 2: plot עם stacked=True
+table.plot(kind='bar', stacked=True)
+plt.title('Quantity sold per product line, split by gender')
+plt.xlabel('Product line')
+plt.ylabel('Quantity')
+plt.legend(title='Gender')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+</code></pre>
+
+      <div class="keypoint">
+        <strong>הסוד:</strong> stacked bar = groupby על שתי עמודות + <span class="term">.unstack()</span> + <span class="term">plot(kind='bar', stacked=True)</span>. כל הקסם ב־unstack שהופך את המגדר לעמודות נפרדות.
+      </div>
+    </div>
+  </div>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>3.3 · Line Chart</div>
+    <div class="box-body">
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">line_chart.py</span></div>
+<pre><code class="language-python"># דוגמה: מכירות לפי שעה
+hourly = df.groupby(df['Time'].dt.hour)['Total'].sum()
+
+# plot
+hourly.plot(kind='line', marker='o')
+plt.title('Total sales per hour')
+plt.xlabel('Hour of day')
+plt.ylabel('Total sales')
+plt.grid(True)
+plt.show()
+</code></pre>
+
+      <h4>וריאציה: ציר X כל שעה במספרים שלמים</h4>
+<pre><code class="language-python">plt.xticks(range(hourly.index.min(), hourly.index.max() + 1))
+</code></pre>
+    </div>
+  </div>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>3.4 · Histogram עם מספר bins ספציפי</div>
+    <div class="box-body">
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">histogram.py</span></div>
+<pre><code class="language-python">df['pages'].plot(kind='hist', bins=50)
+plt.title('Distribution of book pages')
+plt.xlabel('Pages')
+plt.show()
+
+# לקבוע אם ההתפלגות מוטה — תקפיד להשוות:
+mean_val   = df['pages'].mean()
+median_val = df['pages'].median()
+print(f'mean={mean_val:.2f}, median={median_val:.2f}')
+# אם mean > median → מוטה ימינה (חיובית)
+# אם mean < median → מוטה שמאלה (שלילית)
+# (פירוט בפרק 3)
+</code></pre>
+    </div>
+  </div>
+
+  <!-- =================== 4. SKLEARN PIPELINE =================== -->
+  <h2>4. תבנית sklearn — train/val/test pipeline</h2>
+
+  <p>שמיש ב־<strong>Homework 2</strong>.</p>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>4.1 · Linear Regression מלא</div>
+    <div class="box-body">
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">linreg_pipeline.py</span></div>
+<pre><code class="language-python">import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+
+# 1. טעינה
+df = pd.read_csv('vehicles.csv')
+
+# 2. טיפול בערכים חסרים
+df['year'] = df['year'].fillna(df['year'].median())          # מספריים
+df['transmission'] = df['transmission'].fillna('unknown')    # קטגוריים
+
+# 3. dummy encoding למשתנים קטגוריים
+df_encoded = pd.get_dummies(df, columns=['transmission', 'fuel'],
+                            drop_first=True)   # drop_first למניעת multi-collinearity מושלם
+
+# 4. הפרדה ל-X ו-y
+X = df_encoded.drop(columns=['price'])
+y = df_encoded['price']
+
+# 5. train/test split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# 6. נרמול — fit על train, transform על שניהם
+scaler = StandardScaler()
+X_train_s = scaler.fit_transform(X_train)
+X_test_s  = scaler.transform(X_test)
+
+# 7. אימון
+model = LinearRegression()
+model.fit(X_train_s, y_train)
+
+# 8. הערכה
+y_pred = model.predict(X_test_s)
+print(f'R² on test: {r2_score(y_test, y_pred):.4f}')
+
+# 9. פירוש מקדמים — איזה משתנה הכי משפיע?
+coeffs = pd.DataFrame({
+    'feature': X.columns,
+    'coef': model.coef_
+}).sort_values('coef', key=abs, ascending=False)
+print(coeffs)
+</code></pre>
+
+      <div class="keypoint">
+        <strong>זכור:</strong> <span class="term">fit_transform</span> על train, רק <span class="term">transform</span> על test/validation. אחרת — data leakage.
+      </div>
+    </div>
+  </div>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>4.2 · בדיקת Multi-collinearity</div>
+    <div class="box-body">
+      <p>לפני אימון — בדוק את מטריצת הקורלציות של המשתנים המספריים:</p>
+
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">check_collinearity.py</span></div>
+<pre><code class="language-python">import seaborn as sns
+
+# מטריצת קורלציה של משתנים מספריים בלבד
+numeric_df = X.select_dtypes(include=['float64', 'int64'])
+corr_matrix = numeric_df.corr()
+
+# heatmap לוויזואליזציה
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
+plt.title('Correlation matrix')
+plt.show()
+
+# למצוא זוגות בעלי קורלציה גבוהה (>0.8)
+high_corr = corr_matrix.abs() > 0.8
+# (התעלם מהאלכסון של corr עצמית = 1)
+</code></pre>
+    </div>
+  </div>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>4.3 · Classification - תבנית מלאה</div>
+    <div class="box-body">
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">classification_pipeline.py</span></div>
+<pre><code class="language-python">from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+# שלוש קבוצות: train, validation, test
+df_train = pd.read_csv('data_train.csv')
+df_val   = pd.read_csv('data_validation.csv')
+df_test  = pd.read_csv('data_test.csv')
+
+# פיצול features ו-labels
+X_train, y_train = df_train.iloc[:, :-1], df_train.iloc[:, -1]
+X_val,   y_val   = df_val.iloc[:, :-1],   df_val.iloc[:, -1]
+X_test,  y_test  = df_test.iloc[:, :-1],  df_test.iloc[:, -1]
+
+# נרמול
+scaler = StandardScaler()
+X_train_s = scaler.fit_transform(X_train)
+X_val_s   = scaler.transform(X_val)
+X_test_s  = scaler.transform(X_test)
+
+# חיפוש hyperparameter הכי טוב על validation
+best_k, best_acc = None, 0
+for k in [1, 3, 5, 7, 9, 11, 15, 21]:
+    clf = KNeighborsClassifier(n_neighbors=k)
+    clf.fit(X_train_s, y_train)
+    acc = accuracy_score(y_val, clf.predict(X_val_s))
+    print(f'k={k}: val accuracy = {acc:.4f}')
+    if acc > best_acc:
+        best_acc, best_k = acc, k
+
+# הערכה סופית — פעם אחת בלבד על test!
+clf_final = KNeighborsClassifier(n_neighbors=best_k)
+clf_final.fit(X_train_s, y_train)
+test_acc = accuracy_score(y_test, clf_final.predict(X_test_s))
+print(f'Best k={best_k}, Test accuracy: {test_acc:.4f}')
+</code></pre>
+
+      <div class="keypoint">
+        <strong>חוק זהב:</strong> טיוב hyperparameter על <em>validation</em>, הערכה סופית על <em>test</em>. בשום מקרה לא משתמשים ב-test יותר מפעם אחת.
+      </div>
+    </div>
+  </div>
+
+  <!-- =================== 5. NNR PATTERN =================== -->
+  <h2>5. תבנית: חיפוש שכנים ברדיוס (NNR)</h2>
+
+  <p>שמיש ב־<strong>Homework 2 Task 2</strong>. זאת התבנית הכללית — לא הפתרון.</p>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>הרעיון הכללי</div>
+    <div class="box-body">
+      <p>במקום למצוא K שכנים הקרובים ביותר, מוצאים את <strong>כל</strong> השכנים בתוך radius $r$ ולוקחים majority vote.</p>
+
+      <ol>
+        <li>חשב מטריצת מרחקים בין נקודות.</li>
+        <li>לכל נקודה לסיווג: מצא את כל השכנים במרחק $\leq r$.</li>
+        <li>תן את ה־label של הרוב בקרב השכנים.</li>
+        <li>אם אין שכנים → fallback (לרוב, ה־class הנפוץ ביותר).</li>
+        <li>חזור על שלבים 2-4 עם ערכי $r$ שונים, בחר את ה־$r$ עם הביצועים הטובים על validation.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>חישוב מטריצת מרחקים</div>
+    <div class="box-body">
+      <p><span class="term">scipy.spatial.distance.cdist</span> מחשב את כל המרחקים בין שתי קבוצות נקודות ב־vectorized form (מהיר!):</p>
+
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">distance_matrix.py</span></div>
+<pre><code class="language-python">from scipy.spatial import distance
+import numpy as np
+
+# X_test: m נקודות לסיווג. X_train: n נקודות מתויגות.
+# התוצאה: מטריצה בגודל m×n, כאשר D[i,j] = מרחק מנקודה i ב-test לנקודה j ב-train.
+D = distance.cdist(X_test, X_train, metric='euclidean')
+
+# שורה i במטריצה D = כל המרחקים מנקודה i לכל נקודות הtrain.
+# לכן: כדי למצוא שכנים ברדיוס r לנקודה i:
+neighbors_idx = np.where(D[i] <= r)[0]
+</code></pre>
+
+      <div class="keypoint">
+        <strong>למה cdist?</strong> כי הוא מהיר פי-100 מ-loop. הוא משתמש ב-numpy vectorized operations. בקבצים גדולים זה ההבדל בין דקה למספר שעות.
+      </div>
+    </div>
+  </div>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>Majority Vote — תבנית</div>
+    <div class="box-body">
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">majority_vote.py</span></div>
+<pre><code class="language-python">import numpy as np
+
+def majority_vote(labels):
+    """מקבל מערך של labels, מחזיר את הנפוץ ביותר."""
+    if len(labels) == 0:
+        return None
+    values, counts = np.unique(labels, return_counts=True)
+    return values[np.argmax(counts)]
+
+# שימוש בתוך לולאה על נקודות לסיווג
+predictions = []
+for i in range(len(X_test)):
+    neighbor_indices = np.where(D[i] <= radius)[0]
+    if len(neighbor_indices) == 0:
+        predictions.append(fallback_label)   # אין שכנים → ברירת מחדל
+    else:
+        neighbor_labels = y_train[neighbor_indices]
+        predictions.append(majority_vote(neighbor_labels))
+</code></pre>
+
+      <h4>בחירת ערכי radius לבדיקה</h4>
+      <p>אין ערך אחד אבסולוטי — הוא תלוי בסקלת ה־data. שיטה טובה: לחשב <strong>percentiles של המרחקים</strong> ולנסות אותם:</p>
+
+<pre><code class="language-python">percentiles = [1, 2, 5, 10, 15, 20, 30, 40, 50]
+candidate_radii = sorted(set(np.percentile(D, percentiles)))
+
+# נסה כל אחד, מדוד accuracy על validation
+for r in candidate_radii:
+    preds = predict_with_radius(r, ...)
+    acc = accuracy_score(y_val, preds)
+    print(f'r={r:.4f}, acc={acc:.4f}')
+</code></pre>
+    </div>
+  </div>
+
+  <!-- =================== 6. COMMON GOTCHAS =================== -->
+  <h2>6. מלכודות נפוצות במטלות</h2>
+
+  <div class="box warn">
+    <div class="box-head"><span class="icon">⚠</span>טעויות שכל סטודנט עושה</div>
+    <div class="box-body">
+      <ol>
+        <li>
+          <strong>fit_transform על validation/test.</strong> <em>תמיד</em> רק transform על test, fit רק על train.
+        </li>
+        <li>
+          <strong>שכחת drop_first ב־get_dummies.</strong> בלי <span class="term">drop_first=True</span>, יוצרים multi-collinearity מושלם. הרגרסיה תיכשל או תיתן תוצאות מוזרות.
+        </li>
+        <li>
+          <strong>השוואת תאריכים כמחרוזות.</strong> <span class="term">df['Date'] > '2019-02-01'</span> עובד רק אחרי <span class="term">pd.to_datetime</span>. אחרת זאת השוואת מחרוזות מילולית.
+        </li>
+        <li>
+          <strong>טעות חשובה ב־groupby.</strong> ב־pandas, <span class="term">df.groupby(['a', 'b'])</span> נכון, אבל <span class="term">df.groupby(['a']['b'])</span> שגיאה. שים לב לסוגריים.
+        </li>
+        <li>
+          <strong>seaborn לא מוצג.</strong> אחרי <span class="term">sns.heatmap(...)</span> צריך <span class="term">plt.show()</span>. seaborn לא מציג אוטומטית.
+        </li>
+        <li>
+          <strong>שורה מרובת תווים בקובץ JSON.</strong> JSON תקפיד על תחביר נכון. <span class="term">{'key': 'val'}</span> (גרשיים בודדים) <em>לא תקני</em> — חייב <span class="term">{"key": "val"}</span> (גרשיים כפולים).
+        </li>
+        <li>
+          <strong>הסתמכות על seed לתוצאות זהות.</strong> אם המטלה דורשת תוצאות repeatable — תמיד <span class="term">random_state=42</span> (או כל מספר קבוע) בכל קריאה אקראית.
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- =================== 7. QUICK REFERENCE =================== -->
+  <h2>7. תזכורת מהירה — מה ללכת לאיפה</h2>
+
+  <div class="box summary">
+    <div class="box-head"><span class="icon">📌</span>איפה למצוא מה</div>
+    <div class="box-body">
+      <table>
+        <tr><th>צריך לעשות</th><th>ספרייה</th><th>הקטע בפרק זה</th></tr>
+        <tr><td>קריאת config.json</td><td><span class="term">json</span></td><td>1</td></tr>
+        <tr><td>חילוץ שעה / יום / שבוע מתאריך</td><td><span class="term">pandas</span></td><td>2</td></tr>
+        <tr><td>bar chart פשוט</td><td><span class="term">matplotlib</span></td><td>3.1</td></tr>
+        <tr><td>stacked bar split לפי קטגוריה שנייה</td><td><span class="term">matplotlib + pandas</span></td><td>3.2</td></tr>
+        <tr><td>line chart לפי שעה</td><td><span class="term">matplotlib</span></td><td>3.3</td></tr>
+        <tr><td>histogram עם N bins</td><td><span class="term">matplotlib</span></td><td>3.4</td></tr>
+        <tr><td>dummy encoding לקטגוריות</td><td><span class="term">pd.get_dummies(drop_first=True)</span></td><td>4.1</td></tr>
+        <tr><td>train/test/validation split</td><td><span class="term">sklearn.model_selection</span></td><td>4.1, 4.3</td></tr>
+        <tr><td>StandardScaler נכון (fit_transform על train)</td><td><span class="term">sklearn.preprocessing</span></td><td>4.1</td></tr>
+        <tr><td>LinearRegression + R²</td><td><span class="term">sklearn.linear_model</span></td><td>4.1</td></tr>
+        <tr><td>בדיקת multi-collinearity</td><td><span class="term">pandas.corr() + seaborn</span></td><td>4.2</td></tr>
+        <tr><td>טיוב hyperparameter (K, radius)</td><td>loop על candidates</td><td>4.3, 5</td></tr>
+        <tr><td>מטריצת מרחקים מהירה</td><td><span class="term">scipy.spatial.distance.cdist</span></td><td>5</td></tr>
+        <tr><td>majority vote של labels</td><td><span class="term">np.unique(return_counts=True)</span></td><td>5</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- =================== 8. LINKS BACK =================== -->
+  <h2>8. קישור לפרקי התיאוריה הרלוונטיים</h2>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">🔗</span>אם צריך להבין את ה־״למה״</div>
+    <div class="box-body">
+      <p>הקוד בפרק הזה מציג את ה־״איך״. את ה־״למה״ תמצא בפרקי התיאוריה:</p>
+      <ul>
+        <li><a href="01-numpy.html" style="color:var(--indigo-7);">פרק 1</a> · NumPy ופייתון — מבני נתונים, list/set/dict, list comprehensions</li>
+        <li><a href="02-pandas.html" style="color:var(--indigo-7);">פרק 2</a> · Pandas — DataFrame, groupby, merge, apply</li>
+        <li><a href="03-descriptive-stats.html" style="color:var(--indigo-7);">פרק 3</a> · סטטיסטיקה תיאורית — היסטוגרמות, ממוצע/חציון, hטיה</li>
+        <li><a href="04-inferential-stats.html" style="color:var(--indigo-7);">פרק 4</a> · CI ו־CLT — חישוב Z(p), confidence interval</li>
+        <li><a href="05-linear-regression.html" style="color:var(--indigo-7);">פרק 5</a> · רגרסיה לינארית — R², פירוש מקדמים, dummy encoding</li>
+        <li><a href="06-multiple-regression.html" style="color:var(--indigo-7);">פרק 6</a> · Multi-collinearity — איך לזהות ולתקן</li>
+        <li><a href="07-classification-basics.html" style="color:var(--indigo-7);">פרק 7</a> · KNN, Logistic Regression, feature scaling</li>
+        <li><a href="09-evaluation.html" style="color:var(--indigo-7);">פרק 9</a> · accuracy, confusion matrix, train/val/test methodology</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="height: 60px"></div>
+
+  <div style="display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid var(--rule); margin-top:48px;">
+    <a href="12-image-and-self-supervised.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">→ פרק 12: עיבוד תמונה</a>
+    <a href="index.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">חזרה לעמוד הבית ←</a>
+  </div>
+  </div>
+</main>
+
+</div>
+</body>
+</html>

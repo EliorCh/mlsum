@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הכנה למבחן · מבוא ללמידת מכונה ולמדעי הנתונים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Frank+Ruhl+Libre:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbf9f3; --bg-paper: #fffefa; --ink: #1c1917; --ink-soft: #44403c; --ink-mute: #78716c;
+    --rule: #e7e5e0; --rule-soft: #f1efe9;
+    --indigo-9: #312e81; --indigo-7: #4f46e5; --indigo-3: #c7d2fe; --indigo-1: #eef2ff;
+    --shadow-sm: 0 1px 2px rgba(28,25,23,.04), 0 1px 3px rgba(28,25,23,.06);
+    --shadow: 0 4px 12px rgba(28,25,23,.05), 0 1px 3px rgba(28,25,23,.04);
+    --shadow-md: 0 8px 24px rgba(28,25,23,.08);
+    --serif: 'Frank Ruhl Libre', Georgia, serif;
+    --sans: 'Assistant', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--sans); color: var(--ink); background: var(--bg); line-height: 1.7; font-size: 17px; -webkit-font-smoothing: antialiased; min-height: 100vh;
+    background-image: radial-gradient(circle at 20% 0%, rgba(99,102,241,.06), transparent 45%), radial-gradient(circle at 80% 100%, rgba(245,158,11,.06), transparent 45%);
+    background-attachment: fixed; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 80px 48px 120px; }
+  .hero { margin-bottom: 60px; }
+  .eyebrow { display: inline-block; font-size: 12px; font-weight: 700; color: var(--indigo-7); letter-spacing: .15em; text-transform: uppercase; background: var(--indigo-1); padding: 6px 14px; border-radius: 99px; margin-bottom: 20px; }
+  h1 { font-family: var(--serif); font-size: 56px; line-height: 1.05; font-weight: 700; letter-spacing: -.025em; margin-bottom: 18px; }
+  .subtitle { font-size: 21px; color: var(--ink-soft); max-width: 720px; line-height: 1.5; margin-bottom: 24px; }
+  .meta-bar { display: flex; gap: 24px; flex-wrap: wrap; font-size: 14px; color: var(--ink-mute); margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--rule); }
+  .meta-bar > span { display: flex; align-items: center; gap: 6px; }
+  .meta-bar strong { color: var(--ink); font-weight: 600; }
+  h2 { font-family: var(--serif); font-size: 30px; font-weight: 700; letter-spacing: -.015em; margin: 56px 0 24px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .card { background: var(--bg-paper); border: 1px solid var(--rule); border-radius: 14px; padding: 22px 24px; transition: all .2s ease; text-decoration: none; color: var(--ink); position: relative; display: block; box-shadow: var(--shadow-sm); }
+  .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--indigo-3); }
+  .card.disabled { opacity: .55; cursor: not-allowed; pointer-events: none; }
+  .card-num { font-family: var(--mono); font-size: 12px; color: var(--ink-mute); font-weight: 700; letter-spacing: .08em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .card-num .pill { display: inline-flex; align-items: center; height: 18px; padding: 0 8px; background: var(--indigo-1); color: var(--indigo-7); border-radius: 99px; font-size: 10px; letter-spacing: .12em; }
+  .card-num .pill.done { background: #d1fae5; color: #047857; }
+  .card-num .pill.todo { background: #fef3c7; color: #b45309; }
+  .card-num .pill.pending { background: #f3f4f6; color: #6b7280; }
+  .card h3 { font-family: var(--serif); font-size: 22px; line-height: 1.2; margin-bottom: 8px; font-weight: 700; letter-spacing: -.01em; }
+  .card p { font-size: 14.5px; color: var(--ink-soft); line-height: 1.5; }
+  .card .source { margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-mute); direction: ltr; text-align: left; }
+  .group-label { font-size: 11px; text-transform: uppercase; letter-spacing: .15em; color: var(--ink-mute); font-weight: 700; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); }
+  .group-label:first-of-type { margin-top: 32px; }
+  .info-box { background: var(--bg-paper); border: 1px solid var(--rule); border-radius: 12px; padding: 22px 26px; margin: 32px 0; box-shadow: var(--shadow-sm); }
+  .info-box h4 { font-family: var(--serif); font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--ink); }
+  .info-box p { font-size: 15px; color: var(--ink-soft); margin-bottom: 8px; }
+  .info-box p:last-child { margin-bottom: 0; }
+  .info-box ul { margin: 8px 24px 0; color: var(--ink-soft); font-size: 15px; }
+  .info-box code { font-family: var(--mono); font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; direction: ltr; display: inline-block; }
+  footer { margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--rule); color: var(--ink-mute); font-size: 13px; text-align: center; }
+  @media (max-width: 700px) { .wrap { padding: 48px 24px 80px; } h1 { font-size: 38px; } .subtitle { font-size: 18px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <span class="eyebrow">MTA · קיץ 2026 · ד״ר אלה רבינוביץ׳</span>
+  <h1>מבוא ללמידת מכונה<br>ולמדעי הנתונים</h1>
+  <p class="subtitle">
+    מדריך הכנה למבחן, מאורגן לפי 11 ההרצאות בקורס.
+    כל פרק מבוסס ישירות על מצגת ההרצאה ועל קובץ ה־<span style="font-family:var(--mono); font-size:.9em;">practice-questions</span> המתאים.
+  </p>
+  <div class="meta-bar">
+    <span>📚 <strong>11 פרקים</strong></span>
+    <span>📝 כל פרק כולל תיאוריה, קוד, ותרגילי מבחן עם פתרון</span>
+    <span>🎯 מבוסס על ההרצאות הרשמיות</span>
+  </div>
+</div>
+
+<div class="info-box">
+  <h4>🛠️ איך להשתמש במדריך</h4>
+  <p>
+    כל פרק עומד בפני עצמו — אפשר ללמוד בסדר כלשהו. הסדר המומלץ הוא לפי המספור (כי נושאים בונים זה על זה).
+    כל פרק מכיל את הקטעים הבאים בצבעים קבועים:
+  </p>
+  <ul>
+    <li>🟦 <strong>תיאוריה</strong> (כחול) — הסבר מתוך ההרצאה</li>
+    <li>🟨 <strong>נוסחאות</strong> (זהב) — מה לזכור בעל פה</li>
+    <li>🟩 <strong>דוגמה מפורטת</strong> (ירוק) — חישוב צעד־צעד</li>
+    <li>⬛ <strong>קוד פייתון</strong> (כהה) — מה ראיתם בהרצאה</li>
+    <li>🟥 <strong>טעויות נפוצות</strong> (אדום) — מה לא לעשות במבחן</li>
+    <li>🟪 <strong>תרגילי מבחן</strong> (סגול) — שאלות מה־<code>practice</code> עם פתרון נסתר. נסה לפתור לבד לפני שאתה לוחץ ״הצג פתרון״.</li>
+    <li>⬜ <strong>סיכום מהיר</strong> (אפור) — 5–7 נקודות לשנן ערב הבחינה</li>
+  </ul>
+</div>
+
+<div class="group-label">פייתון ומניפולציות נתונים</div>
+<div class="grid">
+  <a href="01-numpy.html" class="card">
+    <div class="card-num"><span>הרצאה 1</span></div>
+    <h3>NumPy ופייתון מספרי</h3>
+    <p>מערכים, פעולות וקטוריות, חישובים, מיון, ufuncs.</p>
+    <div class="source">lec1a + lec1b · practice (no num)</div>
+  </a>
+  <a href="02-pandas.html" class="card">
+    <div class="card-num"><span>הרצאה 2</span></div>
+    <h3>Pandas</h3>
+    <p>DataFrames, בחירת אינדקסים, נתונים חסרים, groupby, vectorized operations.</p>
+    <div class="source">lec2 · practice2</div>
+  </a>
+</div>
+
+<div class="group-label">סטטיסטיקה</div>
+<div class="grid">
+  <a href="03-descriptive-stats.html" class="card">
+    <div class="card-num"><span>הרצאה 3</span></div>
+    <h3>סטטיסטיקה תיאורית</h3>
+    <p>טיפוסי משתנים, היסטוגרמות, תוחלת/חציון/שכיח, שונות, סטיית תקן, שונות משותפת ומתאם.</p>
+    <div class="source">lec3 · practice3</div>
+  </a>
+  <a href="04-inferential-stats.html" class="card">
+    <div class="card-num"><span>הרצאה 4</span></div>
+    <h3>סטטיסטיקה מסקקת</h3>
+    <p>טבלת Z, התפלגות דגימה של ממוצעים, משפט הגבול המרכזי (CLT), רווח סמך.</p>
+    <div class="source">lec4 · practice4</div>
+  </a>
+</div>
+
+<div class="group-label">למידה מונחית · רגרסיה</div>
+<div class="grid">
+  <a href="05-linear-regression.html" class="card">
+    <div class="card-num"><span>הרצאה 5</span></div>
+    <h3>רגרסיה לינארית — בסיס</h3>
+    <p>OLS, R-squared, פירוש מקדמים, משתנים קטגוריים, dummy encoding.</p>
+    <div class="source">linear-regression-normal-equation · practice5</div>
+  </a>
+  <a href="06-multiple-regression.html" class="card">
+    <div class="card-num"><span>הרצאה 6</span></div>
+    <h3>רגרסיה מרובה ולוגיסטית</h3>
+    <p>Multi-collinearity, adjusted R², feature scaling, רגרסיה לוגיסטית.</p>
+    <div class="source">lec6 · practice6</div>
+  </a>
+</div>
+
+<div class="group-label">למידה מונחית · סיווג</div>
+<div class="grid">
+  <a href="07-classification-basics.html" class="card">
+    <div class="card-num"><span>הרצאה 7</span></div>
+    <h3>סיווג בסיסי — KNN</h3>
+    <p>מרחקים (Euclidean, Manhattan), נרמול נתונים, train/validation/test split.</p>
+    <div class="source">lec7 · practice7</div>
+  </a>
+  <a href="08-neural-networks.html" class="card">
+    <div class="card-num"><span>הרצאה 8</span></div>
+    <h3>רשתות נוירונים</h3>
+    <p>Perceptron, MLP, sigmoid, softmax, cross-entropy, gradient descent.</p>
+    <div class="source">lec8 · practice8 · gradient-descent example</div>
+  </a>
+  <a href="09-evaluation.html" class="card">
+    <div class="card-num"><span>הרצאה 9</span></div>
+    <h3>הערכת מודלי סיווג</h3>
+    <p>Confusion matrix, precision, recall, F1, accuracy, ROC, AUC, K-fold.</p>
+    <div class="source">lec9 · practice9</div>
+  </a>
+</div>
+
+<div class="group-label">למידה לא מונחית</div>
+<div class="grid">
+  <a href="10-clustering-kmeans.html" class="card">
+    <div class="card-num"><span>הרצאה 10</span></div>
+    <h3>K-Means וקיבוץ</h3>
+    <p>אלגוריתם K-Means, בחירת K, מטריקות הערכה (purity, silhouette).</p>
+    <div class="source">lec10 · practice10</div>
+  </a>
+  <a href="11-clustering-dbscan.html" class="card">
+    <div class="card-num"><span>הרצאה 11</span></div>
+    <h3>DBSCAN וקיבוץ מתקדם</h3>
+    <p>DBSCAN, GMM, זיהוי outliers, data drift detection.</p>
+    <div class="source">lec11 · practice11</div>
+  </a>
+</div>
+
+<div class="group-label">יישומים מתקדמים</div>
+<div class="grid">
+  <a href="12-image-and-self-supervised.html" class="card">
+    <div class="card-num"><span>פרק נוסף</span></div>
+    <h3>עיבוד תמונה ו־Self-Supervised</h3>
+    <p>תמונה כ־feature vector, PCA על digits, autoencoders, drift detection.</p>
+    <div class="source">lec9 (end) + lec11 (PCA) + digits notebook</div>
+  </a>
+</div>
+
+<div class="group-label">נספח — תבניות קוד</div>
+<div class="grid">
+  <a href="13-code-patterns.html" class="card">
+    <div class="card-num"><span>נספח</span></div>
+    <h3>תבניות קוד למטלות</h3>
+    <p>JSON, datetime ב־pandas, matplotlib, sklearn pipelines, NNR — patterns שצריך למטלות.</p>
+  </a>
+</div>
+
+<footer>
+  בנוי על בסיס ההרצאות והתרגולים הרשמיים של הקורס · קיץ 2026
+</footer>
+
+</div>
+<script>document.body.classList.add('ready');</script>
+</body>
+</html>
