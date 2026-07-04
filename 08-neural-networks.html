@@ -257,6 +257,101 @@
     </div>
   </div>
 
+  <div class="figure">
+    <svg viewBox="0 0 780 260" xmlns="http://www.w3.org/2000/svg">
+      <!-- LEFT: Sigmoid -->
+      <g transform="translate(20, 20)">
+        <text x="120" y="0" text-anchor="middle" font-family="Assistant" font-size="13" font-weight="700" fill="#1d4ed8">Sigmoid — σ(z) = 1 / (1 + e⁻ᶻ)</text>
+
+        <!-- Axes -->
+        <line x1="10" y1="180" x2="230" y2="180" stroke="#78716c" stroke-width="1"/>
+        <line x1="120" y1="30" x2="120" y2="210" stroke="#78716c" stroke-width="1"/>
+
+        <!-- Reference lines -->
+        <line x1="10" y1="50" x2="230" y2="50" stroke="#e7e5e0" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="15" y="45" font-family="JetBrains Mono" font-size="10" fill="#78716c">1</text>
+        <line x1="10" y1="115" x2="230" y2="115" stroke="#e7e5e0" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="15" y="112" font-family="JetBrains Mono" font-size="10" fill="#78716c">0.5</text>
+
+        <!-- Sigmoid curve: y = 50 + 130/(1+e^(-x/25)) mapped -->
+        <path d="M 10 175 Q 40 175, 70 170 Q 90 160, 105 140 Q 120 115, 135 90 Q 150 65, 170 55 Q 200 50, 230 50"
+              fill="none" stroke="#1d4ed8" stroke-width="3"/>
+
+        <!-- X axis labels -->
+        <text x="10" y="195" font-family="JetBrains Mono" font-size="10" fill="#78716c" text-anchor="middle">-∞</text>
+        <text x="120" y="195" font-family="JetBrains Mono" font-size="10" fill="#78716c" text-anchor="middle">0</text>
+        <text x="230" y="195" font-family="JetBrains Mono" font-size="10" fill="#78716c" text-anchor="middle">+∞</text>
+
+        <text x="120" y="235" text-anchor="middle" font-family="Assistant" font-size="11" fill="#44403c">מוגבל ל־(0, 1)</text>
+        <text x="120" y="250" text-anchor="middle" font-family="Assistant" font-size="11" fill="#44403c">לסיווג בינארי בפלט</text>
+      </g>
+
+      <!-- MIDDLE: ReLU -->
+      <g transform="translate(280, 20)">
+        <text x="120" y="0" text-anchor="middle" font-family="Assistant" font-size="13" font-weight="700" fill="#059669">ReLU — max(0, z)</text>
+
+        <!-- Axes -->
+        <line x1="10" y1="180" x2="230" y2="180" stroke="#78716c" stroke-width="1"/>
+        <line x1="120" y1="30" x2="120" y2="210" stroke="#78716c" stroke-width="1"/>
+
+        <!-- Reference lines -->
+        <line x1="10" y1="180" x2="120" y2="180" stroke="#059669" stroke-width="3"/>
+        <line x1="120" y1="180" x2="230" y2="40" stroke="#059669" stroke-width="3"/>
+
+        <!-- X axis labels -->
+        <text x="10" y="195" font-family="JetBrains Mono" font-size="10" fill="#78716c" text-anchor="middle">-∞</text>
+        <text x="120" y="195" font-family="JetBrains Mono" font-size="10" fill="#78716c" text-anchor="middle">0</text>
+        <text x="230" y="195" font-family="JetBrains Mono" font-size="10" fill="#78716c" text-anchor="middle">+∞</text>
+
+        <text x="60" y="170" font-family="JetBrains Mono" font-size="10" fill="#78716c">= 0</text>
+        <text x="180" y="100" font-family="JetBrains Mono" font-size="10" fill="#78716c">= z</text>
+
+        <text x="120" y="235" text-anchor="middle" font-family="Assistant" font-size="11" fill="#44403c">פשוט ומהיר</text>
+        <text x="120" y="250" text-anchor="middle" font-family="Assistant" font-size="11" fill="#44403c">שכבות פנימיות ברשתות עמוקות</text>
+      </g>
+
+      <!-- RIGHT: Softmax bars -->
+      <g transform="translate(540, 20)">
+        <text x="120" y="0" text-anchor="middle" font-family="Assistant" font-size="13" font-weight="700" fill="#be123c">Softmax — הופך וקטור להתפלגות</text>
+
+        <!-- Left side: input logits as gray bars -->
+        <text x="45" y="25" text-anchor="middle" font-family="Assistant" font-size="10" fill="#78716c">קלט z</text>
+        <g>
+          <rect x="20" y="120" width="20" height="60" fill="#a3a3a3"/>
+          <text x="30" y="195" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#44403c">2.0</text>
+          <rect x="45" y="150" width="20" height="30" fill="#a3a3a3"/>
+          <text x="55" y="195" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#44403c">1.0</text>
+          <rect x="70" y="170" width="20" height="10" fill="#a3a3a3"/>
+          <text x="80" y="195" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#44403c">0.1</text>
+        </g>
+
+        <!-- Arrow -->
+        <g transform="translate(105, 145)">
+          <line x1="0" y1="0" x2="30" y2="0" stroke="#be123c" stroke-width="2"/>
+          <polygon points="30,0 22,-5 22,5" fill="#be123c"/>
+          <text x="15" y="-8" text-anchor="middle" font-family="Assistant" font-size="10" fill="#be123c">softmax</text>
+        </g>
+
+        <!-- Right side: probabilities colored -->
+        <text x="185" y="25" text-anchor="middle" font-family="Assistant" font-size="10" fill="#78716c">הסתברויות</text>
+        <g>
+          <rect x="150" y="80" width="20" height="100" fill="#be123c"/>
+          <text x="160" y="195" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#44403c">0.66</text>
+          <rect x="175" y="128" width="20" height="52" fill="#dc2626" opacity="0.7"/>
+          <text x="185" y="195" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#44403c">0.24</text>
+          <rect x="200" y="160" width="20" height="20" fill="#dc2626" opacity="0.4"/>
+          <text x="210" y="195" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#44403c">0.10</text>
+        </g>
+
+        <text x="120" y="235" text-anchor="middle" font-family="Assistant" font-size="11" fill="#44403c">סכום = 1</text>
+        <text x="120" y="250" text-anchor="middle" font-family="Assistant" font-size="11" fill="#44403c">לסיווג רב־מחלקתי בפלט</text>
+      </g>
+    </svg>
+    <div class="cap">
+      שלוש הפונקציות המרכזיות. Sigmoid לפלט בינארי (הסתברות אחת). ReLU לשכבות פנימיות (פשוט ומהיר). Softmax לוקח וקטור שלם והופך אותו להתפלגות הסתברויות (סכום=1) — הגרסה הרב־מחלקתית של sigmoid.
+    </div>
+  </div>
+
   <div class="box example">
     <div class="box-head"><span class="icon">💡</span>דוגמה מההרצאה: חישוב softmax</div>
     <div class="box-body">

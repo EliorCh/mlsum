@@ -234,6 +234,104 @@
     </div>
   </div>
 
+  <div class="figure">
+    <svg viewBox="0 0 780 320" xmlns="http://www.w3.org/2000/svg">
+      <!-- LEFT: Data + best-fit line + residuals -->
+      <g transform="translate(20, 20)">
+        <text x="180" y="0" text-anchor="middle" font-family="Assistant" font-size="14" font-weight="700" fill="#1c1917">קו התאמה + שיירים (residuals)</text>
+
+        <!-- Axes -->
+        <line x1="30" y1="240" x2="340" y2="240" stroke="#1c1917" stroke-width="1.5"/>
+        <line x1="30" y1="30" x2="30" y2="240" stroke="#1c1917" stroke-width="1.5"/>
+        <text x="20" y="130" text-anchor="middle" font-family="Assistant" font-size="11" fill="#44403c" transform="rotate(-90, 20, 130)">y</text>
+        <text x="180" y="265" text-anchor="middle" font-family="Assistant" font-size="11" fill="#44403c">x</text>
+
+        <!-- Best-fit line: from (30, 200) to (340, 60) approximately -->
+        <line x1="30" y1="215" x2="340" y2="55" stroke="#4f46e5" stroke-width="2.5"/>
+        <text x="290" y="45" font-family="Assistant" font-size="11" font-weight="700" fill="#4f46e5">ŷ = b₀ + b₁x</text>
+
+        <!-- Data points with dashed lines to the line (residuals) -->
+        <!-- Point 1: above line -->
+        <line x1="60" y1="170" x2="60" y2="200" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <circle cx="60" cy="170" r="4" fill="#1c1917"/>
+
+        <!-- Point 2: below line -->
+        <line x1="90" y1="215" x2="90" y2="190" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <circle cx="90" cy="215" r="4" fill="#1c1917"/>
+
+        <!-- Point 3: above line -->
+        <line x1="130" y1="150" x2="130" y2="175" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <circle cx="130" cy="150" r="4" fill="#1c1917"/>
+
+        <!-- Point 4: on the line almost -->
+        <circle cx="170" cy="160" r="4" fill="#1c1917"/>
+
+        <!-- Point 5: below line -->
+        <line x1="210" y1="165" x2="210" y2="140" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <circle cx="210" cy="165" r="4" fill="#1c1917"/>
+
+        <!-- Point 6: above line -->
+        <line x1="240" y1="95" x2="240" y2="125" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <circle cx="240" cy="95" r="4" fill="#1c1917"/>
+
+        <!-- Point 7: below line -->
+        <line x1="270" y1="135" x2="270" y2="110" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <circle cx="270" cy="135" r="4" fill="#1c1917"/>
+
+        <!-- Point 8: on line -->
+        <circle cx="310" cy="80" r="4" fill="#1c1917"/>
+
+        <!-- Annotation -->
+        <line x1="60" y1="185" x2="380" y2="185" stroke="none"/>
+        <text x="55" y="290" text-anchor="start" font-family="Assistant" font-size="12" fill="#dc2626">קווים אדומים = שיירים (yᵢ − ŷᵢ)</text>
+        <text x="55" y="308" text-anchor="start" font-family="Assistant" font-size="12" fill="#4f46e5">הקו מזעם את סכום הריבועים של השיירים</text>
+      </g>
+
+      <!-- RIGHT: R² illustration - variance decomposition -->
+      <g transform="translate(410, 20)">
+        <text x="180" y="0" text-anchor="middle" font-family="Assistant" font-size="14" font-weight="700" fill="#1c1917">R² — פירוק שונות</text>
+
+        <!-- Draw a horizontal reference line (mean) -->
+        <line x1="30" y1="140" x2="340" y2="140" stroke="#78716c" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="345" y="143" font-family="Assistant" font-size="11" fill="#78716c">ȳ</text>
+
+        <!-- Axes -->
+        <line x1="30" y1="240" x2="340" y2="240" stroke="#1c1917" stroke-width="1.5"/>
+        <line x1="30" y1="30" x2="30" y2="240" stroke="#1c1917" stroke-width="1.5"/>
+        <text x="20" y="130" text-anchor="middle" font-family="Assistant" font-size="11" fill="#44403c" transform="rotate(-90, 20, 130)">y</text>
+        <text x="180" y="265" text-anchor="middle" font-family="Assistant" font-size="11" fill="#44403c">x</text>
+
+        <!-- Regression line -->
+        <line x1="30" y1="215" x2="340" y2="55" stroke="#4f46e5" stroke-width="2.5"/>
+
+        <!-- Sample point far above regression -->
+        <circle cx="240" cy="65" r="5" fill="#1c1917"/>
+
+        <!-- SST: from ȳ to actual y -->
+        <line x1="220" y1="140" x2="220" y2="65" stroke="#7c3aed" stroke-width="4"/>
+        <text x="197" y="105" text-anchor="middle" font-family="Assistant" font-size="11" font-weight="700" fill="#7c3aed">SST</text>
+        <text x="197" y="120" text-anchor="middle" font-family="Assistant" font-size="10" fill="#7c3aed">yᵢ - ȳ</text>
+
+        <!-- SSR: from ȳ to predicted -->
+        <line x1="240" y1="140" x2="240" y2="80" stroke="#059669" stroke-width="4"/>
+        <text x="270" y="105" text-anchor="middle" font-family="Assistant" font-size="11" font-weight="700" fill="#059669">SSR</text>
+        <text x="270" y="120" text-anchor="middle" font-family="Assistant" font-size="10" fill="#059669">ŷᵢ - ȳ</text>
+
+        <!-- SSE: from predicted to actual -->
+        <line x1="260" y1="80" x2="260" y2="65" stroke="#dc2626" stroke-width="4"/>
+        <text x="295" y="72" text-anchor="middle" font-family="Assistant" font-size="11" font-weight="700" fill="#dc2626">SSE</text>
+        <text x="295" y="86" text-anchor="middle" font-family="Assistant" font-size="10" fill="#dc2626">yᵢ - ŷᵢ</text>
+
+        <!-- Formula at bottom -->
+        <text x="180" y="290" text-anchor="middle" font-family="Assistant" font-size="12" fill="#1c1917">SST = SSR + SSE</text>
+        <text x="180" y="308" text-anchor="middle" font-family="Assistant" font-size="12" fill="#4f46e5">R² = SSR / SST = חלק השונות שהמודל מסביר</text>
+      </g>
+    </svg>
+    <div class="cap">
+      שמאל: קו הרגרסיה עובר כדי לזעם את הסכום של ריבועי השיירים (SSE). ימין: פירוק השונות — SST הכולל = SSR (מוסבר על ידי המודל) + SSE (לא מוסבר). $R^2$ הוא היחס — כמה מתוך השונות סביב הממוצע המודל תופס.
+    </div>
+  </div>
+
   <!-- 3. R-SQUARED -->
   <h2>מדד ההתאמה: $R^2$</h2>
 
