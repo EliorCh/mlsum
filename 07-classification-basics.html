@@ -75,6 +75,7 @@
   h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
   p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
   ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  strong { unicode-bidi: isolate; }
   .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
   .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
   .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
@@ -90,8 +91,8 @@
   .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
   .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
   .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
-  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
-  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr !important; unicode-bidi: plaintext !important; text-align: left !important; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; direction: ltr !important; unicode-bidi: plaintext !important; }
   .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
   .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
   .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
@@ -177,6 +178,10 @@
   <ul class="nav-list">
     <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
   </ul>
+  <div class="nav-label">אתר נלווה</div>
+  <ul class="nav-list">
+    <li><a href="https://eliorch.github.io/mlque" target="_blank" rel="noopener" style="background: rgba(124, 58, 237, 0.15); border-left: 3px solid #a78bfa;">🎯 אתר תרגול שאלות ↗</a></li>
+  </ul>
 </aside>
 
 <main>
@@ -229,7 +234,7 @@
     <div class="box-body">
       <p>נניח שאנחנו רוצים לחזות אם לקוח יחזיר הלוואה (0/1) על סמך הכנסה. רגרסיה לינארית תיתן ניבוי בטווח רחב (גם שלילי, גם מעל 1) — לא מתאים לאחוז הסתברות.</p>
 
-      <p><strong>הפתרון:</strong> לוקחים את הצירוף הלינארי $b_0 + b_1 x_1 + \ldots + b_k x_k$ ומעבירים אותו בפונקציית <span class="term">sigmoid</span> שמתאימה כל ערך לטווח $[0, 1]$.</p>
+      <p><strong>הפתרון:</strong> לוקחים את הצירוף הלינארי $b_0 + b_1 x_1 + \ldots + b_k x_k$ ומעבירים אותו בפונקציית <strong>sigmoid</strong> שמתאימה כל ערך לטווח $[0, 1]$.</p>
     </div>
   </div>
 
@@ -242,10 +247,10 @@
       <p>משוואת logistic regression:</p>
       $$p(x) = \sigma(b_0 + b_1 x_1 + \ldots + b_k x_k)$$
 
-      <p>הפלט הוא <strong>הסתברות</strong> בין 0 ל־1. כדי לסווג, מחילים <span class="term">threshold</span> (לרוב 0.5):</p>
+      <p>הפלט הוא <strong>הסתברות</strong> בין 0 ל־1. כדי לסווג, מחילים <strong>threshold</strong> (לרוב 0.5):</p>
       <ul>
-        <li>אם $p(x) \geq 0.5$ → סיווג כ־1.</li>
-        <li>אם $p(x) < 0.5$ → סיווג כ־0.</li>
+        <li>אם $p(x) \geq 0.5$ &larr; סיווג כ־1.</li>
+        <li>אם $p(x) < 0.5$ &larr; סיווג כ־0.</li>
       </ul>
 
       <p>פונקציית האימון (loss): <strong>log loss</strong>:</p>
@@ -260,7 +265,7 @@
     <div class="box-head"><span class="icon">📘</span>הרעיון פשוט עד מטופש</div>
     <div class="box-body">
       <p>
-        KNN לא ״לומד״ פונקציה מתמטית. הוא רק שומר את כל ה־<span class="term">training set</span>.
+        KNN לא ״לומד״ פונקציה מתמטית. הוא רק שומר את כל ה־<strong>training set</strong>.
         כשמגיעה נקודה חדשה לסיווג:
       </p>
       <ol>
@@ -339,7 +344,7 @@
   <div class="box theory">
     <div class="box-head"><span class="icon">📘</span>איך בוחרים את K?</div>
     <div class="box-body">
-      <p>K הוא <span class="term">hyperparameter</span> — לא נלמד מהנתונים, צריך לבחור אותו.</p>
+      <p>K הוא <strong>hyperparameter</strong> — לא נלמד מהנתונים, צריך לבחור אותו.</p>
       <ul>
         <li>
           <strong>K קטן</strong> (למשל K=1) — רגיש לרעש. כל outlier יכול לשנות סיווג.
@@ -428,7 +433,7 @@
           <circle cx="150" cy="100" r="4" stroke="#dc2626" stroke-width="2" fill="#fff"/>
         </g>
 
-        <text x="180" y="265" text-anchor="middle" font-family="Assistant" font-size="12" fill="#78716c">רוב מ־15 שכנים → עמידות לרעש</text>
+        <text x="180" y="265" text-anchor="middle" font-family="Assistant" font-size="12" fill="#78716c">רוב מ־15 שכנים &larr; עמידות לרעש</text>
         <text x="180" y="282" text-anchor="middle" font-family="Assistant" font-size="12" fill="#059669">הכללה טובה יותר על נקודות חדשות</text>
       </g>
     </svg>
@@ -449,21 +454,21 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
-# 1. חלוקה
+# 1. Split
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-# 2. נרמול — fit על train, transform על שניהם
+# 2. Scale - fit on train, transform on both
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled  = scaler.transform(X_test)   # בלי fit מחדש!
+X_test_scaled  = scaler.transform(X_test)   # Do NOT re-fit!
 
-# 3. אימון KNN
+# 3. Train KNN
 knn = KNeighborsClassifier(n_neighbors=5, metric='euclidean')
 knn.fit(X_train_scaled, y_train)
 
-# 4. ניבוי והערכה
+# 4. Predict and evaluate
 y_pred = knn.predict(X_test_scaled)
 print(f'Accuracy: {accuracy_score(y_test, y_pred):.3f}')
 </code></pre>
@@ -489,11 +494,11 @@ print(f'Accuracy: {accuracy_score(y_test, y_pred):.3f}')
         </li>
         <li>
           <strong>חשיבה ש־K גדול תמיד טוב.</strong>
-          K = |train set| → תמיד מנבא את הרוב, ללא קשר. הקצה השני שווה גרוע כמו K=1.
+          K = |train set| &larr; תמיד מנבא את הרוב, ללא קשר. הקצה השני שווה גרוע כמו K=1.
         </li>
         <li>
           <strong>אופטימיזציה של K על ה־test set.</strong>
-          זה <span class="term">data leakage</span>. ה־test צריך להישאר לא־נראה עד לבדיקה הסופית.
+          זה <strong>data leakage</strong>. ה־test צריך להישאר לא־נראה עד לבדיקה הסופית.
         </li>
       </ol>
     </div>
@@ -598,7 +603,7 @@ print(f'Accuracy: {accuracy_score(y_test, y_pred):.3f}')
           <p>סטודנט מציע לרגרסיה לוגיסטית פונקציית loss חלופית:</p>
           $$\text{alt loss} = \frac{1}{n}\sum_{i=1}^{n}\begin{cases} 0 & y_i = \hat{y}_i \\ 1 & y_i \neq \hat{y}_i \end{cases}$$
           <p>כאשר $\hat{y}_i = 1$ אם $p \geq 0.5$, אחרת $\hat{y}_i = 0$.</p>
-          <p><strong>(א)</strong> האם הפונקציה תפעל כמצופה (loss נמוך → מודל טוב)?</p>
+          <p><strong>(א)</strong> האם הפונקציה תפעל כמצופה (loss נמוך &larr; מודל טוב)?</p>
           <p><strong>(ב)</strong> האם היא טובה יותר/באותה מידה/פחות טובה מ־log loss המקורית?</p>
         </div>
         <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
@@ -701,28 +706,28 @@ print(f'Accuracy: {accuracy_score(y_test, y_pred):.3f}')
     <div class="box-body">
       <ol>
         <li>
-          <strong>סיווג</strong> = ניבוי קטגוריה מתוך מספר סופי של אפשרויות (בינארי / multi-class / multi-label).
+          <strong>סיווג</strong> הוא ניבוי קטגוריה מתוך מספר סופי של אפשרויות (בינארי, <strong>multi-class</strong>, <strong>multi-label</strong>).
         </li>
         <li>
-          <strong>Logistic regression</strong>: צירוף לינארי → sigmoid → הסתברות → סף 0.5 → סיווג.
+          <strong>Logistic regression</strong> — צירוף לינארי, <strong>sigmoid</strong>, הסתברות, סף 0.5, סיווג.
         </li>
         <li>
-          <strong>KNN לא ״מתאמן״</strong> — שומר את כל ה־train ומשתמש בו בזמן ניבוי.
+          <strong>KNN לא ״מתאמן״</strong> — שומר את כל ה־<strong>train</strong> ומשתמש בו בזמן ניבוי.
         </li>
         <li>
-          <strong>Manhattan</strong> = $\sum |x_i - y_i|$. &nbsp;·&nbsp; <strong>Euclidean</strong> = $\sqrt{\sum (x_i-y_i)^2}$.
+          $\text{Manhattan} = \sum |x_i - y_i|$ &nbsp;·&nbsp; $\text{Euclidean} = \sqrt{\sum (x_i-y_i)^2}$.
         </li>
         <li>
-          <strong>נרמול חובה לפני KNN</strong>! אחרת משתנים עם טווח גדול שולטים.
+          <strong>נרמול חובה לפני KNN</strong> — אחרת משתנים עם טווח גדול שולטים.
         </li>
         <li>
-          <strong>fit על train, transform על שניהם</strong>. אסור fit_transform על test.
+          <strong>fit על train, transform על שניהם</strong> — אסור <span class="term">fit_transform</span> על <strong>test</strong>.
         </li>
         <li>
-          <strong>בחירת K</strong> על validation set, לא על test.
+          <strong>בחירת K</strong> על <strong>validation set</strong>, לא על <strong>test</strong>.
         </li>
         <li>
-          <strong>K = |train set| → בעיה!</strong> תמיד מנבא את המחלקה הנפוצה ביותר.
+          <strong>K = |train set| — בעיה!</strong> תמיד מנבא את המחלקה הנפוצה ביותר.
         </li>
       </ol>
     </div>
@@ -731,7 +736,7 @@ print(f'Accuracy: {accuracy_score(y_test, y_pred):.3f}')
   <div style="height: 60px"></div>
 
   <div style="display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid var(--rule); margin-top:48px;">
-    <a href="06-multiple-regression.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">→ פרק 6: רגרסיה מרובה</a>
+    <a href="06-multiple-regression.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">&larr; פרק 6: רגרסיה מרובה</a>
     <a href="08-neural-networks.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">פרק 8: רשתות נוירונים ←</a>
   </div>
 </main>

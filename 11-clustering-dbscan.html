@@ -75,6 +75,7 @@
   h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
   p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
   ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  strong { unicode-bidi: isolate; }
   .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
   .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
   .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
@@ -90,8 +91,8 @@
   .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
   .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
   .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
-  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
-  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr !important; unicode-bidi: plaintext !important; text-align: left !important; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; direction: ltr !important; unicode-bidi: plaintext !important; }
   .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
   .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
   .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
@@ -177,6 +178,10 @@
   <ul class="nav-list">
     <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
   </ul>
+  <div class="nav-label">אתר נלווה</div>
+  <ul class="nav-list">
+    <li><a href="https://eliorch.github.io/mlque" target="_blank" rel="noopener" style="background: rgba(124, 58, 237, 0.15); border-left: 3px solid #a78bfa;">🎯 אתר תרגול שאלות ↗</a></li>
+  </ul>
 </aside>
 
 <main>
@@ -203,7 +208,7 @@
         <li>לא מבדיל בין נקודות תקינות לבין <strong>רעש</strong> (outliers) — מכריח כל נקודה ל־cluster.</li>
       </ul>
 
-      <p><strong>DBSCAN</strong> (<span class="term">Density-Based Spatial Clustering of Applications with Noise</span>) פותר את כל אלה:</p>
+      <p><strong>DBSCAN</strong> (<strong>Density-Based Spatial Clustering of Applications with Noise</strong>) פותר את כל אלה:</p>
       <ul>
         <li>לא דורש $K$ — מספר ה־clusters מתגלה אוטומטית.</li>
         <li>מתמודד עם <strong>צורות שרירותיות</strong>.</li>
@@ -347,26 +352,26 @@
       <h4>השפעת ε (לפי m קבוע)</h4>
       <ul>
         <li>
-          <strong>ε קטן</strong> → ה־data מתפצל ל־clusters קטנים וצפופים. הרבה נקודות מסומנות כ־noise.
+          <strong>ε קטן</strong> &larr; ה־data מתפצל ל־clusters קטנים וצפופים. הרבה נקודות מסומנות כ־noise.
         </li>
         <li>
-          <strong>ε גדול</strong> → clusters קיימים <em>מתמזגים</em>. מספר נקודות ה־noise <em>יורד</em>.
+          <strong>ε גדול</strong> &larr; clusters קיימים <em>מתמזגים</em>. מספר נקודות ה־noise <em>יורד</em>.
         </li>
       </ul>
 
       <h4>השפעת m (לפי ε קבוע)</h4>
       <ul>
         <li>
-          <strong>m קטן</strong> → יותר clusters. קבוצות קטנות הופכות ל־clusters. פחות outliers, פחות border points.
+          <strong>m קטן</strong> &larr; יותר clusters. קבוצות קטנות הופכות ל־clusters. פחות outliers, פחות border points.
         </li>
         <li>
-          <strong>m גדול</strong> → קבוצות קטנות לא מקבלות הכרה כ־clusters. יותר outliers, יותר border points.
+          <strong>m גדול</strong> &larr; קבוצות קטנות לא מקבלות הכרה כ־clusters. יותר outliers, יותר border points.
         </li>
       </ul>
 
       <h4>בחירת m</h4>
       <p>חוק אצבע ממוצע (לפי מרחק Euclidean): $m \approx 2 \cdot d$, כאשר $d$ = מספר תכונות.</p>
-      <p>לדוגמה: data 2D → m = 4.</p>
+      <p>לדוגמה: data 2D &larr; m = 4.</p>
 
       <h4>בחירת ε — שיטת K-distance plot</h4>
       <p>לכל נקודה, חשב את המרחק לשכן ה־k-י שלה (כאשר k = m). שרטט את הערכים בסדר עולה. ה־ε האופטימלי נמצא <strong>בנקודת המרפק</strong> של הגרף.</p>
@@ -411,7 +416,7 @@
       </table>
 
       <div class="keypoint">
-        <strong>כלל אצבע:</strong> נתונים עגולים, רעש מועט → K-Means. צורות מוזרות או הרבה outliers → DBSCAN.
+        <strong>כלל אצבע:</strong> נתונים עגולים, רעש מועט <strong>K-Means</strong>. צורות מוזרות או הרבה outliers <strong>DBSCAN</strong>.
       </div>
     </div>
   </div>
@@ -531,7 +536,7 @@
     <div class="box-head"><span class="icon">📘</span>מה PCA עושה?</div>
     <div class="box-body">
       <p>בנתונים עם הרבה משתנים (high-dimensional), קשה לוויזואליזציה ולעיתים יש redundancy.
-      <span class="term">PCA</span> (Principal Component Analysis) הופך משתנים מתואמים לקבוצה <em>בלתי מתואמת</em> של ״principal components״ (PCs).</p>
+      <strong>PCA</strong> (Principal Component Analysis) הופך משתנים מתואמים לקבוצה <em>בלתי מתואמת</em> של ״principal components״ (PCs).</p>
 
       <h4>שתי גישות להורדת מימד</h4>
       <ul>
@@ -602,8 +607,8 @@
         <strong>נקודות חשובות מההרצאה:</strong>
         <ul>
           <li>הוקטורים העצמיים <em>בכיוון</em> ה־PCs. תמיד אורכם 1.</li>
-          <li>הערכים העצמיים פרופורציוניים לשונות. הגבוה ביותר → PC1.</li>
-          <li>מטריצת covariance תמיד <strong>סימטרית וריאלית</strong> → תמיד $M$ וקטורים עצמיים <em>אורתוגונליים</em>. זה מה שמבטיח ש־PCs בלתי מתואמים זה עם זה.</li>
+          <li>הערכים העצמיים פרופורציוניים לשונות. הגבוה ביותר &larr; PC1.</li>
+          <li>מטריצת covariance תמיד <strong>סימטרית וריאלית</strong> &larr; תמיד $M$ וקטורים עצמיים <em>אורתוגונליים</em>. זה מה שמבטיח ש־PCs בלתי מתואמים זה עם זה.</li>
           <li>גם תמיד $\lambda \geq 0$ (כי הקובריאנס positive semi-definite).</li>
         </ul>
       </div>
@@ -632,7 +637,7 @@
         <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
         <div class="solution">
 
-          <p><strong>תזכורת:</strong> ε גדול → השכונות גדלות → יותר נקודות עוברות את הסף $\geq m$ ונחשבות core → יותר נקודות מתחברות.</p>
+          <p><strong>תזכורת:</strong> ε גדול &larr; השכונות גדלות &larr; יותר נקודות עוברות את הסף $\geq m$ ונחשבות core &larr; יותר נקודות מתחברות.</p>
 
           <ul class="mc-list">
             <li class="wrong">
@@ -646,7 +651,7 @@
               <span class="mc-marker"></span>
               <span class="mc-text">
                 <strong>2. אשכולות מתמזגים, פחות רעש.</strong>
-                <span class="why">נכון. שכונות יותר גדולות → אשכולות שהיו נפרדים מתחברים. גם נקודות שהיו רעש מתחברות לקלאסטרים.</span>
+                <span class="why">נכון. שכונות יותר גדולות &larr; אשכולות שהיו נפרדים מתחברים. גם נקודות שהיו רעש מתחברות לקלאסטרים.</span>
               </span>
             </li>
             <li class="wrong">
@@ -693,8 +698,8 @@
 
           <p>PCA מחפש את הצירים החדשים לפי השונות המוסברת:</p>
           <ul>
-            <li><strong>PC1</strong> — לאורך הקו הישר → מסביר <strong>100%</strong> מהשונות.</li>
-            <li><strong>PC2</strong> — ניצב לקו → אין שום שונות בכיוון הזה → מסביר <strong>0%</strong>.</li>
+            <li><strong>PC1</strong> — לאורך הקו הישר &larr; מסביר <strong>100%</strong> מהשונות.</li>
+            <li><strong>PC2</strong> — ניצב לקו &larr; אין שום שונות בכיוון הזה &larr; מסביר <strong>0%</strong>.</li>
           </ul>
 
           <div class="final-answer">
@@ -781,31 +786,31 @@
     <div class="box-body">
       <ol>
         <li>
-          <strong>DBSCAN</strong> = Density-Based Spatial Clustering of Applications with Noise.
+          <strong>DBSCAN</strong> — <strong>Density-Based Spatial Clustering of Applications with Noise</strong>.
         </li>
         <li>
-          <strong>שני פרמטרים:</strong> ε (רדיוס) ו־m (מינימום נקודות בשכונה).
+          <strong>שני פרמטרים</strong> — $\varepsilon$ (רדיוס) ו־$m$ (מינימום נקודות בשכונה).
         </li>
         <li>
-          <strong>שלושת סוגי נקודות:</strong> core ($|N_\varepsilon| \geq m$), border (בשכונת core), noise (לא שניהם).
+          <strong>שלושת סוגי נקודות</strong> — <strong>core</strong> ($|N_\varepsilon| \geq m$), <strong>border</strong> (בשכונת <strong>core</strong>), <strong>noise</strong> (לא זה ולא זה).
         </li>
         <li>
-          <strong>ε גדל</strong> → אשכולות מתמזגים, רעש קטן.
+          <strong>$\varepsilon$ גדל</strong> &nbsp;&larr;&nbsp; אשכולות מתמזגים, רעש קטן.
         </li>
         <li>
-          <strong>m גדל</strong> → פחות אשכולות, יותר רעש.
+          <strong>$m$ גדל</strong> &nbsp;&larr;&nbsp; פחות אשכולות, יותר רעש.
         </li>
         <li>
-          <strong>חוק אצבע ל־m:</strong> $\approx 2 \cdot d$ (d = מספר features). 2D → m=4.
+          <strong>חוק אצבע ל־$m$</strong> — בערך $2 \cdot d$ (כאשר $d$ הוא מספר <strong>features</strong>), כלומר 2D נותן $m=4$.
         </li>
         <li>
           <strong>DBSCAN לא דורש לדעת K מראש</strong> — מגלה אוטומטית.
         </li>
         <li>
-          <strong>PCA</strong> מוצא צירים חדשים (PCs) שמקסמים שונות, בלתי מתואמים זה עם זה.
+          <strong>PCA</strong> מוצא צירים חדשים (<strong>PCs</strong>) שמקסמים שונות, בלתי מתואמים זה עם זה.
         </li>
         <li>
-          <strong>מתאם 1 בין features</strong> → PC1 מסביר 100%, PC2 מסביר 0% (כי אין שונות ניצבת).
+          <strong>מתאם 1 בין features</strong> &nbsp;&larr;&nbsp; <strong>PC1</strong> מסביר 100%, <strong>PC2</strong> מסביר 0% (כי אין שונות ניצבת).
         </li>
       </ol>
     </div>
@@ -814,7 +819,7 @@
   <div style="height: 60px"></div>
 
   <div style="display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid var(--rule); margin-top:48px;">
-    <a href="10-clustering-kmeans.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">→ פרק 10: K-Means</a>
+    <a href="10-clustering-kmeans.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">&larr; פרק 10: K-Means</a>
     <a href="index.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">חזרה לעמוד הבית ←</a>
   </div>
 </main>

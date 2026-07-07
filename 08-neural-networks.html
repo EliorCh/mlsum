@@ -75,6 +75,7 @@
   h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
   p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
   ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  strong { unicode-bidi: isolate; }
   .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
   .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
   .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
@@ -90,8 +91,8 @@
   .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
   .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
   .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
-  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
-  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr !important; unicode-bidi: plaintext !important; text-align: left !important; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; direction: ltr !important; unicode-bidi: plaintext !important; }
   .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
   .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
   .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
@@ -176,6 +177,10 @@
   <div class="nav-label">נספח</div>
   <ul class="nav-list">
     <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
+  </ul>
+  <div class="nav-label">אתר נלווה</div>
+  <ul class="nav-list">
+    <li><a href="https://eliorch.github.io/mlque" target="_blank" rel="noopener" style="background: rgba(124, 58, 237, 0.15); border-left: 3px solid #a78bfa;">🎯 אתר תרגול שאלות ↗</a></li>
   </ul>
 </aside>
 
@@ -425,8 +430,8 @@
       <p><strong>למה זה עובד?</strong> רק <em>המחלקה הנכונה</em> תורמת לסכום (כי כל ה־$y$ אחרים הם 0). אז למעשה:</p>
       $$J_i = -\log(p_{i,\text{correct}})$$
       <ul>
-        <li>אם המודל הסתבך והחזיר $p=1$ למחלקה הנכונה → $-\log(1) = 0$ (loss מינימלי).</li>
-        <li>אם הוא טעה והחזיר $p=0.01$ למחלקה הנכונה → $-\log(0.01) \approx 4.6$ (loss גבוה).</li>
+        <li>אם המודל הסתבך והחזיר $p=1$ למחלקה הנכונה &larr; $-\log(1) = 0$ (loss מינימלי).</li>
+        <li>אם הוא טעה והחזיר $p=0.01$ למחלקה הנכונה &larr; $-\log(0.01) \approx 4.6$ (loss גבוה).</li>
       </ul>
     </div>
   </div>
@@ -461,11 +466,11 @@
       <p>כאשר:</p>
       <ul>
         <li>$\nabla f(x_n)$ — הגרדיאנט (השיפוע) בנקודה.</li>
-        <li>$\alpha$ — <span class="term amber">learning rate</span>, גודל הצעד.</li>
+        <li>$\alpha$ — <strong>learning rate</strong>, גודל הצעד.</li>
       </ul>
 
       <div class="keypoint">
-        <strong>קריטי:</strong> <span class="term">learning rate</span> חייב להיות <strong>חיובי</strong>.
+        <strong>קריטי:</strong> <strong>learning rate</strong> חייב להיות <strong>חיובי</strong>.
         אם $\alpha < 0$, נלך ב<em>כיוון העלייה</em> ונתרחק מהמינימום.
       </div>
     </div>
@@ -495,7 +500,7 @@
     <div class="box-body">
       <ul>
         <li>
-          <strong>α גדול מדי</strong> (למשל $\alpha = 1$ עם $f'(x) = 2x$): כל צעד יקפוץ מעבר למינימום. מ־$x=5$ → $x = -5$ → $x = 5$... הלוך וחזור, לא מתכנס.
+          <strong>α גדול מדי</strong> (למשל $\alpha = 1$ עם $f'(x) = 2x$): כל צעד יקפוץ מעבר למינימום. מ־$x=5$ &larr; $x = -5$ &larr; $x = 5$... הלוך וחזור, לא מתכנס.
         </li>
         <li>
           <strong>α קטן מדי</strong>: צעדים קטנטנים. מתכנס לבסוף, אבל לוקח אינסוף איטרציות.
@@ -515,24 +520,19 @@
     <div class="box-body">
       <ol>
         <li>
-          <strong>חשיבה ש־perceptron בלי אקטיבציה לא־לינארית יכול ללמוד XOR.</strong>
-          לא! כל שכבת perceptron בודדת מבוססת על קו ישר. XOR דורש לפחות 2 שכבות + non-linearity.
+          <strong>חשיבה ש־perceptron בלי אקטיבציה לא־לינארית יכול ללמוד XOR</strong> — לא! כל שכבת perceptron בודדת מבוססת על קו ישר, ו־XOR דורש לפחות 2 שכבות עם non-linearity.
         </li>
         <li>
-          <strong>בלבול בין sigmoid ל־softmax.</strong>
-          sigmoid: סקלר → סקלר ב־[0,1] (לסיווג בינארי). softmax: וקטור → וקטור הסתברויות (לסיווג רב־מחלקתי).
+          <strong>בלבול בין sigmoid ל־softmax</strong> — <strong>sigmoid</strong> מקבל סקלר ומחזיר סקלר בטווח $[0,1]$ (סיווג בינארי), <strong>softmax</strong> מקבל וקטור ומחזיר וקטור הסתברויות (סיווג רב־מחלקתי).
         </li>
         <li>
-          <strong>חשיבה ש־cross entropy מודדת על כל המחלקות.</strong>
-          אכן הסכום על כל המחלקות בנוסחה, אבל בפועל רק ה־label הנכון תורם — כי $y_{i,c}=1$ רק שם.
+          <strong>חשיבה ש־cross entropy מודדת על כל המחלקות</strong> — אכן הסכום על כל המחלקות בנוסחה, אבל בפועל רק ה־label הנכון תורם, כי $y_{i,c}=1$ רק שם.
         </li>
         <li>
-          <strong>חשיבה ש־gradient descent מוצא תמיד את המינימום הגלובלי.</strong>
-          לא מובטח! יכול להיתקע ב־local minimum.
+          <strong>חשיבה ש־gradient descent מוצא תמיד את המינימום הגלובלי</strong> — לא מובטח! יכול להיתקע ב־local minimum.
         </li>
         <li>
-          <strong>חשיבה ש־learning rate יכול להיות כל ערך ממשי.</strong>
-          חייב להיות <strong>חיובי</strong>. ערך 0 → אין צעד. ערך שלילי → התרחקות מהמינימום.
+          <strong>חשיבה ש־learning rate יכול להיות כל ערך ממשי</strong> — חייב להיות חיובי. ערך 0 אין צעד, ערך שלילי מתרחק מהמינימום.
         </li>
       </ol>
     </div>
@@ -644,7 +644,7 @@
           <p><strong>הסבר אינטואיטיבי:</strong> המודל היה מאוד בטוח שזה B (90%), אבל בעצם זה היה A. כי הוא הקצה רק 5% למחלקה הנכונה, ה־loss יוצא גדול.</p>
 
           <div class="final-answer">
-            דוגמה: $[0.05, 0.90, 0.05]$ עם label = A → CE ≈ 1.30. &nbsp;·&nbsp; כל פלט שבו $p_{\text{correct}} < 0.37$ עובד.
+            דוגמה: $[0.05, 0.90, 0.05]$ עם label = A &larr; CE ≈ 1.30. &nbsp;·&nbsp; כל פלט שבו $p_{\text{correct}} < 0.37$ עובד.
           </div>
         </div>
       </div>
@@ -692,8 +692,8 @@ print(f'optimal x is: {optimal_x}')</code></pre>
             <div class="step-label">סעיף (א) · α = 1</div>
             <p>$x_0 = 5$, $f'(x) = 2x$.</p>
             <ul>
-              <li>איטרציה 1: $x = 5 - 1 \cdot 10 = -5$ → הדפסה: <strong>−5</strong></li>
-              <li>איטרציה 2: $x = -5 - 1 \cdot (-10) = 5$ → הדפסה: <strong>5</strong></li>
+              <li>איטרציה 1: $x = 5 - 1 \cdot 10 = -5$ &larr; הדפסה: <strong>−5</strong></li>
+              <li>איטרציה 2: $x = -5 - 1 \cdot (-10) = 5$ &larr; הדפסה: <strong>5</strong></li>
               <li>איטרציה 3: $x = -5$</li>
               <li>איטרציה 4: $x = 5$</li>
               <li>תוצאה סופית: <strong>optimal x is: 5</strong></li>
@@ -704,8 +704,8 @@ print(f'optimal x is: {optimal_x}')</code></pre>
           <div class="step">
             <div class="step-label">סעיף (ב) · α = 0.5</div>
             <ul>
-              <li>איטרציה 1: $x = 5 - 0.5 \cdot 10 = 0$ → הדפסה: <strong>0</strong></li>
-              <li>איטרציה 2: $x = 0 - 0.5 \cdot 0 = 0$ → הדפסה: <strong>0</strong></li>
+              <li>איטרציה 1: $x = 5 - 0.5 \cdot 10 = 0$ &larr; הדפסה: <strong>0</strong></li>
+              <li>איטרציה 2: $x = 0 - 0.5 \cdot 0 = 0$ &larr; הדפסה: <strong>0</strong></li>
               <li>איטרציות 3, 4: <strong>0, 0</strong></li>
               <li>תוצאה סופית: <strong>optimal x is: 0</strong></li>
             </ul>
@@ -729,7 +729,7 @@ print(f'optimal x is: {optimal_x}')</code></pre>
           </div>
 
           <div class="final-answer">
-            <strong>(א)</strong> −5, 5, −5, 5 (אוסילציה). <strong>(ב)</strong> 0, 0, 0, 0. <strong>(ג)</strong> ירידה הדרגתית לעבר 0. <strong>(ד)</strong> התרחקות מהמינימום (5 → 6 → 7.2...).
+            <strong>(א)</strong> −5, 5, −5, 5 (אוסילציה). <strong>(ב)</strong> 0, 0, 0, 0. <strong>(ג)</strong> ירידה הדרגתית לעבר 0. <strong>(ד)</strong> התרחקות מהמינימום (5 &larr; 6 &larr; 7.2...).
           </div>
         </div>
       </div>
@@ -745,31 +745,31 @@ print(f'optimal x is: {optimal_x}')</code></pre>
     <div class="box-body">
       <ol>
         <li>
-          <strong>נוירון</strong> = $z = \mathbf{w} \cdot \mathbf{x} + b$, ואז $y = \sigma(z)$.
+          <strong>נוירון</strong> — $z = \mathbf{w} \cdot \mathbf{x} + b$, ואז $y = \sigma(z)$.
         </li>
         <li>
-          <strong>Perceptron</strong> = נוירון פשוט בלי non-linearity. לא יכול ללמוד XOR.
+          <strong>Perceptron</strong> — נוירון פשוט בלי <strong>non-linearity</strong>, לא יכול ללמוד <strong>XOR</strong>.
         </li>
         <li>
-          <strong>Sigmoid</strong> — לפלט בינארי. <strong>Softmax</strong> — לפלט רב־מחלקתי. <strong>ReLU</strong> — לשכבות פנימיות.
+          <strong>Sigmoid</strong> לפלט בינארי &nbsp;·&nbsp; <strong>Softmax</strong> לפלט רב־מחלקתי &nbsp;·&nbsp; <strong>ReLU</strong> לשכבות פנימיות.
         </li>
         <li>
-          <strong>סכום softmax = 1</strong>. תכונה קריטית — זה התפלגות הסתברות.
+          <strong>סכום softmax הוא 1</strong> — תכונה קריטית, זו התפלגות הסתברות.
         </li>
         <li>
-          <strong>Cross Entropy</strong> = $-\sum y_c \log(p_c) = -\log(p_{\text{correct}})$.
+          <strong>Cross Entropy</strong> — $-\sum y_c \log(p_c) = -\log(p_{\text{correct}})$.
         </li>
         <li>
-          <strong>$p_{\text{correct}}$ גבוה</strong> → loss קטן. <strong>$p$ נמוך</strong> → loss גדול.
+          <strong>$p_{\text{correct}}$ גבוה</strong> נותן <strong>loss</strong> קטן &nbsp;·&nbsp; <strong>$p$ נמוך</strong> נותן <strong>loss</strong> גדול.
         </li>
         <li>
-          <strong>Gradient Descent:</strong> $x_{n+1} = x_n - \alpha \nabla f(x_n)$.
+          <strong>Gradient Descent</strong> — $x_{n+1} = x_n - \alpha \nabla f(x_n)$.
         </li>
         <li>
-          <strong>Learning rate</strong> חייב חיובי. גדול מדי → קופץ. קטן מדי → איטי. שלילי → מטפס.
+          <strong>Learning rate</strong> חייב חיובי — גדול מדי קופץ, קטן מדי איטי, שלילי מטפס.
         </li>
         <li>
-          <strong>GD לא מובטח להתכנס</strong> למינימום הגלובלי. יכול ליפול ל־local minimum.
+          <strong>GD לא מובטח להתכנס</strong> למינימום הגלובלי — יכול ליפול ל־<strong>local minimum</strong>.
         </li>
       </ol>
     </div>
@@ -778,7 +778,7 @@ print(f'optimal x is: {optimal_x}')</code></pre>
   <div style="height: 60px"></div>
 
   <div style="display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid var(--rule); margin-top:48px;">
-    <a href="07-classification-basics.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">→ פרק 7: סיווג בסיסי</a>
+    <a href="07-classification-basics.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">&larr; פרק 7: סיווג בסיסי</a>
     <a href="09-evaluation.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">פרק 9: הערכת סיווג ←</a>
   </div>
 </main>

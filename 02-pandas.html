@@ -75,6 +75,7 @@
   h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
   p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
   ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  strong { unicode-bidi: isolate; }
   .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
   .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
   .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
@@ -90,8 +91,8 @@
   .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
   .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
   .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
-  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
-  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr !important; unicode-bidi: plaintext !important; text-align: left !important; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; direction: ltr !important; unicode-bidi: plaintext !important; }
   .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
   .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
   .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
@@ -177,6 +178,10 @@
   <ul class="nav-list">
     <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
   </ul>
+  <div class="nav-label">אתר נלווה</div>
+  <ul class="nav-list">
+    <li><a href="https://eliorch.github.io/mlque" target="_blank" rel="noopener" style="background: rgba(124, 58, 237, 0.15); border-left: 3px solid #a78bfa;">🎯 אתר תרגול שאלות ↗</a></li>
+  </ul>
 </aside>
 
 <main>
@@ -202,13 +207,13 @@
       <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">series.py</span></div>
 <pre><code class="language-python">import pandas as pd
 
-# יצירה מ-dict
+# Create from dict
 s = pd.Series({'a': 1, 'b': 2, 'c': 3})
 # a    1
 # b    2
 # c    3
 
-# גישה
+# Access
 s['a']        # 1
 s.index       # Index(['a', 'b', 'c'])
 s.values      # array([1, 2, 3])
@@ -223,19 +228,19 @@ s.values      # array([1, 2, 3])
     'city':  ['TLV', 'NY', 'TLV']
 })
 
-# גישה לעמודה
+# Column access
 df['age']          # Series
-df.age             # אותו דבר (אם השם הוא identifier חוקי)
+df.age             # Same thing (if name is valid identifier)
 
-# גישה לשורה - שני אופנים
-df.loc[0]          # לפי label
-df.iloc[0]         # לפי position (תמיד 0, 1, 2...)
+# Row access - two ways
+df.loc[0]          # By label
+df.iloc[0]         # By position (always 0, 1, 2...)
 
-# סינון בוליאני
+# Boolean filtering
 df[df['age'] > 28]
 # Bob, Carol
 
-# בחירת עמודות מרובות
+# Multiple column selection
 df[['name', 'city']]
 </code></pre>
     </div>
@@ -256,16 +261,16 @@ df[['name', 'city']]
     'score': [10, 20, 30, 40, 50]
 })
 
-# סכום ציונים פר team
+# Sum of scores per team
 df.groupby('team')['score'].sum()
 # team
 # A    30
 # B   120
 
-# כמה דרכים שונות לעשות את אותו דבר
-df.groupby('team').sum()                 # על כל העמודות המספריות
-df.groupby('team')['score'].sum()        # רק על score
-df.groupby('team').agg({'score': 'sum'}) # agg מאפשר יותר גמישות
+# Different ways to do the same thing
+df.groupby('team').sum()                 # On all numeric columns
+df.groupby('team')['score'].sum()        # Only on score
+df.groupby('team').agg({'score': 'sum'}) # agg allows more flexibility
 </code></pre>
 
       <div class="keypoint">
@@ -282,14 +287,14 @@ df.groupby('team').agg({'score': 'sum'}) # agg מאפשר יותר גמישות
     'sales':   [100, 50, 200, 150]
 })
 
-# סכום sales לכל (region, product)
+# Sum sales per (region, product)
 products.groupby(['region', 'product'])['sales'].sum()
 # region  product
 # r001    444        250    ← 100+150
 # r001    555         50
 # r002    444        200
 
-# שימוש ב־as_index=False — מקבלים DataFrame, לא Series
+# Use as_index=False to get DataFrame, not Series
 result = products.groupby(['region', 'product'], as_index=False)['sales'].sum()
 </code></pre>
     </div>
@@ -311,20 +316,24 @@ result = products.groupby(['region', 'product'], as_index=False)['sales'].sum()
         <tr><th>סוג</th><th>תוצאה</th></tr>
         <tr><td><strong>inner</strong></td><td>רק שורות שמופיעות בשני ה־DataFrames (חיתוך).</td></tr>
         <tr><td><strong>outer</strong></td><td>כל השורות, NaN חסרים (איחוד).</td></tr>
-        <tr><td><strong>left</strong></td><td>כל השורות של df1, NaN אם אין התאמה ב־df2.</td></tr>
-        <tr><td><strong>right</strong></td><td>כל השורות של df2, NaN אם אין התאמה ב־df1.</td></tr>
+        <tr><td><strong>left</strong></td><td>כל השורות של <span class="term">df1</span>, <span class="term">NaN</span> אם אין התאמה ב־<span class="term">df2</span>.</td></tr>
+        <tr><td><strong>right</strong></td><td>כל השורות של <span class="term">df2</span>, <span class="term">NaN</span> אם אין התאמה ב־<span class="term">df1</span>.</td></tr>
       </table>
 
       <h4>תחביר</h4>
       <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">merge_examples.py</span></div>
-<pre><code class="language-python">pd.merge(df1, df2, how='inner')                  # ברירת מחדל
-pd.merge(df1, df2, how='outer')                  # כל השורות
-pd.merge(df1, df2, how='left', on='team')        # mapping לפי team
+<pre><code class="language-python">pd.merge(df1, df2, how='inner')                  # default
+pd.merge(df1, df2, how='outer')                  # all rows
+pd.merge(df1, df2, how='left', on='team')        # map by team
 pd.merge(df1, df2, how='right', left_on='id', right_on='emp_id')
 </code></pre>
 
       <div class="keypoint">
-        <strong>טריק לזיכרון:</strong> חשוב כמו במתמטיקה — inner = ∩, outer = ∪.
+        <strong>טריק לזיכרון</strong> — חשוב על זה כמו במתמטיקה:
+        <div style="margin-top:8px; padding-right:16px;">
+          <div><strong>inner</strong> &nbsp;&larr;&nbsp; חיתוך <span style="direction:ltr; unicode-bidi:isolate; font-family:var(--mono); font-size:.9em;">(∩)</span></div>
+          <div><strong>outer</strong> &nbsp;&larr;&nbsp; איחוד <span style="direction:ltr; unicode-bidi:isolate; font-family:var(--mono); font-size:.9em;">(∪)</span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -335,27 +344,27 @@ pd.merge(df1, df2, how='right', left_on='id', right_on='emp_id')
   <div class="box theory">
     <div class="box-head"><span class="icon">📘</span>פעולות מותאמות אישית על שורות/עמודות</div>
     <div class="box-body">
-      <p>אם הפעולה שאתה רוצה לעשות לא קיימת כפונקציה מובנית, השתמש ב־<span class="term">apply</span> עם <span class="term">lambda</span>.</p>
+      <p>אם הפעולה שאתה רוצה לעשות לא קיימת כפונקציה מובנית, השתמש ב־<strong>apply</strong> עם <span class="term">lambda</span>.</p>
 
       <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">apply_lambda.py</span></div>
 <pre><code class="language-python">df = pd.DataFrame({'name': ['Alice', 'Bob'], 'age': [25, 30]})
 
-# apply על עמודה - lambda מקבל איבר אחד בכל פעם
+# apply on column - lambda gets one element at a time
 df['age_in_5_years'] = df['age'].apply(lambda x: x + 5)
-# 30, 35
+# result: 30, 35
 
-# apply על כל הDataFrame עם axis=1 - lambda מקבל שורה
+# apply on whole DataFrame with axis=1 - lambda gets a row
 df['summary'] = df.apply(lambda row: f"{row['name']}, {row['age']}", axis=1)
-# Alice, 25
-# Bob, 30
+# result: Alice, 25
+#         Bob, 30
 
-# דוגמה נפוצה מהמבחן: עיבוד תאריך
+# Common exam pattern: date processing
 df['date'] = ['12/05/2002', '17/11/2004']
 df['year'] = df['date'].apply(lambda d: int(d.split('/')[2]))
-# 2002, 2004
+# result: 2002, 2004
 
 df['day'] = df['date'].apply(lambda d: int(d.split('/')[0]))
-# 12, 17
+# result: 12, 17
 </code></pre>
 
       <div class="keypoint">
@@ -374,14 +383,14 @@ df['day'] = df['date'].apply(lambda d: int(d.split('/')[0]))
       <h4>1. מציאת ערכים מעל הממוצע (פר־קבוצה)</h4>
       <p>״הראה את התלמידים שהציון שלהם מעל הממוצע של הכיתה שלהם״.</p>
       <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">pattern1.py</span></div>
-<pre><code class="language-python"># 1. חשב ממוצע פר־כיתה
+<pre><code class="language-python"># 1. Compute mean per class
 tmp = students.groupby('class', as_index=False)['grade'].mean()
 tmp.rename(columns={'grade': 'avg_grade'}, inplace=True)
 
-# 2. merge עם הטבלה המקורית
+# 2. Merge with original table
 merged = students.merge(tmp, on='class')
 
-# 3. סנן
+# 3. Filter
 result = merged[merged['grade'] >= merged['avg_grade']]
 </code></pre>
 
@@ -395,8 +404,8 @@ result = students[students['day'] % 2 == 0]
       <h4>3. חישוב על קבוצה עם count + sum</h4>
       <p>שילוב של merge עם left ולחישוב סיכומים.</p>
       <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">pattern3.py</span></div>
-<pre><code class="language-python">pd.merge(df1, df2, how='left')['established'].count()  # סופר non-NaN
-pd.merge(df1, df2, how='left')['established'].sum()    # סכום (NaN מתעלמים אוטומטית)
+<pre><code class="language-python">pd.merge(df1, df2, how='left')['established'].count()  # counts non-NaN
+pd.merge(df1, df2, how='left')['established'].sum()    # sum (NaN auto-ignored)
 </code></pre>
     </div>
   </div>
@@ -414,8 +423,8 @@ pd.merge(df1, df2, how='left')['established'].sum()    # סכום (NaN מתעל�
         <div class="exercise-q">
           <span class="exercise-tag">groupby נכון ולא נכון</span>
           <p>
-            נתון DataFrame בשם <span class="term">products</span> עם עמודות:
-            <span class="term">region</span>, <span class="term">product</span>, <span class="term">sales</span>.
+            נתון DataFrame בשם <strong>products</strong> עם עמודות:
+            <strong>region</strong>, <strong>product</strong>, <strong>sales</strong>.
             הראה את סה״כ המוצרים שנמכרו לפי אזורים. למשל עבור region='r001' ו־product=444 יודפס 250.
           </p>
           <p>סמנו את כל התשובות הנכונות:</p>
@@ -543,7 +552,7 @@ pd.merge(df1, df2, how='left')['established'].sum()    # סכום (NaN מתעל�
       <div class="exercise-card">
         <div class="exercise-q">
           <span class="exercise-tag">apply + groupby + merge</span>
-          <p>נתונה טבלת תלמידים עם עמודות: <span class="term">school_code</span>, <span class="term">class</span>, <span class="term">name</span>, <span class="term">date_of_birth</span> (פורמט DD/MM/YYYY), <span class="term">grade</span>.</p>
+          <p>נתונה טבלת תלמידים עם עמודות: <span class="term">school_code</span>, <strong>class</strong>, <strong>name</strong>, <span class="term">date_of_birth</span> (פורמט DD/MM/YYYY), <strong>grade</strong>.</p>
           <p><strong>(ג) מה מודפס:</strong></p>
           <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">part_c.py</span></div>
 <pre><code class="language-python">tmp = student_data.groupby('class', as_index=False)['grade'].mean()
@@ -589,28 +598,28 @@ print(result)</code></pre>
     <div class="box-body">
       <ol>
         <li>
-          <strong>Series</strong> = עמודה בודדת עם index. <strong>DataFrame</strong> = אוסף של Series.
+          <strong>Series</strong> — עמודה בודדת עם אינדקס. <strong>DataFrame</strong> — אוסף של <strong>Series</strong>.
         </li>
         <li>
-          <strong>df.loc[i]</strong> — גישה לפי label. <strong>df.iloc[i]</strong> — לפי position.
+          <span class="term">df.loc[i]</span> — גישה לפי label &nbsp;·&nbsp; <span class="term">df.iloc[i]</span> — לפי position.
         </li>
         <li>
-          <strong>groupby(['col1', 'col2'])['col3'].sum()</strong> — list של עמודות לקיבוץ, ואז בחירת עמודה.
+          <span class="term">groupby(['col1', 'col2'])['col3'].sum()</span> — רשימה של עמודות לקיבוץ, ואז בחירת עמודה.
         </li>
         <li>
-          <strong>as_index=False</strong> מחזיר DataFrame במקום Series עם index מורכב.
+          <span class="term">as_index=False</span> מחזיר <strong>DataFrame</strong> במקום <strong>Series</strong> עם אינדקס מורכב.
         </li>
         <li>
-          <strong>merge:</strong> inner (חיתוך), outer (איחוד), left (שמירת df1), right (שמירת df2).
+          <strong>סוגי merge</strong> — <strong>inner</strong> (חיתוך), <strong>outer</strong> (איחוד), <strong>left</strong> (שמירת <span class="term">df1</span>), <strong>right</strong> (שמירת <span class="term">df2</span>).
         </li>
         <li>
-          <strong>apply + lambda</strong> מאפשרים פעולות מותאמות. <span class="term">apply(lambda x: ...)</span>.
+          <span class="term">apply + lambda</span> מאפשרים פעולות מותאמות — לדוגמה <span class="term">apply(lambda x: ...)</span>.
         </li>
         <li>
-          <strong>axis=1</strong> ב־apply = לעבד שורה־שורה. <strong>axis=0</strong> = עמודה־עמודה.
+          <span class="term">axis=1</span> ב־<strong>apply</strong> — לעבד שורה־שורה &nbsp;·&nbsp; <span class="term">axis=0</span> — עמודה־עמודה.
         </li>
         <li>
-          <strong>.count()</strong> מתעלם מ־NaN. <strong>.sum()</strong> גם — לכן הוא לא משפיע.
+          <span class="term">.count()</span> מתעלם מ־<span class="term">NaN</span>, וגם <span class="term">.sum()</span> כך — לכן <span class="term">NaN</span> לא משפיע.
         </li>
       </ol>
     </div>
@@ -619,7 +628,7 @@ print(result)</code></pre>
   <div style="height: 60px"></div>
 
   <div style="display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid var(--rule); margin-top:48px;">
-    <a href="01-numpy.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">→ פרק 1: NumPy</a>
+    <a href="01-numpy.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">&larr; פרק 1: NumPy</a>
     <a href="03-descriptive-stats.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">פרק 3: סטטיסטיקה תיאורית ←</a>
   </div>
 </main>

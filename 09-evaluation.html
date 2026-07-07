@@ -282,6 +282,7 @@
   /* ====== KEY RULE: English/code/term INSIDE Hebrew sentences ======
      ONLY for short tokens — never full formulas.
      For full formulas: ALWAYS use display math on its own line.            */
+  strong { unicode-bidi: isolate; }
   .term {
     font-family: var(--mono);
     direction: ltr;
@@ -385,7 +386,9 @@
     padding: 18px 22px !important;
     margin: 0 0 16px 0;
     overflow-x: auto;
-    direction: ltr;
+    direction: ltr !important;
+    unicode-bidi: plaintext !important;
+    text-align: left !important;
     font-size: 14px;
     line-height: 1.7;
     box-shadow: var(--shadow);
@@ -398,6 +401,8 @@
     padding: 0 !important;
     border: none !important;
     color: var(--code-ink) !important;
+    direction: ltr !important;
+    unicode-bidi: plaintext !important;
   }
   .code-label {
     display: flex;
@@ -737,6 +742,10 @@
   <ul class="nav-list">
     <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
   </ul>
+  <div class="nav-label">אתר נלווה</div>
+  <ul class="nav-list">
+    <li><a href="https://eliorch.github.io/mlque" target="_blank" rel="noopener" style="background: rgba(124, 58, 237, 0.15); border-left: 3px solid #a78bfa;">🎯 אתר תרגול שאלות ↗</a></li>
+  </ul>
 </aside>
 
 <!-- ============ MAIN ============ -->
@@ -761,10 +770,10 @@
     <div class="box-body">
       <p>
         נניח שיש לנו אוכלוסייה עם <strong>75% תפוזים</strong> ו־<strong>25% תפוחים</strong>.
-        בונים מסווג טיפש לגמרי שעונה <em>״תפוז״</em> על כל דוגמה ללא תלות בקלט (קוראים לזה <span class="term">majority voice classifier</span>).
+        בונים מסווג טיפש לגמרי שעונה <em>״תפוז״</em> על כל דוגמה ללא תלות בקלט (קוראים לזה <strong>majority voice classifier</strong>).
       </p>
       <p>
-        מה תהיה ה־<span class="term">accuracy</span> של המסווג הזה?
+        מה תהיה ה־<strong>accuracy</strong> של המסווג הזה?
       </p>
       <p>
         בערך <strong>75%</strong> — כי הוא צודק על כל התפוזים (ויש המון כאלה), וטועה על כל התפוחים.
@@ -772,7 +781,7 @@
       </p>
       <div class="keypoint">
         <strong>המסקנה מההרצאה:</strong>
-        כש־class אחד הרבה יותר נפוץ מאחר (אוכלוסייה <span class="term">imbalanced</span>),
+        כש־class אחד הרבה יותר נפוץ מאחר (אוכלוסייה <strong>imbalanced</strong>),
         מדד accuracy בלבד יכול לתת אשליה של ביצועים טובים. צריך מדדים נוספים.
       </div>
     </div>
@@ -822,10 +831,10 @@
         אז:
       </p>
       <ul>
-        <li><span class="term green">TP</span> — המודל אמר positive, וצדק.</li>
-        <li><span class="term green">TN</span> — המודל אמר negative, וצדק.</li>
-        <li><span class="term">FP</span> — המודל אמר positive, אבל טעה (הוא בעצם negative). קוראים לזה גם <em>״התרעת שווא״</em>.</li>
-        <li><span class="term">FN</span> — המודל אמר negative, אבל טעה (פספס positive אמיתי).</li>
+        <li><strong>TP</strong> — המודל אמר positive, וצדק.</li>
+        <li><strong>TN</strong> — המודל אמר negative, וצדק.</li>
+        <li><strong>FP</strong> — המודל אמר positive, אבל טעה (הוא בעצם negative). קוראים לזה גם <em>״התרעת שווא״</em>.</li>
+        <li><strong>FN</strong> — המודל אמר negative, אבל טעה (פספס positive אמיתי).</li>
       </ul>
     </div>
   </div>
@@ -1030,7 +1039,7 @@
 
   <p>
     כל מסווג בינארי שמחזיר <strong>הסתברות</strong> (כמו logistic regression) דורש <strong>סף החלטה</strong>:
-    אם ההסתברות מעל הסף → נסווג כ־1, אחרת → 0. בדרך כלל הסף הוא 0.5, אבל אפשר לשנות אותו.
+    אם ההסתברות מעל הסף &larr; נסווג כ־1, אחרת &larr; 0. בדרך כלל הסף הוא 0.5, אבל אפשר לשנות אותו.
   </p>
 
   <div class="box formula">
@@ -1093,9 +1102,9 @@
     <div class="box-head"><span class="icon">📘</span>איך לקרוא ערכי AUC</div>
     <div class="box-body">
       <ul>
-        <li><strong>AUC = 1.0</strong> → מסווג מושלם.</li>
-        <li><strong>AUC = 0.5</strong> → מסווג אקראי, חסר תועלת.</li>
-        <li><strong>AUC < 0.5</strong> → המסווג הופך — לעיתים פשוט הוא מסווג ההפך ממה שהתכוונו.</li>
+        <li><strong>AUC = 1.0</strong> &larr; מסווג מושלם.</li>
+        <li><strong>AUC = 0.5</strong> &larr; מסווג אקראי, חסר תועלת.</li>
+        <li><strong>AUC < 0.5</strong> &larr; המסווג הופך — לעיתים פשוט הוא מסווג ההפך ממה שהתכוונו.</li>
       </ul>
       <div class="keypoint">
         <strong>חשוב:</strong> ערך AUC <strong>לא תלוי בסף ההחלטה</strong>. הוא מודד עד כמה המסווג <em>מדרג</em> טוב — כלומר עד כמה הסתברויות של חיובי גבוהות מהסתברויות של שלילי, ללא קשר לאיפה נשים את הסף.
@@ -1116,13 +1125,13 @@
   </div>
 <pre><code class="language-python">from sklearn.metrics import confusion_matrix, classification_report
 
-# מטריצת בלבול בסיסית
+# Basic confusion matrix
 cm = confusion_matrix(y_test, y_predicted, labels=[0, 1])
 print(cm)
 # array([[1188,   35],
 #        [  30,  747]])
 
-# דוח מלא: precision, recall, f1, support לכל מחלקה
+# Full report: precision, recall, f1, support per class
 report = classification_report(y_test, y_predicted, digits=3)
 print(report)
 #               precision    recall  f1-score   support
@@ -1143,12 +1152,12 @@ print(report)
           <strong>macro avg</strong> — ממוצע פשוט של המדדים לכל המחלקות. כל מחלקה תורמת באותה מידה, ללא קשר לגודלה.
         </li>
         <li>
-          <strong>weighted avg</strong> — ממוצע משוקלל לפי <span class="term">support</span> (מספר הדוגמאות במחלקה).
+          <strong>weighted avg</strong> — ממוצע משוקלל לפי <strong>support</strong> (מספר הדוגמאות במחלקה).
           מחלקות גדולות תורמות יותר.
         </li>
       </ul>
       <div class="keypoint">
-        <strong>הבדל חשוב:</strong> במקרה של <span class="term">imbalanced classes</span>, macro avg חושף ביצועים גרועים על מחלקות קטנות.
+        <strong>הבדל חשוב:</strong> במקרה של <strong>imbalanced classes</strong>, macro avg חושף ביצועים גרועים על מחלקות קטנות.
         weighted avg יסתיר את הבעיה כי המחלקה הגדולה תקבל את רוב המשקל.
       </div>
     </div>
@@ -1165,14 +1174,14 @@ print(report)
 model = LogisticRegression()
 model.fit(X_train_scaled, y_train)
 
-# במקום predict, נשתמש ב-predict_proba כדי לקבל הסתברויות
+# Instead of predict, use predict_proba to get probabilities
 y_prob = model.predict_proba(X_test_scaled)
-attrition_prob = y_prob[:, 1]   # ההסתברות למחלקה 1
+attrition_prob = y_prob[:, 1]   # probability for class 1
 
-# סף ברירת מחדל הוא 0.5:
+# Default threshold is 0.5:
 y_pred_default = (attrition_prob >= 0.5).astype(int)
 
-# אם רוצים יותר recall (לתפוס יותר מקרים חיוביים) - נוריד את הסף:
+# For more recall (catch more positives) - lower the threshold:
 y_pred_lower = (attrition_prob >= 0.3).astype(int)
 </code></pre>
 
@@ -1198,7 +1207,7 @@ y_pred_lower = (attrition_prob >= 0.3).astype(int)
         </li>
         <li>
           <strong>ערבוב precision של מחלקה אחת עם recall של אחרת</strong> —
-          תמיד תרשום בצד <span class="term">P_A</span>, <span class="term">R_A</span>, <span class="term">P_B</span>, <span class="term">R_B</span> וכך הלאה.
+          תמיד תרשום בצד <strong>P_A</strong>, <strong>R_A</strong>, <strong>P_B</strong>, <strong>R_B</strong> וכך הלאה.
         </li>
         <li>
           <strong>טענה ש־AUC משתנה כששינו את הסף</strong> — לא נכון!
@@ -1327,7 +1336,7 @@ y_pred_lower = (attrition_prob >= 0.3).astype(int)
         <div class="exercise-q">
           <span class="exercise-tag">ROC and AUC</span>
           <p>
-            מודל סיווג בינארי נועד לחזות האם לקוח יעזוב חברה (<span class="term">attrition=1</span>).
+            מודל סיווג בינארי נועד לחזות האם לקוח יעזוב חברה (<strong>attrition=1</strong>).
             עבור המודל חושב ROC curve וערך AUC.
           </p>
           <p>סמנו את כל הטענות הנכונות:</p>
@@ -1347,13 +1356,13 @@ y_pred_lower = (attrition_prob >= 0.3).astype(int)
               <span class="mc-marker"></span>
               <span class="mc-text">
                 <strong>א. ROC מציג precision כפונקציה של recall.</strong>
-                <span class="why">לא נכון. ROC מציג <strong>TPR (recall) כפונקציה של FPR</strong>, לא precision מול recall. הגרף של precision מול recall קיים ונקרא <span class="term">PR curve</span> — אבל זה לא ROC.</span>
+                <span class="why">לא נכון. ROC מציג <strong>TPR (recall) כפונקציה של FPR</strong>, לא precision מול recall. הגרף של precision מול recall קיים ונקרא <strong>PR curve</strong> — אבל זה לא ROC.</span>
               </span>
             </li>
             <li class="correct">
               <span class="mc-marker"></span>
               <span class="mc-text">
-                <strong>ב. AUC קרוב ל־1 → המודל מדרג חיוביים גבוה משליליים.</strong>
+                <strong>ב. AUC קרוב ל־1 &larr; המודל מדרג חיוביים גבוה משליליים.</strong>
                 <span class="why">נכון. זאת בדיוק המשמעות הפרובביליסטית של AUC: ההסתברות שדוגמה חיובית אקראית תקבל הסתברות גבוהה יותר מדוגמה שלילית אקראית.</span>
               </span>
             </li>
@@ -1367,7 +1376,7 @@ y_pred_lower = (attrition_prob >= 0.3).astype(int)
             <li class="wrong">
               <span class="mc-marker"></span>
               <span class="mc-text">
-                <strong>ד. AUC = 0.5 → תמיד טועה.</strong>
+                <strong>ד. AUC = 0.5 &larr; תמיד טועה.</strong>
                 <span class="why">לא נכון. AUC = 0.5 משמעו <strong>ניחוש אקראי</strong> — צודק חצי מהפעמים, טועה חצי. אם <em>תמיד</em> טועה, AUC היה 0.</span>
               </span>
             </li>
@@ -1504,18 +1513,18 @@ y_pred_lower = (attrition_prob >= 0.3).astype(int)
         <li>אמן autoencoder על <strong>נתונים תקינים בלבד</strong> (״normal״).</li>
         <li>הרשת לומדת לשחזר היטב נתונים שדומים למה שראתה באימון.</li>
         <li>על נתונים <strong>חריגים</strong> שלא ראתה — היא תיכשל בשחזור. ה־reconstruction loss יהיה גבוה.</li>
-        <li>כל קלט עם loss מעל סף מסוים → אנומליה.</li>
+        <li>כל קלט עם loss מעל סף מסוים &larr; אנומליה.</li>
       </ol>
 
       <div class="keypoint">
-        <strong>דוגמה מההרצאה:</strong> זיהוי הונאות בכרטיסי אשראי. מאמנים autoencoder על עסקאות חוקיות. עסקת הונאה — הרשת לא תצליח לשחזר → loss גבוה → התראה.
+        <strong>דוגמה מההרצאה:</strong> זיהוי הונאות בכרטיסי אשראי. מאמנים autoencoder על עסקאות חוקיות. עסקת הונאה — הרשת לא תצליח לשחזר &larr; loss גבוה &larr; התראה.
       </div>
 
       <h4>למה autoencoder עדיף על קלאסטרינג רגיל לזיהוי anomalies?</h4>
       <ul>
         <li>קלאסטרינג מבוסס מרחק (כמו K-Means) — מוצא outliers בענן נקודות.</li>
         <li>Autoencoder לומד <strong>תבנית לא־לינארית</strong> (manifold) — יכול לזהות נקודות שמפרות את ה<em>תבנית</em>, גם אם הן לא רחוקות במרחק רגיל.</li>
-        <li>טוב במיוחד עבור <span class="term">non-spherical layouts</span> — צורות מורכבות.</li>
+        <li>טוב במיוחד עבור <strong>non-spherical layouts</strong> — צורות מורכבות.</li>
       </ul>
     </div>
   </div>
@@ -1527,7 +1536,7 @@ y_pred_lower = (attrition_prob >= 0.3).astype(int)
     <div class="box-head"><span class="icon">📘</span>מה זה drift?</div>
     <div class="box-body">
       <p>
-        <span class="term">Drift</span> פירושו שהתפלגות הנתונים <em>משתנה עם הזמן</em>. מודל שאומן על נתונים מ־2022 יכול להיכשל בעולם של 2026.
+        <strong>Drift</strong> פירושו שהתפלגות הנתונים <em>משתנה עם הזמן</em>. מודל שאומן על נתונים מ־2022 יכול להיכשל בעולם של 2026.
       </p>
 
       <h4>שלושת סוגי ה־drift מההרצאה</h4>
@@ -1544,7 +1553,7 @@ y_pred_lower = (attrition_prob >= 0.3).astype(int)
       </ul>
 
       <h4>איך מזהים את הנקודה שבה ה־drift התחיל?</h4>
-      <p>שיטה נפוצה: מודדים <strong>similarity</strong> ל־anchor dataset (חתך ראשוני של הנתונים) כפונקציה של זמן. כאשר ה־similarity יורד באופן עקבי — זה ה־<span class="term">drift point</span>.</p>
+      <p>שיטה נפוצה: מודדים <strong>similarity</strong> ל־anchor dataset (חתך ראשוני של הנתונים) כפונקציה של זמן. כאשר ה־similarity יורד באופן עקבי — זה ה־<strong>drift point</strong>.</p>
 
       <div class="keypoint">
         <strong>הקשר לאוטואנקודרים:</strong> אם reconstruction loss של autoencoder על נתונים חדשים גדל באופן עקבי לעומת data ההיסטורי — סימן ל־drift. הנתונים השתנו, ואין למודל יכולת לשחזר אותם כמו פעם.
@@ -1629,25 +1638,25 @@ y_pred_lower = (attrition_prob >= 0.3).astype(int)
     <div class="box-body">
       <ol>
         <li>
-          <strong>Accuracy לבד מטעה</strong> כשיש imbalanced classes (כמו הדוגמה של 75% תפוזים).
+          <strong>Accuracy לבד מטעה</strong> כשיש <strong>imbalanced classes</strong> (כמו הדוגמה של 75% תפוזים).
         </li>
         <li>
-          <strong>Confusion matrix:</strong> שורה = actual, עמודה = predicted (בקורס שלנו).
+          <strong>Confusion matrix</strong> — שורה היא <strong>actual</strong>, עמודה היא <strong>predicted</strong> (בקורס שלנו).
         </li>
         <li>
-          <strong>Precision</strong> = TP / (TP + FP) — מתוך מה שחזיתי positive, כמה צדקתי.
+          $\text{Precision} = TP / (TP + FP)$ — מתוך מה שחזיתי כ־<strong>positive</strong>, כמה צדקתי.
         </li>
         <li>
-          <strong>Recall</strong> = TP / (TP + FN) — מתוך כל ה־positive האמיתיים, כמה תפסתי.
+          $\text{Recall} = TP / (TP + FN)$ — מתוך כל ה־<strong>positive</strong> האמיתיים, כמה תפסתי.
         </li>
         <li>
-          <strong>F1</strong> = הממוצע ההרמוני של P ו־R. גבוה רק כששניהם גבוהים.
+          <strong>F1</strong> הוא הממוצע ההרמוני של <strong>Precision</strong> ו־<strong>Recall</strong> — גבוה רק כששניהם גבוהים.
         </li>
         <li>
-          <strong>במטריצה רב־מחלקתית:</strong> סכום עמודה X = TP+FP של X. סכום שורה X = TP+FN של X.
+          <strong>במטריצה רב־מחלקתית</strong> — סכום עמודה $X$ הוא $TP+FP$ של $X$, וסכום שורה $X$ הוא $TP+FN$ של $X$.
         </li>
         <li>
-          <strong>AUC לא תלוי בסף.</strong> AUC = 1 מושלם, 0.5 אקראי.
+          <strong>AUC לא תלוי בסף</strong> — $\text{AUC} = 1$ מושלם, $0.5$ אקראי.
         </li>
       </ol>
     </div>

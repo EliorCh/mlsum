@@ -77,6 +77,7 @@
   h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
   p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
   ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  strong { unicode-bidi: isolate; }
   .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
   .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
   .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
@@ -92,8 +93,8 @@
   .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
   .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
   .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
-  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
-  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr !important; unicode-bidi: plaintext !important; text-align: left !important; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; direction: ltr !important; unicode-bidi: plaintext !important; }
   .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
   .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
   .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
@@ -178,6 +179,10 @@
   <ul class="nav-list">
     <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
   </ul>
+  <div class="nav-label">אתר נלווה</div>
+  <ul class="nav-list">
+    <li><a href="https://eliorch.github.io/mlque" target="_blank" rel="noopener" style="background: rgba(124, 58, 237, 0.15); border-left: 3px solid #a78bfa;">🎯 אתר תרגול שאלות ↗</a></li>
+  </ul>
 </aside>
 
 <main>
@@ -199,7 +204,7 @@
     <div class="box-body">
       <p>בהרצאה הציגו את החלוקה הבסיסית של נתונים:</p>
 
-      <h4>1. משתנים קטגוריים <span class="term">categorical variables</span></h4>
+      <h4>1. משתנים קטגוריים <strong>categorical variables</strong></h4>
       <p>ערכים מתוך רשימה סופית של קטגוריות. אין משמעות לגודל המספרי שלהם.</p>
       <ul>
         <li>תשובה לשאלת כן/לא: <em>yes / no</em></li>
@@ -208,15 +213,15 @@
         <li>עונת השנה: <em>חורף, אביב, קיץ, סתיו</em></li>
       </ul>
 
-      <h4>2. משתנים מספריים <span class="term">numerical variables</span></h4>
+      <h4>2. משתנים מספריים <strong>numerical variables</strong></h4>
       <p>שני תתי־טיפוסים:</p>
       <ul>
         <li>
-          <strong>בדידים</strong> (<span class="term">discrete</span>) — ניתנים לספירה (1, 2, 3, ...).
+          <strong>בדידים</strong> (<strong>discrete</strong>) — ניתנים לספירה (1, 2, 3, ...).
           לדוגמה: מספר ילדים במשפחה, ציון במבחן.
         </li>
         <li>
-          <strong>רציפים</strong> (<span class="term">continuous</span>) — בלתי אפשרי לספור (תמיד יש מספר ביניים).
+          <strong>רציפים</strong> (<strong>continuous</strong>) — בלתי אפשרי לספור (תמיד יש מספר ביניים).
           לדוגמה: משקל, גובה, גיל, טמפרטורה.
         </li>
       </ul>
@@ -245,10 +250,10 @@
       <p>שני סוגי תדירויות:</p>
       <ul>
         <li>
-          <strong>תדירות מוחלטת</strong> (<span class="term">frequency</span>) — סך כל התצפיות בכל אינטרבל. הציר Y מראה מספר.
+          <strong>תדירות מוחלטת</strong> (<strong>frequency</strong>) — סך כל התצפיות בכל אינטרבל. הציר Y מראה מספר.
         </li>
         <li>
-          <strong>תדירות יחסית</strong> (<span class="term">relative frequency</span>) — אחוז מסך כל התצפיות. הציר Y מראה ערך בין 0 ל־1.
+          <strong>תדירות יחסית</strong> (<strong>relative frequency</strong>) — אחוז מסך כל התצפיות. הציר Y מראה ערך בין 0 ל־1.
         </li>
       </ul>
       <p>
@@ -264,13 +269,13 @@
   <div class="box formula">
     <div class="box-head"><span class="icon">📐</span>שלוש דרכים לתאר את ה״ערך הטיפוסי״</div>
     <div class="box-body">
-      <p><strong>ממוצע</strong> (<span class="term amber">mean</span>) — סכום מחולק בכמות:</p>
+      <p><strong>ממוצע</strong> (<strong>mean</strong>) — סכום מחולק בכמות:</p>
       $$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
 
-      <p><strong>חציון</strong> (<span class="term amber">median</span>) — הערך באמצע, אחרי מיון.</p>
+      <p><strong>חציון</strong> (<strong>median</strong>) — הערך באמצע, אחרי מיון.</p>
       <p>אם n אי־זוגי: הערך במקום $(n+1)/2$. אם n זוגי: ממוצע של שני הערכים האמצעיים.</p>
 
-      <p><strong>שכיח</strong> (<span class="term amber">mode</span>) — הערך שמופיע הכי הרבה פעמים.</p>
+      <p><strong>שכיח</strong> (<strong>mode</strong>) — הערך שמופיע הכי הרבה פעמים.</p>
     </div>
   </div>
 
@@ -283,12 +288,12 @@
       <p>אם ההתפלגות סימטרית סביב הערך המרכזי (כמו ההתפלגות הנורמלית):</p>
       $$\text{ממוצע} \approx \text{חציון} \approx \text{שכיח}$$
 
-      <h4>הטיה ימינה (חיובית) — <span class="term">right-skewed</span> / <span class="term">positively skewed</span></h4>
+      <h4>הטיה ימינה (חיובית) — <strong>right-skewed</strong> / <strong>positively skewed</strong></h4>
       <p>הזנב ארוך ימינה — ערכים גדולים חריגים מושכים את הממוצע למעלה:</p>
       $$\text{ממוצע} \;>\; \text{חציון}$$
       <p>דוגמה: הכנסות בישראל. רוב האנשים מרוויחים פחות מהממוצע כי המיליארדרים הבודדים מושכים את הממוצע למעלה.</p>
 
-      <h4>הטיה שמאלה (שלילית) — <span class="term">left-skewed</span> / <span class="term">negatively skewed</span></h4>
+      <h4>הטיה שמאלה (שלילית) — <strong>left-skewed</strong> / <strong>negatively skewed</strong></h4>
       <p>הזנב ארוך שמאלה — ערכים קטנים חריגים מושכים את הממוצע למטה:</p>
       $$\text{ממוצע} \;<\; \text{חציון}$$
 
@@ -336,13 +341,13 @@
   <div class="box formula">
     <div class="box-head"><span class="icon">📐</span>הנוסחאות שאתה חייב לדעת</div>
     <div class="box-body">
-      <p><strong>שונות אוכלוסיה</strong> (<span class="term amber">population variance</span>):</p>
+      <p><strong>שונות אוכלוסיה</strong> (<strong>population variance</strong>):</p>
       $$\sigma^2 = \frac{1}{N}\sum_{i=1}^{N}(x_i - \mu)^2$$
 
-      <p><strong>שונות מדגמית</strong> (<span class="term amber">sample variance</span>) — מחלקים ב־$n-1$ במקום $n$:</p>
+      <p><strong>שונות מדגמית</strong> (<strong>sample variance</strong>) — מחלקים ב־$n-1$ במקום $n$:</p>
       $$s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2$$
 
-      <p><strong>סטיית תקן</strong> (<span class="term amber">standard deviation</span>) — השורש של השונות:</p>
+      <p><strong>סטיית תקן</strong> (<strong>standard deviation</strong>) — השורש של השונות:</p>
       $$\sigma = \sqrt{\sigma^2} \quad ; \quad s = \sqrt{s^2}$$
     </div>
   </div>
@@ -373,7 +378,7 @@
   <!-- ============== 5. PYTHON CODE ============== -->
   <h2>קוד פייתון מההרצאה</h2>
 
-  <p>בהרצאה הראו איך לחשב כל זה ב־pandas על <span class="term">IMDB-Movie-Data.csv</span>:</p>
+  <p>בהרצאה הראו איך לחשב כל זה ב־pandas על <strong>IMDB-Movie-Data.csv</strong>:</p>
 
   <div class="code-label">
     <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
@@ -384,7 +389,7 @@ import numpy as np
 
 movies_df = pd.read_csv("IMDB-Movie-Data.csv", index_col="Rank")
 
-# סיכום מהיר של כל העמודות המספריות
+# Quick summary of all numeric columns
 movies_df.describe()
 #               Year      Runtime    Rating       Revenue
 # count   1000.000000  1000.00000  1000.000   872.000000
@@ -396,20 +401,20 @@ movies_df.describe()
 # 75%     2016.000000   123.00000    7.4000   239.909800
 # max     2016.000000   191.00000    9.0000   936.630000
 
-# חישוב פר־עמודה
+# Per-column computation
 revenue = movies_df['Revenue']
 print('mean:', round(np.mean(revenue), 3),
       'std:',  round(np.std(revenue), 3))
 # mean: 82.956 std: 103.194
 
-# שים לב: עבור Revenue, std גדול מהממוצע — הפיזור עצום!
-# זה רמז להתפלגות מוטה חיובית (קצת סרטים מרוויחים הרבה מאוד)
+# Note: for Revenue, std > mean - huge dispersion!
+# hint of positive skew (few films earn a lot)
 </code></pre>
 
   <div class="keypoint">
     <strong>טיפ:</strong> <span class="term">describe()</span> נותן לך הרבה ב־one-liner:
     count, mean, std, min, 25%, 50% (חציון), 75%, max.
-    אם אתה רואה ש־<span class="term">mean ≠ 50%</span> (חציון) — יש הטיה.
+    אם אתה רואה ש־<strong>mean ≠ 50%</strong> (חציון) — יש הטיה.
   </div>
 
   <!-- ============== 6. COVARIANCE & CORRELATION ============== -->
@@ -454,9 +459,9 @@ print('mean:', round(np.mean(revenue), 3),
       <p>תכונות:</p>
       <ul>
         <li>הערך תמיד בטווח $[-1, +1]$.</li>
-        <li>$r = +1$ → קשר חיובי <strong>מושלם</strong> (כל הנקודות על קו עולה).</li>
-        <li>$r = -1$ → קשר שלילי <strong>מושלם</strong> (כל הנקודות על קו יורד).</li>
-        <li>$r = 0$ → אין קשר לינארי. (חשוב — יכול להיות קשר לא־לינארי!)</li>
+        <li>$r = +1$ &larr; קשר חיובי <strong>מושלם</strong> (כל הנקודות על קו עולה).</li>
+        <li>$r = -1$ &larr; קשר שלילי <strong>מושלם</strong> (כל הנקודות על קו יורד).</li>
+        <li>$r = 0$ &larr; אין קשר לינארי. (חשוב — יכול להיות קשר לא־לינארי!)</li>
       </ul>
 
       <div class="keypoint">
@@ -473,7 +478,7 @@ print('mean:', round(np.mean(revenue), 3),
   </div>
 <pre><code class="language-python">import pandas as pd
 
-# מטריצת מתאם של כל הזוגות
+# Correlation matrix of all pairs
 movies_df.corr()
 #             Year   Runtime   Rating    Votes   Revenue
 # Year     1.0000   -0.1647   -0.2117  -0.4116  -0.1175
@@ -482,8 +487,8 @@ movies_df.corr()
 # Votes   -0.4116    0.4070    0.5117   1.0000   0.6379  
 # Revenue -0.1175    0.2475    0.2185   0.6379   1.0000
 
-# בין Votes ל-Revenue: r = 0.64 — קשר חיובי בינוני־חזק
-# בין Year ל-Votes: r = -0.41 — סרטים חדשים יותר קיבלו פחות votes (זמן צבירה)
+# Between Votes and Revenue: r = 0.64 - moderate-strong positive
+# Between Year and Votes: r = -0.41 - newer films got fewer votes (accumulation time)
 </code></pre>
 
   <!-- ============== 7. COMMON MISTAKES ============== -->
@@ -495,11 +500,11 @@ movies_df.corr()
       <ol>
         <li>
           <strong>בלבול בין שונות לסטיית תקן.</strong>
-          ״השונות היא 49״ → סטיית התקן היא $\sqrt{49} = 7$, לא 49.
+          ״השונות היא 49״ &larr; סטיית התקן היא $\sqrt{49} = 7$, לא 49.
           תמיד תוודא איזה משני אתה רואה.
         </li>
         <li>
-          <strong>הטיה הפוכה.</strong> זנב ימני (ערכים גדולים חריגים) → הטיה <em>חיובית</em>, ממוצע > חציון.
+          <strong>הטיה הפוכה.</strong> זנב ימני (ערכים גדולים חריגים) &larr; הטיה <em>חיובית</em>, ממוצע > חציון.
           הרבה סטודנטים מתבלבלים וחושבים שזנב ימני = הטיה שלילית.
         </li>
         <li>
@@ -602,7 +607,7 @@ movies_df.corr()
               <span class="mc-text">
                 <strong>3. רווח הסמך מ־A יהיה צר יותר.</strong>
                 <span class="why">לא נכון. רוחב רווח הסמך פרופורציוני ל־$s/\sqrt{n}$.
-                  אותו $n$ אבל $s_A > s_B$ → רווח סמך של A יהיה <em>רחב יותר</em>, לא צר.</span>
+                  אותו $n$ אבל $s_A > s_B$ &larr; רווח סמך של A יהיה <em>רחב יותר</em>, לא צר.</span>
               </span>
             </li>
             <li class="wrong">
@@ -720,7 +725,7 @@ movies_df.corr()
                 <span class="mc-text">
                   <strong>1. ממוצע נמוך מהחציון.</strong>
                   <span class="why">נכון. ההתפלגות מוטה <strong>שלילית</strong> (זנב שמאלי ארוך — יש אבטיחים בטווחים נמוכים יותר מאשר גבוהים).
-                    הסכמים: 4% + 12% = 16% משמאל למרכז, מעבר ל־5 ק״ג רק 10% + מעט. אז הזנב השמאלי משמעותי → ממוצע < חציון.</span>
+                    הסכמים: 4% + 12% = 16% משמאל למרכז, מעבר ל־5 ק״ג רק 10% + מעט. אז הזנב השמאלי משמעותי &larr; ממוצע < חציון.</span>
                 </span>
               </li>
               <li class="wrong">
@@ -772,25 +777,25 @@ movies_df.corr()
     <div class="box-body">
       <ol>
         <li>
-          <strong>טיפוסי משתנים:</strong> קטגורי / מספרי בדיד / מספרי רציף. גם משתנה עם סדר (עונה, סנטימנט) נחשב קטגורי.
+          <strong>טיפוסי משתנים</strong> — קטגורי, מספרי בדיד, מספרי רציף. גם משתנה עם סדר (עונה, סנטימנט) נחשב קטגורי.
         </li>
         <li>
-          <strong>היסטוגרמה</strong> מציגה תדירות (מוחלטת או יחסית) לפי אינטרבלים. סכום היחסיים = 1.
+          <strong>היסטוגרמה</strong> מציגה תדירות (מוחלטת או יחסית) לפי אינטרבלים — סכום היחסיים הוא 1.
         </li>
         <li>
-          <strong>הטיה חיובית (זנב ימין):</strong> ממוצע > חציון. <strong>הטיה שלילית:</strong> ממוצע < חציון.
+          <strong>הטיה חיובית (זנב ימין)</strong> — ממוצע גדול מחציון &nbsp;·&nbsp; <strong>הטיה שלילית</strong> — ממוצע קטן מחציון.
         </li>
         <li>
-          <strong>שונות מדגמית</strong> מחלקת ב־$n-1$, לא $n$ (תיקון Bessel).
+          <strong>שונות מדגמית</strong> מחלקת ב־$n-1$ ולא ב־$n$ (תיקון <strong>Bessel</strong>).
         </li>
         <li>
-          <strong>סטיית תקן = √שונות.</strong> אם נתון שונות 49, סטיית התקן היא 7.
+          <strong>סטיית תקן = שורש השונות</strong> — אם נתונה שונות 49, סטיית התקן היא 7.
         </li>
         <li>
-          <strong>קובריאנס</strong> תלוי ביחידות, <strong>מתאם פירסון r</strong> לא — תמיד בין $-1$ ל־$+1$.
+          <strong>קובריאנס</strong> תלוי ביחידות, <strong>מתאם פירסון r</strong> לא — הוא תמיד בין $-1$ ל־$+1$.
         </li>
         <li>
-          <strong>קורלציה ≠ סיבתיות.</strong> $r = 0$ אומר ״אין קשר לינארי״, לא ״אין קשר״.
+          <strong>קורלציה איננה סיבתיות</strong> — $r = 0$ אומר ״אין קשר לינארי״, לא ״אין קשר״.
         </li>
       </ol>
     </div>

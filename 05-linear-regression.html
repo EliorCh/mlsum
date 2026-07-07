@@ -75,6 +75,7 @@
   h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
   p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
   ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  strong { unicode-bidi: isolate; }
   .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
   .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
   .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
@@ -90,8 +91,8 @@
   .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
   .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
   .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
-  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
-  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr !important; unicode-bidi: plaintext !important; text-align: left !important; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; direction: ltr !important; unicode-bidi: plaintext !important; }
   .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
   .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
   .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
@@ -177,6 +178,10 @@
   <ul class="nav-list">
     <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
   </ul>
+  <div class="nav-label">אתר נלווה</div>
+  <ul class="nav-list">
+    <li><a href="https://eliorch.github.io/mlque" target="_blank" rel="noopener" style="background: rgba(124, 58, 237, 0.15); border-left: 3px solid #a78bfa;">🎯 אתר תרגול שאלות ↗</a></li>
+  </ul>
 </aside>
 
 <main>
@@ -228,7 +233,7 @@
       <p><strong>למה ריבוע ולא ערך מוחלט?</strong></p>
       <ul>
         <li>הריבוע מעניש שגיאות גדולות יותר מאשר שגיאות קטנות (קליבריה לערכי קצה).</li>
-        <li>הריבוע גוזיר וחלק → אפשר לפתור אנליטית או בגרדיאנט.</li>
+        <li>הריבוע גוזיר וחלק &larr; אפשר לפתור אנליטית או בגרדיאנט.</li>
         <li>זה מה שמוביל לפתרון יחיד וברור (least squares).</li>
       </ul>
     </div>
@@ -349,8 +354,8 @@
 
       <p>הפירוש: <strong>איזה אחוז מהשונות במשתנה התלוי המודל מסביר?</strong></p>
       <ul>
-        <li>$R^2 = 1$ → המודל מסביר את כל השונות (התאמה מושלמת).</li>
-        <li>$R^2 = 0$ → המודל לא טוב יותר מסתם לנחש את הממוצע.</li>
+        <li>$R^2 = 1$ &larr; המודל מסביר את כל השונות (התאמה מושלמת).</li>
+        <li>$R^2 = 0$ &larr; המודל לא טוב יותר מסתם לנחש את הממוצע.</li>
         <li>ערך טיפוסי במחקרים אמיתיים: 0.6-0.9 נחשב טוב.</li>
       </ul>
     </div>
@@ -363,7 +368,7 @@
         כשמוסיפים משתנה לרגרסיה, $R^2$ <strong>תמיד עולה (או נשאר אותו דבר)</strong>, גם אם המשתנה לא רלוונטי בכלל!
         זה כי המודל תמיד יכול ״לנצל״ את המשתנה הנוסף, אפילו במידה זעירה.
       </p>
-      <p>הפתרון: $R^2$ מתוקן (<span class="term">adjusted R²</span>):</p>
+      <p>הפתרון: $R^2$ מתוקן (<strong>adjusted R²</strong>):</p>
 
       $$R^2_{\text{adj}} = 1 - (1 - R^2) \cdot \frac{n - 1}{n - k - 1}$$
 
@@ -386,7 +391,7 @@
   </div>
 <pre><code class="language-python">import statsmodels.api as sm
 
-X = sm.add_constant(X)   # מוסיף עמודת אחדות עבור b0
+X = sm.add_constant(X)   # Add column of ones for b0
 model = sm.OLS(y, X).fit()
 print(model.summary())
 
@@ -460,7 +465,7 @@ print(model.summary())
       <ol>
         <li>
           <strong>״גודל המקדם = השפעה גדולה״.</strong>
-          לא נכון בלי <span class="term">feature scaling</span>! מקדם של 0.0001 עבור משתנה שערכיו 10,000-100,000 חזק יותר ממקדם של 5 עבור משתנה שערכיו 0-1.
+          לא נכון בלי <strong>feature scaling</strong>! מקדם של 0.0001 עבור משתנה שערכיו 10,000-100,000 חזק יותר ממקדם של 5 עבור משתנה שערכיו 0-1.
         </li>
         <li>
           <strong>שכחה של $R^2$ עולה אוטומטית עם משתנים.</strong>
@@ -515,35 +520,35 @@ print(model.summary())
             <li class="wrong">
               <span class="mc-marker"></span>
               <span class="mc-text">
-                <strong>1. הורדת $x_3$ → ירידה ב־$R^2$.</strong>
-                <span class="why">לא נכון. $x_3$ לא מובהק (p גבוה) → הוא לא תורם משמעותית. הורדתו לא תוריד את $R^2$ באופן משמעותי.</span>
+                <strong>1. הורדת $x_3$ &larr; ירידה ב־$R^2$.</strong>
+                <span class="why">לא נכון. $x_3$ לא מובהק (p גבוה) &larr; הוא לא תורם משמעותית. הורדתו לא תוריד את $R^2$ באופן משמעותי.</span>
               </span>
             </li>
             <li class="wrong">
               <span class="mc-marker"></span>
               <span class="mc-text">
-                <strong>2. הורדת $x_3$ → עלייה משמעותית ב־$R^2$.</strong>
+                <strong>2. הורדת $x_3$ &larr; עלייה משמעותית ב־$R^2$.</strong>
                 <span class="why">לא נכון. <strong>$R^2$ לעולם לא עולה כשמורידים משתנה</strong> (הוספה לא יכולה רק להעלות, הסרה לא יכולה רק להוריד).</span>
               </span>
             </li>
             <li class="correct">
               <span class="mc-marker"></span>
               <span class="mc-text">
-                <strong>3. הורדת $x_5$ → ירידה משמעותית ב־$R^2$.</strong>
-                <span class="why">נכון. $x_5$ מובהק (p קטן) → הוא תורם. הורדתו תוריד $R^2$.</span>
+                <strong>3. הורדת $x_5$ &larr; ירידה משמעותית ב־$R^2$.</strong>
+                <span class="why">נכון. $x_5$ מובהק (p קטן) &larr; הוא תורם. הורדתו תוריד $R^2$.</span>
               </span>
             </li>
             <li class="correct">
               <span class="mc-marker"></span>
               <span class="mc-text">
-                <strong>4. הורדת $x_5$ → ירידה משמעותית ב־$R^2_{\text{adj}}$.</strong>
+                <strong>4. הורדת $x_5$ &larr; ירידה משמעותית ב־$R^2_{\text{adj}}$.</strong>
                 <span class="why">נכון. $R^2_{\text{adj}}$ מודד את התרומה האמיתית של כל משתנה. אם $x_5$ מובהק, הסרתו פוגעת גם ב־$R^2_{\text{adj}}$.</span>
               </span>
             </li>
             <li class="wrong">
               <span class="mc-marker"></span>
               <span class="mc-text">
-                <strong>5. $x_2$ עם המקדם הכי גדול → השפעה הכי משמעותית.</strong>
+                <strong>5. $x_2$ עם המקדם הכי גדול &larr; השפעה הכי משמעותית.</strong>
                 <span class="why">לא ניתן לדעת — <strong>בלי feature scaling, גודל המקדם לא מעיד על ההשפעה האמיתית.</strong> אם $x_2$ נמדד ביחידות גדולות, מקדמו יהיה קטן באופן ״מלאכותי״.</span>
               </span>
             </li>
@@ -551,7 +556,7 @@ print(model.summary())
               <span class="mc-marker"></span>
               <span class="mc-text">
                 <strong>6. $x_3$ הכי משמעותי.</strong>
-                <span class="why">לא נכון. $x_3$ לא מובהק → תרומתו זניחה.</span>
+                <span class="why">לא נכון. $x_3$ לא מובהק &larr; תרומתו זניחה.</span>
               </span>
             </li>
             <li class="correct">
@@ -688,7 +693,7 @@ print(model.summary())
               <span class="mc-marker"></span>
               <span class="mc-text">
                 <strong>1. חזקה 3.</strong>
-                <span class="why">לא טובה. חזקה אי־זוגית → ערך שלילי כששגיאה שלילית. שגיאות חיוביות ושליליות יקזזו, וההתאמה תיראה ״מושלמת״ גם כשהיא לא.</span>
+                <span class="why">לא טובה. חזקה אי־זוגית &larr; ערך שלילי כששגיאה שלילית. שגיאות חיוביות ושליליות יקזזו, וההתאמה תיראה ״מושלמת״ גם כשהיא לא.</span>
               </span>
             </li>
             <li class="wrong">
@@ -731,28 +736,28 @@ print(model.summary())
     <div class="box-body">
       <ol>
         <li>
-          <strong>משוואת רגרסיה:</strong> $y = b_0 + b_1 x_1 + \ldots + b_k x_k$. $b_0$ = intercept, $b_i$ = שיפוע פר משתנה.
+          <strong>משוואת רגרסיה</strong> — $y = b_0 + b_1 x_1 + \ldots + b_k x_k$ (כאשר $b_0$ הוא <strong>intercept</strong> ו־$b_i$ שיפוע פר משתנה).
         </li>
         <li>
-          <strong>אופטימיזציה:</strong> ממזערים MSE = $\frac{1}{n}\sum(y_i - \hat{y}_i)^2$.
+          <strong>אופטימיזציה</strong> — ממזערים $\text{MSE} = \frac{1}{n}\sum(y_i - \hat{y}_i)^2$.
         </li>
         <li>
-          <strong>$R^2$:</strong> אחוז השונות שהמודל מסביר. ערך בין 0 ל־1.
+          <strong>$R^2$</strong> — אחוז השונות שהמודל מסביר, ערך בין 0 ל־1.
         </li>
         <li>
-          <strong>$R^2$ עולה תמיד</strong> כשמוסיפים משתנה. כדי להשוות מודלים, השתמש ב־$R^2_{\text{adj}}$.
+          <strong>$R^2$ עולה תמיד</strong> כשמוסיפים משתנה — כדי להשוות מודלים השתמש ב־$R^2_{\text{adj}}$.
         </li>
         <li>
-          <strong>קריאת summary:</strong> מקדם → גודל ההשפעה (רק עם scaling), P>|t| → מובהקות, [0.025, 0.975] → רווח סמך.
+          <strong>קריאת summary</strong> — מקדם הוא גודל ההשפעה (רק עם scaling), <span class="term">P>|t|</span> היא מובהקות, ה־<span class="term">[0.025, 0.975]</span> הוא רווח סמך.
         </li>
         <li>
-          <strong>קטגוריות:</strong> השתמש ב־dummy encoding, לא ב־ordinal numbers (1,2,3,...).
+          <strong>קטגוריות</strong> — השתמש ב־<strong>dummy encoding</strong>, לא ב־ordinal numbers (1,2,3...).
         </li>
         <li>
           <strong>בלי feature scaling</strong> אי אפשר להשוות גדלים של מקדמים.
         </li>
         <li>
-          <strong>אם p-value > 0.05</strong> או רווח הסמך כולל 0 → המשתנה לא מובהק.
+          <strong>אם p-value גדול מ־0.05</strong> או רווח הסמך כולל 0 — המשתנה לא מובהק.
         </li>
       </ol>
     </div>
@@ -761,7 +766,7 @@ print(model.summary())
   <div style="height: 60px"></div>
 
   <div style="display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid var(--rule); margin-top:48px;">
-    <a href="04-inferential-stats.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">→ פרק 4: סטטיסטיקה מסקקת</a>
+    <a href="04-inferential-stats.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">&larr; פרק 4: סטטיסטיקה מסקקת</a>
     <a href="06-multiple-regression.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">פרק 6: רגרסיה מרובה ←</a>
   </div>
 </main>

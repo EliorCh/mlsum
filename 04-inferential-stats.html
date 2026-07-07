@@ -75,6 +75,7 @@
   h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
   p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
   ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  strong { unicode-bidi: isolate; }
   .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
   .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
   .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
@@ -90,8 +91,8 @@
   .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
   .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
   .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
-  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
-  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr !important; unicode-bidi: plaintext !important; text-align: left !important; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; direction: ltr !important; unicode-bidi: plaintext !important; }
   .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
   .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
   .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
@@ -177,6 +178,10 @@
   <ul class="nav-list">
     <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
   </ul>
+  <div class="nav-label">אתר נלווה</div>
+  <ul class="nav-list">
+    <li><a href="https://eliorch.github.io/mlque" target="_blank" rel="noopener" style="background: rgba(124, 58, 237, 0.15); border-left: 3px solid #a78bfa;">🎯 אתר תרגול שאלות ↗</a></li>
+  </ul>
 </aside>
 
 <main>
@@ -197,7 +202,7 @@
   <div class="box theory">
     <div class="box-head"><span class="icon">📘</span>חמש תכונות שצריך לזכור</div>
     <div class="box-body">
-      <p>ההתפלגות הנורמלית (<span class="term">normal</span>, נקראת גם <span class="term">Gaussian</span> או פעמון) מאופיינת על ידי שני פרמטרים: התוחלת $\mu$ וסטיית התקן $\sigma$. מסמנים:</p>
+      <p>ההתפלגות הנורמלית (<strong>normal</strong>, נקראת גם <strong>Gaussian</strong> או פעמון) מאופיינת על ידי שני פרמטרים: התוחלת $\mu$ וסטיית התקן $\sigma$. מסמנים:</p>
 
       $$X \sim N(\mu, \sigma)$$
 
@@ -240,9 +245,9 @@
 
       <p>למשל:</p>
       <ul>
-        <li><span class="term amber">Z(0.95) = 1.64</span> — כי 95% מהמסה נמצא משמאל ל־1.64.</li>
-        <li><span class="term amber">Z(0.975) = 1.96</span> — שמיש מאוד לרווח סמך של 95%.</li>
-        <li><span class="term amber">Z(0.05) = -1.64</span> — כי 5% נמצא משמאל ל־-1.64 (סימטריה).</li>
+        <li><strong>Z(0.95) = 1.64</strong> — כי 95% מהמסה נמצא משמאל ל־1.64.</li>
+        <li><strong>Z(0.975) = 1.96</strong> — שמיש מאוד לרווח סמך של 95%.</li>
+        <li><strong>Z(0.05) = -1.64</strong> — כי 5% נמצא משמאל ל־-1.64 (סימטריה).</li>
       </ul>
 
       <div class="keypoint">
@@ -263,7 +268,7 @@
       <tr><th>1.9</th><td>.97128</td><td>.97193</td><td>.97257</td><td>.97320</td><td>.97381</td><td>.97441</td><td>.97500</td></tr>
       <tr><th>2.0</th><td>.97725</td><td>.97778</td><td>.97831</td><td>.97882</td><td>.97932</td><td>.97982</td><td>.98030</td></tr>
     </table>
-    <div class="cap">קטע מתוך טבלת Z חיובית. המספרים הכתומים: בשורה 1.6 ועמודה 0.04 → 0.94950, וזה Z(0.9495) = 1.64. בשורה 1.9 ועמודה 0.06 → 0.97500, וזה Z(0.975) = 1.96.</div>
+    <div class="cap">קטע מתוך טבלת Z חיובית. המספרים הכתומים: בשורה 1.6 ועמודה 0.04 &larr; 0.94950, וזה Z(0.9495) = 1.64. בשורה 1.9 ועמודה 0.06 &larr; 0.97500, וזה Z(0.975) = 1.96.</div>
   </div>
 
   <!-- ============== 3. CALCULATING AREAS ============== -->
@@ -347,7 +352,7 @@
       <ul>
         <li><strong>תוחלת ההתפלגות של הממוצעים = תוחלת האוכלוסייה</strong> ($\mu$).</li>
         <li><strong>סטיית התקן של הממוצעים = $\sigma/\sqrt{n}$</strong> — קטנה מסטיית התקן של האוכלוסייה!</li>
-        <li>כל $n$ גדול יותר → התפלגות צרה יותר → אומדן יותר מדויק.</li>
+        <li>כל $n$ גדול יותר &larr; התפלגות צרה יותר &larr; אומדן יותר מדויק.</li>
       </ul>
     </div>
   </div>
@@ -411,7 +416,7 @@
   <div class="box formula">
     <div class="box-head"><span class="icon">📐</span>הנוסחה המרכזית של הקורס</div>
     <div class="box-body">
-      <p>נסמן את רמת הביטחון ב־$1-\alpha$. למשל 95% → $\alpha = 0.05$.</p>
+      <p>נסמן את רמת הביטחון ב־$1-\alpha$. למשל 95% &larr; $\alpha = 0.05$.</p>
 
       <h4>כאשר ידועה סטיית התקן של האוכלוסייה ($\sigma$):</h4>
       $$CI(1-\alpha) = \left[\bar{x} - Z(1-\alpha/2) \cdot \frac{\sigma}{\sqrt{n}}, \;\; \bar{x} + Z(1-\alpha/2) \cdot \frac{\sigma}{\sqrt{n}}\right]$$
@@ -438,16 +443,16 @@
       <p>ארבעה גורמים יכולים להשפיע:</p>
       <ul>
         <li>
-          <strong>גודל המדגם $n$ ↑</strong> → הרוחב <em>קטן</em>. (מדגם גדול = יותר ידע = יותר ביטחון.)
+          <strong>גודל המדגם $n$ ↑</strong> &larr; הרוחב <em>קטן</em>. (מדגם גדול = יותר ידע = יותר ביטחון.)
         </li>
         <li>
-          <strong>סטיית התקן המדגמית $s$ ↑</strong> → הרוחב <em>גדל</em>.
+          <strong>סטיית התקן המדגמית $s$ ↑</strong> &larr; הרוחב <em>גדל</em>.
         </li>
         <li>
-          <strong>רמת ביטחון ↑</strong> (למשל מ־95% ל־99%) → ה־$Z(1-\alpha/2)$ <em>גדל</em> → הרוחב <em>גדל</em>.
+          <strong>רמת ביטחון ↑</strong> (למשל מ־95% ל־99%) &larr; ה־$Z(1-\alpha/2)$ <em>גדל</em> &larr; הרוחב <em>גדל</em>.
         </li>
         <li>
-          <strong>רמת ביטחון ↓</strong> (למשל מ־99% ל־90%) → הרוחב <em>קטן</em>.
+          <strong>רמת ביטחון ↓</strong> (למשל מ־99% ל־90%) &larr; הרוחב <em>קטן</em>.
         </li>
       </ul>
 
@@ -468,32 +473,32 @@
 <pre><code class="language-python">from scipy.stats import norm
 import numpy as np
 
-# נתון מדגם
+# Given sample
 sample = np.array([23.1, 21.5, 24.2, 22.0, 23.8, 25.1, 22.7, 23.5])
 n = len(sample)
 x_bar = np.mean(sample)
-s = np.std(sample, ddof=1)  # ddof=1 = sample std (חלוקה ב-n-1)
+s = np.std(sample, ddof=1)  # ddof=1 = sample std (divide by n-1)
 
-# רווח סמך של 95% — שני שלבים
-# 1. מציאת Z(0.975)
+# 95% CI - two steps
+# 1. Find Z(0.975)
 alpha = 0.05
 z = norm.ppf(1 - alpha/2)   # = 1.96
 print(z)   # 1.9599...
 
-# 2. חישוב הגבולות
+# 2. Compute bounds
 margin = z * s / np.sqrt(n)
 ci = (x_bar - margin, x_bar + margin)
 print(f"95% CI: ({ci[0]:.2f}, {ci[1]:.2f})")
 # 95% CI: (22.30, 24.10)
 
-# שווה ערך עם פונקציה מובנית
+# Equivalent using built-in
 from scipy.stats import norm
 ci_builtin = norm.interval(0.95, loc=x_bar, scale=s/np.sqrt(n))
 print(ci_builtin)  # (22.30, 24.10)
 </code></pre>
 
   <div class="keypoint">
-    <span class="term">norm.ppf(p)</span> זאת בדיוק פונקציית <span class="term amber">Z(p)</span> של הקורס —
+    <span class="term">norm.ppf(p)</span> זאת בדיוק פונקציית <strong>Z(p)</strong> של הקורס —
     מקבלת הסתברות, מחזירה את הערך z המתאים.
     <span class="term">norm.cdf(z)</span> זה ההפך — מקבלת z, מחזירה הסתברות.
   </div>
@@ -647,7 +652,7 @@ print(ci_builtin)  # (22.30, 24.10)
               <span class="mc-marker"></span>
               <span class="mc-text">
                 <strong>1. E (נורמלית צרה) = ממוצעים, A (נורמלית רחבה) = מקור.</strong>
-                <span class="why">נכון. E צרה מ־A → סטיית התקן קטנה יותר. שתי ההתפלגויות נורמליות, מרכזן זהה. תרחיש לגיטימי.</span>
+                <span class="why">נכון. E צרה מ־A &larr; סטיית התקן קטנה יותר. שתי ההתפלגויות נורמליות, מרכזן זהה. תרחיש לגיטימי.</span>
               </span>
             </li>
             <li class="correct">
@@ -718,8 +723,8 @@ print(ci_builtin)  # (22.30, 24.10)
 
           <div class="step">
             <div class="step-label">סעיף (א) · CI של 99%</div>
-            <p>נתון: שונות $\sigma^2 = 2.5$ → סטיית תקן $\sigma = \sqrt{2.5} \approx 1.58$.</p>
-            <p>$\bar{x} = 500.8$, $n = 100$, רמת ביטחון 99% → $\alpha = 0.01$, אז $Z(1 - 0.005) = Z(0.995) = 2.58$.</p>
+            <p>נתון: שונות $\sigma^2 = 2.5$ &larr; סטיית תקן $\sigma = \sqrt{2.5} \approx 1.58$.</p>
+            <p>$\bar{x} = 500.8$, $n = 100$, רמת ביטחון 99% &larr; $\alpha = 0.01$, אז $Z(1 - 0.005) = Z(0.995) = 2.58$.</p>
 
             $$CI(99\%) = \bar{x} \pm Z(0.995) \cdot \frac{\sigma}{\sqrt{n}}$$
             $$CI(99\%) = 500.8 \pm 2.58 \cdot \frac{1.58}{\sqrt{100}} = 500.8 \pm 2.58 \cdot 0.158$$
@@ -731,7 +736,7 @@ print(ci_builtin)  # (22.30, 24.10)
             <p>אורך כולל של CI:</p>
             $$\text{length} = 2 \cdot Z(1-\alpha/2) \cdot \frac{\sigma}{\sqrt{n}}$$
 
-            <p>עבור 85% → $\alpha = 0.15$, $Z(1 - 0.075) = Z(0.925) = 1.44$.</p>
+            <p>עבור 85% &larr; $\alpha = 0.15$, $Z(1 - 0.075) = Z(0.925) = 1.44$.</p>
 
             <p>נציב ואדרוש length $\leq 0.2$:</p>
             $$2 \cdot 1.44 \cdot \frac{1.58}{\sqrt{n}} \leq 0.2$$
@@ -750,7 +755,7 @@ print(ci_builtin)  # (22.30, 24.10)
                 <span class="mc-marker"></span>
                 <span class="mc-text">
                   <strong>1. הגדלת n.</strong>
-                  <span class="why">נכון. $n$ במכנה (תחת שורש) → גדול יותר → רוחב קטן יותר.</span>
+                  <span class="why">נכון. $n$ במכנה (תחת שורש) &larr; גדול יותר &larr; רוחב קטן יותר.</span>
                 </span>
               </li>
               <li class="wrong">
@@ -764,7 +769,7 @@ print(ci_builtin)  # (22.30, 24.10)
                 <span class="mc-marker"></span>
                 <span class="mc-text">
                   <strong>3. הפחתת השונות.</strong>
-                  <span class="why">נכון. $\sigma$ במונה → קטן יותר → רוחב קטן יותר. שיפור תהליך הייצור מקטין שונות.</span>
+                  <span class="why">נכון. $\sigma$ במונה &larr; קטן יותר &larr; רוחב קטן יותר. שיפור תהליך הייצור מקטין שונות.</span>
                 </span>
               </li>
               <li class="correct">
@@ -804,7 +809,7 @@ print(ci_builtin)  # (22.30, 24.10)
           <span class="exercise-tag">פירוש CI - תפיסות מוטעות</span>
           <p>
             נערך סקר בקרב מספר משפחות וחושב רווח סמך לתוחלת שעות שינה של ילדי בתי ספר יסודיים במהלך החופש הגדול.
-            נמצא ש־<span class="term">CI(85%) = [7.4, 8.5]</span>.
+            נמצא ש־<strong>CI(85%) = [7.4, 8.5]</strong>.
           </p>
           <p>כיצד ניתן לפרש את רווח הסמך שחושב? סמנו נכון או לא נכון:</p>
           <ol style="margin: 10px 24px;">
@@ -887,7 +892,7 @@ print(ci_builtin)  # (22.30, 24.10)
           <strong>נוסחת CI:</strong> $\bar{x} \pm Z(1-\alpha/2) \cdot s/\sqrt{n}$. אל תשכח את ה־√n.
         </li>
         <li>
-          <strong>ערכי Z שצריך לזכור:</strong> 90% → 1.64, 95% → 1.96, 99% → 2.58.
+          <strong>ערכי Z שצריך לזכור:</strong> 90% &larr; 1.64, 95% &larr; 1.96, 99% &larr; 2.58.
         </li>
         <li>
           <strong>רוחב CI:</strong> פרופורציוני ל־$Z \cdot s / \sqrt{n}$. רוצים רוחב קטן? הגדל $n$, הקטן $s$, או הקטן רמת ביטחון.
@@ -905,7 +910,7 @@ print(ci_builtin)  # (22.30, 24.10)
   <div style="height: 60px"></div>
 
   <div style="display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid var(--rule); margin-top:48px;">
-    <a href="03-descriptive-stats.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">→ פרק 3: סטטיסטיקה תיאורית</a>
+    <a href="03-descriptive-stats.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">&larr; פרק 3: סטטיסטיקה תיאורית</a>
     <a href="05-linear-regression.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600; opacity:.5; pointer-events:none;">פרק 5: רגרסיה לינארית (בקרוב)</a>
   </div>
 </main>

@@ -75,6 +75,7 @@
   h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
   p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
   ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  strong { unicode-bidi: isolate; }
   .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
   .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
   .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
@@ -90,8 +91,8 @@
   .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
   .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
   .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
-  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
-  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr !important; unicode-bidi: plaintext !important; text-align: left !important; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; direction: ltr !important; unicode-bidi: plaintext !important; }
   .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
   .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
   .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
@@ -176,6 +177,10 @@
   <div class="nav-label">נספח</div>
   <ul class="nav-list">
     <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
+  </ul>
+  <div class="nav-label">אתר נלווה</div>
+  <ul class="nav-list">
+    <li><a href="https://eliorch.github.io/mlque" target="_blank" rel="noopener" style="background: rgba(124, 58, 237, 0.15); border-left: 3px solid #a78bfa;">🎯 אתר תרגול שאלות ↗</a></li>
   </ul>
 </aside>
 
@@ -326,7 +331,7 @@
   <div class="box theory">
     <div class="box-head"><span class="icon">📘</span>נתוני sklearn.datasets.load_digits</div>
     <div class="box-body">
-      <p>זאת הדוגמה הקאנונית של עיבוד תמונה במבוא ל־ML, מה<span class="term">pca_classification_digits_example.html</span> שבחומר הקורס.</p>
+      <p>זאת הדוגמה הקאנונית של עיבוד תמונה במבוא ל־ML, מה<strong>pca_classification_digits_example.html</strong> שבחומר הקורס.</p>
 
       <h4>נתוני הבעיה</h4>
       <ul>
@@ -368,12 +373,12 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.25, stratify=y, random_state=42
 )
 
-# נרמול — חובה לפני logistic regression
+# Scaling - required before logistic regression
 scaler = StandardScaler()
 X_train_s = scaler.fit_transform(X_train)
 X_test_s  = scaler.transform(X_test)
 
-# סיווג
+# Classify
 clf = LogisticRegression(max_iter=2000)
 clf.fit(X_train_s, y_train)
 y_pred = clf.predict(X_test_s)
@@ -403,14 +408,14 @@ print(f'Accuracy: {accuracy_score(y_test, y_pred):.4f}')
 <pre><code class="language-python">from sklearn.decomposition import PCA
 import numpy as np
 
-# נתאים PCA על הtrain set בלבד (אסור data leakage!)
+# Fit PCA on train set only (no data leakage!)
 pca_full = PCA()
 pca_full.fit(X_train_s)
 
-# חישוב cumulative explained variance
+# Compute cumulative explained variance
 cumvar = np.cumsum(pca_full.explained_variance_ratio_)
 
-# כמה רכיבים נדרשים לכיסוי X% מהשונות?
+# How many components to explain X% variance?
 n_90 = np.searchsorted(cumvar, 0.90) + 1
 n_95 = np.searchsorted(cumvar, 0.95) + 1
 
@@ -433,12 +438,12 @@ print(f'Components for 95% variance: {n_95}')   # 40
       <p>נריץ את אותו logistic regression, אבל אחרי הורדת מימד:</p>
 
       <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">classify_after_pca.py</span></div>
-<pre><code class="language-python"># נורמל PCA עם 31 רכיבים (90% שונות)
+<pre><code class="language-python"># PCA with 31 components (90% variance)
 pca = PCA(n_components=31)
 X_train_pca = pca.fit_transform(X_train_s)
 X_test_pca  = pca.transform(X_test_s)
 
-# סיווג
+# Classify
 clf2 = LogisticRegression(max_iter=2000)
 clf2.fit(X_train_pca, y_train)
 y_pred2 = clf2.predict(X_test_pca)
@@ -548,8 +553,8 @@ print(f'Accuracy: {accuracy_score(y_test, y_pred2):.4f}')
       <ol>
         <li>אמן autoencoder על תמונות <strong>תקינות</strong> (למשל, רק ספרות 0-9 ברורות).</li>
         <li>לכל תמונה חדשה: העבר אותה דרך ה־autoencoder, חשב reconstruction loss (MSE).</li>
-        <li>תמונה רגילה → loss נמוך (האוטוקודר ראה דברים דומים).</li>
-        <li>תמונה חריגה (אות, סמל, תמונה שונה לחלוטין) → loss גבוה → התראה.</li>
+        <li>תמונה רגילה &larr; loss נמוך (האוטוקודר ראה דברים דומים).</li>
+        <li>תמונה חריגה (אות, סמל, תמונה שונה לחלוטין) &larr; loss גבוה &larr; התראה.</li>
       </ol>
 
       <p><strong>יישומים בעולם האמיתי:</strong></p>
@@ -604,7 +609,7 @@ print(f'Accuracy: {accuracy_score(y_test, y_pred2):.4f}')
     <div class="box-body">
       <ol>
         <li>
-          <strong>Fit PCA על ה־test set.</strong> זאת דליפת נתונים (<span class="term">data leakage</span>). PCA חייב להיות fit רק על ה־train. ה־test רק transform.
+          <strong>Fit PCA על ה־test set.</strong> זאת דליפת נתונים (<strong>data leakage</strong>). PCA חייב להיות fit רק על ה־train. ה־test רק transform.
         </li>
         <li>
           <strong>שכחה של scaling לפני PCA.</strong> פיקסלים בטווח 0-255, אבל הם לא דורשים scaling בין משתנים (כולם באותו טווח). אם עוברים ל־data אחר עם משתנים שונים, scaling קריטי.
@@ -777,7 +782,7 @@ print(f'Accuracy: {accuracy_score(y_test, y_pred2):.4f}')
               <span class="mc-marker"></span>
               <span class="mc-text">
                 <strong>2. Reconstruction loss גבוה.</strong>
-                <span class="why">נכון. ה־autoencoder לא ראה מסכות באימון — הוא ייכשל בשחזורן → loss גבוה. זאת הדרך לזהות drift אוטומטית.</span>
+                <span class="why">נכון. ה־autoencoder לא ראה מסכות באימון — הוא ייכשל בשחזורן &larr; loss גבוה. זאת הדרך לזהות drift אוטומטית.</span>
               </span>
             </li>
             <li class="wrong">
@@ -813,31 +818,31 @@ print(f'Accuracy: {accuracy_score(y_test, y_pred2):.4f}')
     <div class="box-body">
       <ol>
         <li>
-          <strong>תמונה היא וקטור</strong>. תמונה 8×8 = וקטור באורך 64. אותם כלי ML עובדים עליה.
+          <strong>תמונה היא וקטור</strong> — תמונה $8 \times 8$ היא וקטור באורך 64, ואותם כלי <strong>ML</strong> עובדים עליה.
         </li>
         <li>
-          <strong>Digits dataset</strong>: 1797 תמונות × 64 פיקסלים × 10 מחלקות.
+          <strong>Digits dataset</strong> — 1797 תמונות, 64 פיקסלים, 10 מחלקות.
         </li>
         <li>
-          <strong>Logistic regression על raw pixels</strong>: 97.78% accuracy. PCA עם 31 רכיבים: 94.89%.
+          <strong>Logistic regression על raw pixels</strong> נותן 97.78% accuracy &nbsp;·&nbsp; PCA עם 31 רכיבים נותן 94.89%.
         </li>
         <li>
-          <strong>31 רכיבים מספיקים ל־90%</strong> מהשונות, <strong>40 ל־95%</strong>. הוכחה ל־redundancy בפיקסלים.
+          <strong>31 רכיבים מספיקים ל־90% מהשונות</strong>, 40 רכיבים ל־95% — הוכחה ל־<strong>redundancy</strong> בפיקסלים.
         </li>
         <li>
-          <strong>חוק זהב:</strong> fit PCA על train בלבד, transform על test. אחרת — data leakage.
+          <strong>חוק זהב</strong> — <strong>fit PCA</strong> על <strong>train</strong> בלבד, <strong>transform</strong> על <strong>test</strong>, אחרת <strong>data leakage</strong>.
         </li>
         <li>
-          <strong>PCA = autoencoder לינארי.</strong> Autoencoders עם non-linearity יכולים ללמוד מורכבות יותר.
+          <strong>PCA הוא autoencoder לינארי</strong> — <strong>Autoencoders</strong> עם <strong>non-linearity</strong> יכולים ללמוד מורכבות יותר.
         </li>
         <li>
-          <strong>Anomaly detection</strong> עם autoencoder: train על תקין, גילוי לפי reconstruction loss.
+          <strong>Anomaly detection</strong> עם <strong>autoencoder</strong> — <strong>train</strong> על תקין, גילוי לפי <strong>reconstruction loss</strong>.
         </li>
         <li>
-          <strong>Drift types:</strong> novel topic / diminishing / change in volume.
+          <strong>סוגי drift</strong> — <strong>novel topic</strong>, <strong>diminishing</strong>, <strong>change in volume</strong>.
         </li>
         <li>
-          <strong>Drift detection מעשי:</strong> autoencoder על data היסטורי + מעקב אחר reconstruction loss על data חדש.
+          <strong>Drift detection מעשי</strong> — <strong>autoencoder</strong> על <strong>data</strong> היסטורי + מעקב אחר <strong>reconstruction loss</strong> על <strong>data</strong> חדש.
         </li>
       </ol>
     </div>
@@ -846,7 +851,7 @@ print(f'Accuracy: {accuracy_score(y_test, y_pred2):.4f}')
   <div style="height: 60px"></div>
 
   <div style="display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid var(--rule); margin-top:48px;">
-    <a href="11-clustering-dbscan.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">→ פרק 11: DBSCAN</a>
+    <a href="11-clustering-dbscan.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">&larr; פרק 11: DBSCAN</a>
     <a href="index.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">חזרה לעמוד הבית ←</a>
   </div>
 </main>

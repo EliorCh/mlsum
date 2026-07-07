@@ -75,6 +75,7 @@
   h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
   p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
   ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  strong { unicode-bidi: isolate; }
   .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
   .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
   .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
@@ -90,8 +91,8 @@
   .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
   .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
   .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
-  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
-  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr !important; unicode-bidi: plaintext !important; text-align: left !important; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; direction: ltr !important; unicode-bidi: plaintext !important; }
   .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
   .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
   .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
@@ -177,6 +178,10 @@
   <ul class="nav-list">
     <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
   </ul>
+  <div class="nav-label">אתר נלווה</div>
+  <ul class="nav-list">
+    <li><a href="https://eliorch.github.io/mlque" target="_blank" rel="noopener" style="background: rgba(124, 58, 237, 0.15); border-left: 3px solid #a78bfa;">🎯 אתר תרגול שאלות ↗</a></li>
+  </ul>
 </aside>
 
 <main>
@@ -196,7 +201,7 @@
     <div class="box-head"><span class="icon">📘</span>הגדרה ודוגמה אינטואיטיבית</div>
     <div class="box-body">
       <p>
-        <span class="term">Multi-collinearity</span> מתרחשת כששני (או יותר) משתנים בלתי תלויים מקיימים <strong>קשר לינארי משמעותי ביניהם</strong>.
+        <strong>Multi-collinearity</strong> מתרחשת כששני (או יותר) משתנים בלתי תלויים מקיימים <strong>קשר לינארי משמעותי ביניהם</strong>.
       </p>
 
       <h4>דוגמה מההרצאה</h4>
@@ -208,7 +213,7 @@
       </p>
 
       <div class="keypoint">
-        <strong>איך לזהות:</strong> חישוב <span class="term">pearson correlation</span> בין כל זוג משתנים בלתי תלויים. ערך מוחלט גבוה (לדוגמה $|r| > 0.7$) רומז על multi-collinearity.
+        <strong>איך לזהות:</strong> חישוב <strong>pearson correlation</strong> בין כל זוג משתנים בלתי תלויים. ערך מוחלט גבוה (לדוגמה $|r| > 0.7$) רומז על multi-collinearity.
       </div>
     </div>
   </div>
@@ -262,7 +267,7 @@
 
       <h4>2. בדוק כל זוג</h4>
       <p>
-        חשב <span class="term">pearson r</span> לכל זוג משתנים בלתי תלויים. כל ערך מוחלט מעל סף כלשהו (לרוב 0.7) — חשוד.
+        חשב <strong>pearson r</strong> לכל זוג משתנים בלתי תלויים. כל ערך מוחלט מעל סף כלשהו (לרוב 0.7) — חשוד.
       </p>
 
       <h4>3. תיקון — שתי גישות</h4>
@@ -304,7 +309,7 @@
       </p>
 
       <div class="keypoint">
-        <strong>קל לזכור:</strong> dummy encoding עם k קטגוריות → k−1 עמודות בלבד במודל. ספריות פייתון עושות את זה אוטומטית עם <span class="term">drop_first=True</span>.
+        <strong>קל לזכור:</strong> dummy encoding עם k קטגוריות &larr; k−1 עמודות בלבד במודל. ספריות פייתון עושות את זה אוטומטית עם <span class="term">drop_first=True</span>.
       </div>
     </div>
   </div>
@@ -578,25 +583,25 @@
     <div class="box-body">
       <ol>
         <li>
-          <strong>הגדרה:</strong> multi-collinearity = קשר לינארי בין משתנים בלתי תלויים.
+          <strong>הגדרה</strong> — <strong>multi-collinearity</strong> היא קשר לינארי בין משתנים בלתי תלויים.
         </li>
         <li>
-          <strong>פוגעת ב:</strong> פירוש מקדמים, p-values, סימני מקדמים.
+          <strong>פוגעת ב</strong> — פירוש מקדמים, <strong>p-values</strong>, סימני מקדמים.
         </li>
         <li>
-          <strong>לא פוגעת ב:</strong> $R^2$, איכות ניבוי, performance על test set.
+          <strong>לא פוגעת ב</strong> — $R^2$, איכות ניבוי, <strong>performance</strong> על <strong>test set</strong>.
         </li>
         <li>
-          <strong>זיהוי:</strong> חישוב Pearson $r$ בין כל זוג משתנים. $|r| > 0.7$ זה איתות אזהרה.
+          <strong>זיהוי</strong> — חישוב Pearson $r$ בין כל זוג משתנים, כאשר $|r| > 0.7$ הוא איתות אזהרה.
         </li>
         <li>
-          <strong>פתרון:</strong> הסר משתנה אחד, או שלב לשניים למשתנה אחד.
+          <strong>פתרון</strong> — הסר משתנה אחד, או שלב שניים למשתנה אחד.
         </li>
         <li>
-          <strong>Dummy encoding</strong> דורש הסרת עמודה אחת ($k-1$ עמודות) — אחרת multi-collinearity מושלם.
+          <strong>Dummy encoding</strong> דורש הסרת עמודה אחת ($k-1$ עמודות) — אחרת <strong>multi-collinearity</strong> מושלם.
         </li>
         <li>
-          <strong>Feature scaling לא פותר multi-collinearity.</strong> זאת טעות נפוצה.
+          <strong>Feature scaling לא פותר multi-collinearity</strong> — זאת טעות נפוצה.
         </li>
       </ol>
     </div>
@@ -605,7 +610,7 @@
   <div style="height: 60px"></div>
 
   <div style="display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid var(--rule); margin-top:48px;">
-    <a href="05-linear-regression.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">→ פרק 5: רגרסיה לינארית</a>
+    <a href="05-linear-regression.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">&larr; פרק 5: רגרסיה לינארית</a>
     <a href="07-classification-basics.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">פרק 7: סיווג בסיסי ←</a>
   </div>
 </main>

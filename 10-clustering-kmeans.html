@@ -75,6 +75,7 @@
   h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
   p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
   ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  strong { unicode-bidi: isolate; }
   .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
   .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
   .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
@@ -90,8 +91,8 @@
   .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
   .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
   .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
-  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
-  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr !important; unicode-bidi: plaintext !important; text-align: left !important; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; direction: ltr !important; unicode-bidi: plaintext !important; }
   .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
   .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
   .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
@@ -177,6 +178,10 @@
   <ul class="nav-list">
     <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
   </ul>
+  <div class="nav-label">אתר נלווה</div>
+  <ul class="nav-list">
+    <li><a href="https://eliorch.github.io/mlque" target="_blank" rel="noopener" style="background: rgba(124, 58, 237, 0.15); border-left: 3px solid #a78bfa;">🎯 אתר תרגול שאלות ↗</a></li>
+  </ul>
 </aside>
 
 <main>
@@ -197,7 +202,7 @@
     <div class="box-head"><span class="icon">📘</span>למידה לא־מונחית</div>
     <div class="box-body">
       <p>
-        בלמידה לא־מונחית (<span class="term">unsupervised learning</span>), אין משתנה תלוי $y$.
+        בלמידה לא־מונחית (<strong>unsupervised learning</strong>), אין משתנה תלוי $y$.
         רק $X$ — וקטורי תכונות. המטרה היא למצוא <strong>תבניות מבניות</strong> בנתונים.
       </p>
 
@@ -228,13 +233,13 @@
       <p>הקלט: $K$ — מספר ה־clusters, ו־$N$ נקודות.</p>
 
       <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">k_means_pseudocode.py</span></div>
-<pre><code class="language-python"># הצב K נקודות מרכז (centroids) c1, c2, ..., ck באקראי
-# חזור עד להתכנסות:
-#   1. לכל נקודה x_i:
-#       מצא את ה־centroid הקרוב ביותר
-#       שיוך אותו ל־cluster המתאים
-#   2. לכל cluster j:
-#       חשב מרכז חדש = ממוצע של כל הנקודות ב־cluster
+<pre><code class="language-python"># Randomly place K centroids c1, c2, ..., ck
+# Repeat until convergence:
+#   1. For each point x_i:
+#       find the nearest centroid
+#       assign to that cluster
+#   2. For each cluster j:
+#       new center = mean of all points in cluster
 </code></pre>
 
       <h4>תנאי עצירה</h4>
@@ -330,11 +335,11 @@
 
       <!-- Bottom labels -->
       <text x="135" y="230" text-anchor="middle" font-family="Assistant" font-size="11" fill="#78716c">centroids במיקום אקראי</text>
-      <text x="390" y="230" text-anchor="middle" font-family="Assistant" font-size="11" fill="#78716c">כל נקודה → קרוב ביותר</text>
+      <text x="390" y="230" text-anchor="middle" font-family="Assistant" font-size="11" fill="#78716c">כל נקודה &larr; קרוב ביותר</text>
       <text x="645" y="230" text-anchor="middle" font-family="Assistant" font-size="11" fill="#78716c">אין עוד שינוי בשיוכים</text>
     </svg>
     <div class="cap">
-      דוגמה עם K=3. כל איטרציה: שיוך נקודות ל־centroid הקרוב ביותר → עדכון centroid לממוצע קבוצתו → בדיקה אם השתנה משהו.
+      דוגמה עם K=3. כל איטרציה: שיוך נקודות ל־centroid הקרוב ביותר &larr; עדכון centroid לממוצע קבוצתו &larr; בדיקה אם השתנה משהו.
     </div>
   </div>
 
@@ -354,7 +359,7 @@
       </ol>
 
       <div class="keypoint">
-        <strong>אבל!</strong> K-Means++ <em>לא מבטיח</em> התכנסות מהירה יותר תמיד. הוא רק נוטה לתת תוצאות איכותיות יותר. במבחן יבקשו ממך להבדיל: ״האם K-Means++ <em>מבטיח</em> ביצועים טובים יותר?״ → לא, רק <em>בממוצע</em>.
+        <strong>אבל!</strong> K-Means++ <em>לא מבטיח</em> התכנסות מהירה יותר תמיד. הוא רק נוטה לתת תוצאות איכותיות יותר. במבחן יבקשו ממך להבדיל: ״האם K-Means++ <em>מבטיח</em> ביצועים טובים יותר?״ &larr; לא, רק <em>בממוצע</em>.
       </div>
     </div>
   </div>
@@ -396,7 +401,7 @@
           <text x="175" y="69" text-anchor="middle" font-family="JetBrains Mono" font-size="10" font-weight="700" fill="#dc2626">1</text>
         </g>
 
-        <text x="180" y="275" text-anchor="middle" font-family="Assistant" font-size="12" fill="#78716c">שתי centroids באותה קבוצה →</text>
+        <text x="180" y="275" text-anchor="middle" font-family="Assistant" font-size="12" fill="#78716c">שתי centroids באותה קבוצה &larr;</text>
         <text x="180" y="290" text-anchor="middle" font-family="Assistant" font-size="12" fill="#78716c">שתי הקבוצות למעלה קיבלו centroid אחד</text>
       </g>
 
@@ -436,7 +441,7 @@
         <line x1="264" y1="68" x2="175" y2="195" stroke="#78716c" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
 
         <text x="180" y="275" text-anchor="middle" font-family="Assistant" font-size="12" fill="#78716c">כל centroid נבחר עם הסתברות פרופורציונית</text>
-        <text x="180" y="290" text-anchor="middle" font-family="Assistant" font-size="12" fill="#78716c">ל־$D^2$ מהקודמים → מרחק גדול ביניהם</text>
+        <text x="180" y="290" text-anchor="middle" font-family="Assistant" font-size="12" fill="#78716c">ל־$D^2$ מהקודמים &larr; מרחק גדול ביניהם</text>
       </g>
     </svg>
     <div class="cap">
@@ -455,7 +460,7 @@
       <h4>שיטת המרפק (Elbow Method)</h4>
       <ul>
         <li>הרץ K-Means עם ערכי K שונים (1, 2, 3, ...).</li>
-        <li>לכל K, חשב את ה־<span class="term">inertia</span> (סכום המרחקים בריבוע לתוך כל cluster).</li>
+        <li>לכל K, חשב את ה־<strong>inertia</strong> (סכום המרחקים בריבוע לתוך כל cluster).</li>
         <li>שרטט inertia כפונקציה של K. ככל ש־K גדל, inertia יורד.</li>
         <li>בחר את ה־K ב<strong>נקודת המרפק</strong> — שם הירידה נעצרת.</li>
       </ul>
@@ -507,7 +512,7 @@
 
       <!-- Elbow point indicator -->
       <circle cx="190" cy="170" r="12" fill="none" stroke="#dc2626" stroke-width="2.5"/>
-      <text x="190" y="140" text-anchor="middle" font-family="Assistant" font-size="12" font-weight="700" fill="#dc2626">← המרפק</text>
+      <text x="190" y="140" text-anchor="middle" font-family="Assistant" font-size="12" font-weight="700" fill="#dc2626">&larr; המרפק</text>
       <text x="200" y="160" text-anchor="middle" font-family="Assistant" font-size="11" fill="#dc2626">K = 3</text>
 
       <!-- Annotations -->
@@ -536,7 +541,7 @@
       </ul>
 
       <div class="keypoint">
-        <strong>שאלת מבחן קלאסית:</strong> ״האם accuracy מתאים להערכת K-Means?״ → לא! accuracy דורש מיפוי 1-ל-1 בין clusters לתוויות. ב־K-Means אנחנו לא יודעים איזה cluster התאים לאיזה label.
+        <strong>שאלת מבחן קלאסית:</strong> ״האם accuracy מתאים להערכת K-Means?״ &larr; לא! accuracy דורש מיפוי 1-ל-1 בין clusters לתוויות. ב־K-Means אנחנו לא יודעים איזה cluster התאים לאיזה label.
       </div>
     </div>
   </div>
@@ -758,7 +763,7 @@
             <li class="wrong">
               <span class="mc-marker"></span>
               <span class="mc-text">
-                <strong>3. data גדול → יותר איטרציות.</strong>
+                <strong>3. data גדול &larr; יותר איטרציות.</strong>
                 <span class="why">לא נכון. ההתכנסות תלויה בצורת ה־data, לא רק בגודל. data גדול עם clusters ברורים יכול להתכנס מהר. data קטן עם clusters חופפים יכול להיות איטי.</span>
               </span>
             </li>
@@ -909,28 +914,28 @@ rand_score(actual, predicted)</code></pre>
     <div class="box-body">
       <ol>
         <li>
-          <strong>K-Means</strong>: שיוך לפי קרבה ל־centroid → עדכון centroids → חזרה עד התכנסות.
+          <strong>K-Means</strong> — שיוך לפי קרבה ל־<strong>centroid</strong>, עדכון <strong>centroids</strong>, וחזרה עד התכנסות.
         </li>
         <li>
-          <strong>תנאי עצירה</strong>: סבב שלם בלי שינוי השמה, או הגעה למקסימום איטרציות.
+          <strong>תנאי עצירה</strong> — סבב שלם בלי שינוי השמה, או הגעה למקסימום איטרציות.
         </li>
         <li>
-          <strong>תלות באתחול</strong> — תוצאות שונות מאתחולים שונים. K-Means++ מנסה להקטין את זה.
+          <strong>תלות באתחול</strong> — תוצאות שונות מאתחולים שונים, <span class="term">K-Means++</span> מנסה להקטין את זה.
         </li>
         <li>
-          <strong>K-Means++ לא מבטיח</strong> ביצועים טובים יותר. רק נוטה.
+          <strong><span class="term">K-Means++</span> לא מבטיח</strong> ביצועים טובים יותר — רק נוטה.
         </li>
         <li>
           <strong>אין accuracy ב־clustering</strong> — אין מיפוי טבעי בין labels ל־clusters.
         </li>
         <li>
-          <strong>Rand Index</strong> = (a+b)/$\binom{n}{2}$. עובד עם ground truth.
+          <strong>Rand Index</strong> — $(a+b)/\binom{n}{2}$ — עובד עם <strong>ground truth</strong>.
         </li>
         <li>
-          <strong>Purity</strong> = $\frac{1}{M}\sum \max_j |C_k \cap T_j|$. גם זה עם ground truth.
+          $\text{Purity} = \frac{1}{M}\sum \max_j |C_k \cap T_j|$ — גם זה עם <strong>ground truth</strong>.
         </li>
         <li>
-          <strong>Silhouette</strong> = $(b-a)/\max(a,b)$. עובד <em>בלי</em> ground truth. ערך גבוה = clusters טובים.
+          $\text{Silhouette} = (b-a)/\max(a,b)$ — עובד <em>בלי</em> <strong>ground truth</strong>, ערך גבוה מציין <strong>clusters</strong> טובים.
         </li>
       </ol>
     </div>
@@ -939,7 +944,7 @@ rand_score(actual, predicted)</code></pre>
   <div style="height: 60px"></div>
 
   <div style="display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid var(--rule); margin-top:48px;">
-    <a href="09-evaluation.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">→ פרק 9: הערכת סיווג</a>
+    <a href="09-evaluation.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">&larr; פרק 9: הערכת סיווג</a>
     <a href="11-clustering-dbscan.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">פרק 11: DBSCAN ←</a>
   </div>
 </main>
