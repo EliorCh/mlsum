@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הכנה למועד ב׳ · סטטיסטיקה מסקקת</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Frank+Ruhl+Libre:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/styles/atom-one-dark.min.css">
+<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>
+
+<script>
+  window.addEventListener('load', () => {
+    if (window.renderMathInElement) {
+      try { renderMathInElement(document.body, { delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}], throwOnError: false, strict: false }); } catch(e){}
+    }
+    if (window.hljs) { try { document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el)); } catch(e){} }
+    document.body.classList.add('ready');
+  });
+</script>
+
+<style>
+  :root {
+    --bg: #fbf9f3; --bg-paper: #fffefa; --ink: #1c1917; --ink-soft: #44403c; --ink-mute: #78716c;
+    --rule: #e7e5e0; --rule-soft: #f1efe9;
+    --indigo-9: #312e81; --indigo-7: #4f46e5; --indigo-3: #c7d2fe; --indigo-1: #eef2ff;
+    --c-theory-h: #1d4ed8; --c-theory-bg: #eff6ff; --c-theory-edge: #bfdbfe;
+    --c-formula-h: #b45309; --c-formula-bg: #fef9e7; --c-formula-edge: #fcd34d;
+    --c-example-h: #047857; --c-example-bg: #ecfdf5; --c-example-edge: #a7f3d0;
+    --c-warn-h: #be123c; --c-warn-bg: #fff1f2; --c-warn-edge: #fecdd3;
+    --c-exercise-h: #6d28d9; --c-exercise-bg: #f5f3ff; --c-exercise-edge: #ddd6fe;
+    --c-summary-h: #334155; --c-summary-bg: #f1f5f9; --c-summary-edge: #cbd5e1;
+    --code-bg: #0f172a; --code-bg-2: #1e293b; --code-ink: #e2e8f0;
+    --shadow-sm: 0 1px 2px rgba(28,25,23,.04), 0 1px 3px rgba(28,25,23,.06);
+    --shadow: 0 4px 12px rgba(28,25,23,.05), 0 1px 3px rgba(28,25,23,.04);
+    --serif: 'Frank Ruhl Libre', Georgia, serif;
+    --sans: 'Assistant', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  body { font-family: var(--sans); color: var(--ink); background: var(--bg); line-height: 1.75; font-size: 17px; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 20% 0%, rgba(99,102,241,.035), transparent 40%), radial-gradient(circle at 80% 100%, rgba(245,158,11,.035), transparent 40%);
+    background-attachment: fixed; opacity: 0; transition: opacity .2s ease; }
+  body.ready { opacity: 1; }
+  .app { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; max-width: 1480px; margin: 0 auto; }
+  .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%); color: #e0e7ff; padding: 32px 24px; border-left: 1px solid rgba(255,255,255,.06); }
+  .sidebar::-webkit-scrollbar { width: 6px; } .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
+  .brand { font-family: var(--serif); font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; letter-spacing: -.01em; line-height: 1.2; }
+  .brand a { color: #fff; text-decoration: none; } .brand a:hover { color: #fbbf24; }
+  .brand-sub { font-size: 13px; color: #c7d2fe; margin-bottom: 28px; font-weight: 500; }
+  .brand-meta { font-size: 11px; color: #a5b4fc; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .nav-label { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: #818cf8; font-weight: 700; margin: 24px 0 12px; padding-right: 8px; }
+  .nav-list { list-style: none; } .nav-list li { margin-bottom: 2px; }
+  .nav-list a { display: flex; align-items: center; gap: 10px; padding: 9px 12px; color: #c7d2fe; text-decoration: none; border-radius: 8px; font-size: 14.5px; font-weight: 500; transition: all .15s ease; }
+  .nav-list a:hover { background: rgba(255,255,255,.06); color: #fff; }
+  .nav-list a.active { background: rgba(255,255,255,.1); color: #fff; box-shadow: inset 3px 0 0 #fbbf24; }
+  .nav-list a.pending { opacity: .5; }
+  .nav-num { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; background: rgba(255,255,255,.08); border-radius: 6px; font-size: 11px; font-weight: 700; font-family: var(--mono); }
+  .nav-list a.active .nav-num { background: #fbbf24; color: #1e1b4b; }
+  main { padding: 56px 64px 120px; max-width: 960px; }
+  .page-eyebrow { display: inline-block; font-size: 12px; font-weight: 700; color: var(--indigo-7); letter-spacing: .15em; text-transform: uppercase; background: var(--indigo-1); padding: 6px 12px; border-radius: 99px; margin-bottom: 16px; }
+  h1.page-title { font-family: var(--serif); font-size: 48px; font-weight: 700; line-height: 1.15; letter-spacing: -.02em; color: var(--ink); margin-bottom: 14px; }
+  .page-subtitle { font-size: 19px; color: var(--ink-soft); margin-bottom: 48px; font-weight: 400; line-height: 1.55; }
+  h2 { font-family: var(--serif); font-size: 32px; font-weight: 700; letter-spacing: -.015em; margin: 56px 0 20px; color: var(--ink); position: relative; padding-right: 20px; }
+  h2::before { content: ''; position: absolute; right: 0; top: 14px; bottom: 14px; width: 4px; background: var(--indigo-7); border-radius: 2px; }
+  h3 { font-family: var(--sans); font-size: 22px; font-weight: 700; margin: 32px 0 12px; color: var(--ink); letter-spacing: -.005em; }
+  h4 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--ink-soft); }
+  p { margin-bottom: 14px; color: var(--ink-soft); } p strong { color: var(--ink); font-weight: 700; }
+  ul, ol { margin: 12px 24px 18px; color: var(--ink-soft); } li { margin-bottom: 8px; }
+  strong { unicode-bidi: isolate; }
+  .term { font-family: var(--mono); direction: ltr; display: inline-block; font-size: .88em; background: #f5f5f4; padding: 1px 8px; border-radius: 5px; color: #be185d; border: 1px solid #e7e5e4; vertical-align: baseline; unicode-bidi: isolate; }
+  .term.blue { color: var(--c-theory-h); background: var(--c-theory-bg); border-color: var(--c-theory-edge); }
+  .term.green { color: var(--c-example-h); background: var(--c-example-bg); border-color: var(--c-example-edge); }
+  .term.amber { color: var(--c-formula-h); background: var(--c-formula-bg); border-color: var(--c-formula-edge); }
+  .katex-display { margin: 18px 0 !important; direction: ltr !important; text-align: center !important; unicode-bidi: isolate; } .katex { direction: ltr !important; unicode-bidi: isolate; }
+  .box { border-radius: 14px; margin: 24px 0; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--rule); background: var(--bg-paper); }
+  .box-head { display: flex; align-items: center; gap: 12px; padding: 14px 22px; font-weight: 700; font-size: 15px; border-bottom: 1px solid var(--rule-soft); }
+  .box-head .icon { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; flex-shrink: 0; font-size: 16px; }
+  .box-body { padding: 22px 26px; } .box-body > *:last-child { margin-bottom: 0; }
+  .box.theory { border-color: var(--c-theory-edge); } .box.theory .box-head { background: var(--c-theory-bg); color: var(--c-theory-h); } .box.theory .box-head .icon { background: var(--c-theory-h); color: #fff; }
+  .box.formula { border-color: var(--c-formula-edge); background: var(--c-formula-bg); } .box.formula .box-head { background: transparent; color: var(--c-formula-h); border-bottom-color: rgba(180,83,9,.18); } .box.formula .box-head .icon { background: var(--c-formula-h); color: #fff; } .box.formula .box-body { background: var(--c-formula-bg); } .box.formula p { color: #78350f; }
+  .box.example { border-color: var(--c-example-edge); } .box.example .box-head { background: var(--c-example-bg); color: var(--c-example-h); } .box.example .box-head .icon { background: var(--c-example-h); color: #fff; }
+  .box.warn { border-color: var(--c-warn-edge); } .box.warn .box-head { background: var(--c-warn-bg); color: var(--c-warn-h); } .box.warn .box-head .icon { background: var(--c-warn-h); color: #fff; }
+  .box.exercise { border-color: var(--c-exercise-edge); } .box.exercise .box-head { background: var(--c-exercise-bg); color: var(--c-exercise-h); } .box.exercise .box-head .icon { background: var(--c-exercise-h); color: #fff; }
+  .box.summary { border-color: var(--c-summary-edge); } .box.summary .box-head { background: var(--c-summary-bg); color: var(--c-summary-h); } .box.summary .box-head .icon { background: var(--c-summary-h); color: #fff; }
+  pre { background: var(--code-bg) !important; border-radius: 0 0 12px 12px; padding: 18px 22px !important; margin: 0 0 16px 0; overflow-x: auto; direction: ltr !important; unicode-bidi: plaintext !important; text-align: left !important; font-size: 14px; line-height: 1.7; box-shadow: var(--shadow); border: 1px solid var(--code-bg-2); border-top: none; }
+  pre code { font-family: var(--mono) !important; background: transparent !important; padding: 0 !important; border: none !important; color: var(--code-ink) !important; direction: ltr !important; unicode-bidi: plaintext !important; }
+  .code-label { display: flex; align-items: center; gap: 8px; background: var(--code-bg-2); color: #94a3b8; font-family: var(--mono); font-size: 12px; padding: 10px 16px; border-radius: 12px 12px 0 0; direction: ltr; border: 1px solid var(--code-bg-2); border-bottom: 1px solid #334155; margin-top: 18px; }
+  .code-label .dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; }
+  .code-label .dot.red { background: #ef4444; } .code-label .dot.amber { background: #f59e0b; } .code-label .dot.green { background: #22c55e; }
+  .code-label .name { margin-right: auto; opacity: .9; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: var(--shadow-sm); font-size: 15px; }
+  th, td { padding: 11px 14px; text-align: right; border-bottom: 1px solid var(--rule-soft); border-left: 1px solid var(--rule-soft); }
+  th { background: var(--c-summary-bg); font-weight: 700; color: var(--c-summary-h); }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { font-family: var(--mono); direction: ltr; text-align: center; font-size: 14px; }
+  td.highlight { background: var(--c-formula-bg); font-weight: 700; color: var(--c-formula-h); }
+  .ztable { font-family: var(--mono); direction: ltr; font-size: 12.5px; }
+  .ztable th, .ztable td { padding: 5px 8px; text-align: center; }
+  .exercise-card { background: #fff; border-radius: 10px; margin: 14px 0; border: 1px solid var(--c-exercise-edge); overflow: hidden; }
+  .exercise-tag { display: inline-block; font-size: 11px; font-weight: 700; background: var(--c-exercise-h); color: #fff; padding: 3px 10px; border-radius: 99px; margin-bottom: 10px; font-family: var(--mono); letter-spacing: .05em; direction: ltr; }
+  .exercise-q { padding: 20px 24px; background: #fafaf9; border-bottom: 1px solid var(--rule-soft); }
+  .exercise-q p:last-child { margin-bottom: 0; }
+  .reveal-btn { display: block; width: 100%; background: var(--c-exercise-bg); border: none; border-top: 1px solid var(--c-exercise-edge); padding: 13px; font-family: var(--sans); font-size: 14px; font-weight: 700; color: var(--c-exercise-h); cursor: pointer; transition: background .15s ease; }
+  .reveal-btn:hover { background: #ede9fe; } .reveal-btn::before { content: '▼ '; font-size: 10px; margin-left: 6px; transition: transform .2s ease; }
+  .exercise-card.open .reveal-btn::before { content: '▲ '; }
+  .solution { padding: 22px 26px; background: var(--c-example-bg); border-top: 1px solid var(--c-example-edge); display: none; }
+  .exercise-card.open .solution { display: block; }
+  .solution .step { background: #fff; border-radius: 8px; padding: 14px 18px; margin: 12px 0; border-right: 3px solid var(--c-example-h); }
+  .solution .step-label { font-size: 11px; font-weight: 700; color: var(--c-example-h); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; font-family: var(--mono); }
+  .solution .final-answer { background: #fff; border: 2px solid var(--c-example-h); border-radius: 10px; padding: 14px 20px; margin-top: 16px; font-weight: 600; }
+  .solution .final-answer::before { content: '✓ '; color: var(--c-example-h); font-weight: 900; }
+  .lead { font-size: 19px; color: var(--ink-soft); border-right: 3px solid var(--indigo-7); padding-right: 20px; margin: 24px 0 32px; font-weight: 400; line-height: 1.6; }
+  .keypoint { background: linear-gradient(90deg, var(--c-formula-bg) 0%, transparent 100%); padding: 14px 18px; border-radius: 8px; margin: 16px 0; border-right: 3px solid var(--c-formula-h); }
+  .keypoint::before { content: '💡 '; font-size: 18px; margin-left: 4px; }
+  .mc-list { list-style: none; margin: 12px 0; padding: 0; }
+  .mc-list li { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: #fff; border: 1px solid var(--rule); border-radius: 8px; margin-bottom: 8px; transition: all .15s ease; }
+  .mc-list li .mc-marker { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--rule); flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); background: #fff; }
+  .mc-list li.correct { background: var(--c-example-bg); border-color: var(--c-example-edge); }
+  .mc-list li.correct .mc-marker { background: var(--c-example-h); color: #fff; border-color: var(--c-example-h); }
+  .mc-list li.correct .mc-marker::after { content: '✓'; }
+  .mc-list li.wrong { background: var(--c-warn-bg); border-color: var(--c-warn-edge); }
+  .mc-list li.wrong .mc-marker { background: var(--c-warn-h); color: #fff; border-color: var(--c-warn-h); }
+  .mc-list li.wrong .mc-marker::after { content: '✗'; }
+  .mc-list li .mc-text { flex: 1; line-height: 1.55; color: var(--ink-soft); }
+  .mc-list li .mc-text .why { display: block; margin-top: 6px; font-size: 13.5px; color: var(--ink-mute); font-style: italic; }
+  .figure { background: #fff; border: 1px solid var(--rule); border-radius: 12px; padding: 18px; margin: 18px 0; text-align: center; box-shadow: var(--shadow-sm); }
+  .figure svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+  .figure .cap { font-size: 13px; color: var(--ink-mute); margin-top: 12px; font-style: italic; }
+  @media (max-width: 900px) { .app { grid-template-columns: 1fr; } .sidebar { position: static; height: auto; } main { padding: 32px 24px 80px; } h1.page-title { font-size: 36px; } h2 { font-size: 26px; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="brand"><a href="index.html">מבוא ללמידת מכונה<br>ולמדעי הנתונים</a></div>
+  <div class="brand-sub">מדריך הכנה למבחן · ד״ר אלה רבינוביץ׳</div>
+  <div class="brand-meta">MTA · קיץ 2026</div>
+
+  <div class="nav-label">פייתון ונתונים</div>
+  <ul class="nav-list">
+    <li><a href="01-numpy.html"><span class="nav-num">1</span>NumPy</a></li>
+    <li><a href="02-pandas.html"><span class="nav-num">2</span>Pandas</a></li>
+  </ul>
+
+  <div class="nav-label">סטטיסטיקה</div>
+  <ul class="nav-list">
+    <li><a href="03-descriptive-stats.html"><span class="nav-num">3</span>סטטיסטיקה תיאורית</a></li>
+    <li><a href="04-inferential-stats.html"><span class="nav-num">4</span>סטטיסטיקה מסקקת</a></li>
+  </ul>
+
+  <div class="nav-label">למידה מונחית</div>
+  <ul class="nav-list">
+    <li><a href="05-linear-regression.html"><span class="nav-num">5</span>רגרסיה לינארית</a></li>
+    <li><a href="06-multiple-regression.html"><span class="nav-num">6</span>רגרסיה מרובה</a></li>
+    <li><a href="07-classification-basics.html"><span class="nav-num">7</span>סיווג בסיסי</a></li>
+    <li><a href="08-neural-networks.html"><span class="nav-num">8</span>רשתות נוירונים</a></li>
+    <li><a href="09-evaluation.html"><span class="nav-num">9</span>הערכת סיווג</a></li>
+  </ul>
+
+  <div class="nav-label">למידה לא מונחית</div>
+  <ul class="nav-list">
+    <li><a href="10-clustering-kmeans.html"><span class="nav-num">10</span>K-Means</a></li>
+    <li><a href="11-clustering-dbscan.html"><span class="nav-num">11</span>DBSCAN</a></li>
+    <li><a href="12-image-and-self-supervised.html"><span class="nav-num">12</span>עיבוד תמונה</a></li>
+  </ul>
+
+  <div class="nav-label">נספח</div>
+  <ul class="nav-list">
+    <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
+    <li><a href="14-moed-a.html"><span class="nav-num">14</span>מבחן מועד א׳ + פתרונות</a></li>
+    <li><a href="15-moed-b-prep.html" class="active"><span class="nav-num">15</span>הכנה למועד ב׳</a></li>
+  </ul>
+  <div class="nav-label">אתר נלווה</div>
+  <ul class="nav-list">
+    <li><a href="https://eliorch.github.io/mlque" target="_blank" rel="noopener" style="background: rgba(124, 58, 237, 0.15); border-left: 3px solid #a78bfa;">🎯 אתר תרגול שאלות ↗</a></li>
+  </ul>
+</aside>
+
+<main>
+
+  <style>
+    .q-points { font-size: 13px; color: var(--indigo-7); background: #eef2ff; padding: 3px 10px; border-radius: 6px; margin-inline-start: 10px; font-weight: 600; vertical-align: middle; unicode-bidi: isolate; }
+    .graph-tag { font-size: 13px; color: #b91c1c; background: #fef2f2; padding: 3px 10px; border-radius: 6px; margin-inline-start: 6px; font-weight: 600; vertical-align: middle; unicode-bidi: isolate; }
+  </style>
+  <span class="page-eyebrow">נספח · פרק 15 · הכנה למועד ב׳</span>
+  <h1 class="page-title">הכנה למועד ב׳ — שאלות תרגול</h1>
+  <p class="page-subtitle">שאלות חדשות בסגנון המבחן, על אותם נושאים שהופיעו במועד א׳. שבע מהן שאלות גרפים — חישוב, שרטוט ופירוש — הנושא שקיבל פחות תרגול.</p>
+
+  <p class="lead">
+    <strong>איך להשתמש בפרק:</strong> נסה לפתור כל שאלה לפני שאתה מציץ בפתרון.
+    כל שאלה נבנתה על סמך שאלה מקבילה במועד א׳ אבל עם ערכים ופרטים אחרים.
+    השאלות משקפות את סגנון הניסוח של המרצים ופורמט השאלות שלהם.
+    <strong>הפתרונות עברו בדיקה כפולה מול חומרי ההרצאה והפתרון הרשמי של מועד א׳.</strong>
+  </p>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>על שאלות הגרפים</div>
+    <div class="box-body">
+      <p>שאלה 11 במועד א׳ ביקשה במפורש <strong>״צייר את הגרף שמתקבל כתוצאה מהרצת הקוד״</strong> — כלומר לחשב את כל הטבלה מהקוד ואז לסמן את הנקודות על מערכת צירים מודפסת.</p>
+      <p>שבע השאלות המסומנות בתג <span class="graph-tag">גרף</span> בפרק הזה מכסות את שני הכיוונים:</p>
+      <ul>
+        <li><strong>חישוב ושרטוט</strong> — שאלות 15.11, 15.17 ו־15.18, בדיוק בפורמט של מועד א׳: מחשבים טבלה מהנתונים ואז מסמנים את הנקודות.</li>
+        <li><strong>קריאה ופירוש</strong> — שאלות 15.5, 15.15, 15.16 ו־15.19, שבהן הגרף נתון ויש לחלץ ממנו ערכים ומסקנות.</li>
+      </ul>
+      <div class="keypoint">
+        <strong>המיומנות המשותפת לשתי הצורות</strong> — לדעת לחשב $TP$, $FP$, $FN$ ו־$TN$ בסף נתון, ומהם את <span class="term">TPR</span>, <span class="term">FPR</span>, <span class="term">Precision</span> ו־<span class="term">Recall</span>. אם הטבלה מדויקת, גם הציור וגם הפירוש נובעים ממנה מיד.
+      </div>
+    </div>
+  </div>
+
+  <!-- Topic map -->
+  <h2>מה הופיע במועד א׳ ומה סביר לצפות במועד ב׳</h2>
+
+  <div class="box theory">
+    <div class="box-head"><span class="icon">📘</span>מיפוי נושאים</div>
+    <div class="box-body">
+      <table>
+        <tr><th>נושא</th><th>מועד א׳</th><th>שאלה בפרק זה</th><th>דגש חשוב</th></tr>
+        <tr><td>Ordinal / categorical variables</td><td>שאלה 1</td><td>15.1</td><td>הבדל בין ordinal ל־nominal</td></tr>
+        <tr><td>התפלגות נורמלית — מציאת ערך</td><td>שאלה 2</td><td>15.2</td><td>שימוש בטבלת Z</td></tr>
+        <tr><td>הסתברויות והמרות לינאריות</td><td>שאלה 3</td><td>15.3</td><td>$E(aX+b), \text{Var}(aX+b)$</td></tr>
+        <tr><td>גודל מדגם ורוחב רווח סמך</td><td>שאלה 4</td><td>15.4</td><td>יחסי $N$, $\sigma$, $Z$</td></tr>
+        <tr><td>פירוש רווחי סמך</td><td>שאלה 5</td><td>15.5</td><td><strong>גרף!</strong></td></tr>
+        <tr><td>Regression + multi-collinearity</td><td>שאלה 6</td><td>15.6</td><td>קריאת summary output</td></tr>
+        <tr><td>KNN / NNR</td><td>שאלה 7</td><td>15.7</td><td>מפרש התנהגות edge case</td></tr>
+        <tr><td>Correlation vs causation</td><td>שאלה 8</td><td>15.8</td><td>דוגמה יצירתית</td></tr>
+        <tr><td>Neural networks — פונקציות אקטיבציה</td><td>שאלה 9</td><td>15.9</td><td>מה שובר את האימון</td></tr>
+        <tr><td>Rand Score / clustering metrics</td><td>שאלה 10</td><td>15.10</td><td>חישוב ידני</td></tr>
+        <tr><td>Precision-Recall / ROC curves</td><td>שאלה 11</td><td>15.11</td><td><strong>חישוב טבלה ואז שרטוט</strong></td></tr>
+        <tr><td>PCA — eigenvalues</td><td>שאלה 12</td><td>15.12</td><td>שונות מוסברת מצטברת</td></tr>
+        <tr><td>Autoencoder — threshold tuning</td><td>שאלה 13</td><td>15.13</td><td>השפעה על precision/recall</td></tr>
+        <tr><td>CNN properties</td><td>שאלה 14</td><td>15.14</td><td>נכון/לא נכון קלאסי</td></tr>
+        <tr><td class="highlight"><strong>בונוס — גרפים נוספים</strong></td><td>—</td><td class="highlight">15.15–15.19</td><td class="highlight"><strong>Confusion matrix, ROC, PR, מרפק, היסטוגרמה</strong></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <h2>15.1 · משתנים סידוריים <span class="q-points">2 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>נתונים משתנים במחקר על שירותים רפואיים. סמנו את כל המשתנים הקטגוריים הסידוריים (<span class="term">ordinal</span>):</p>
+      <ol style="margin: 8px 24px;">
+        <li>מגדר: זכר / נקבה / אחר</li>
+        <li>מספר טלפון של המטופל</li>
+        <li>רמת כאב: אין, קל, בינוני, חזק, בלתי־נסבל</li>
+        <li>מחוז מגורים: צפון, מרכז, דרום, ירושלים</li>
+        <li>גיל בשנים</li>
+        <li>שנת ותק של הרופא</li>
+        <li>סוג ביטוח: פרטי, קופ״ח, ממלכתי</li>
+        <li>שביעות רצון: 1 (לא מרוצה) עד 5 (מרוצה מאוד)</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">חוק פסח: מספרי או קטגורי?</div>
+            <p>קודם בודקים אם המשתנה מספרי (רציף/בדיד) או קטגורי. אם קטגורי — האם יש סדר טבעי?</p>
+          </div>
+
+          <ul class="mc-list">
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>1. מגדר</strong> <span class="why">קטגורי nominal — אין סדר.</span></span></li>
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>2. מספר טלפון</strong> <span class="why">מזהה, לא משתנה בעצם. אין סדר מספרי משמעותי.</span></span></li>
+            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>3. רמת כאב</strong> <span class="why">ordinal — סדר טבעי: אין &lt; קל &lt; בינוני &lt; חזק &lt; בלתי־נסבל.</span></span></li>
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>4. מחוז</strong> <span class="why">קטגורי nominal — אין סדר טבעי.</span></span></li>
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>5. גיל</strong> <span class="why">מספרי רציף, לא קטגורי.</span></span></li>
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>6. שנת ותק</strong> <span class="why">מספרי בדיד, לא קטגורי.</span></span></li>
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>7. סוג ביטוח</strong> <span class="why">קטגורי nominal.</span></span></li>
+            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>8. שביעות רצון 1-5</strong> <span class="why">ordinal — סדר טבעי בסקאלה (Likert scale).</span></span></li>
+          </ul>
+
+          <div class="final-answer">תשובה: 3 ו־8.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <h2>15.2 · התפלגות נורמלית — מציאת ערך <span class="q-points">6 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>ציוני מבחן במתמטיקה מתפלגים נורמלית: $X \sim N(70, 10)$ (תוחלת 70, סטיית תקן 10).</p>
+      <p><strong>סעיף א׳:</strong> ידוע כי $P(X < k) = 0.15$. מצאו את הערך $k$. הראו חישוב.</p>
+      <p><strong>סעיף ב׳:</strong> סמנו נכון/לא נכון:</p>
+      <ol style="margin: 8px 24px;">
+        <li>אם התוחלת תגדל ב־5, הערך של $k$ ישתנה ב־5 בכיוון החיובי.</li>
+        <li>אם השונות תוכפל, הערך של $k$ ישתנה פי 2.</li>
+        <li>הסתברות $P(X > k) = 0.85$.</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">סעיף א׳</div>
+            <p>$P(X < k) = 0.15$ אומר $Z_{0.15} = -1.04$ (מהטבלה: $Z(0.15) \approx -1.04$).</p>
+            <p>$k = \mu + Z \cdot \sigma = 70 + (-1.04)(10) = 70 - 10.4 = 59.6$</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף ב׳</div>
+            <ul class="mc-list">
+              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>1. תוחלת +5 ← k גדל ב־5</strong> <span class="why">נכון. $k = \mu + Z\sigma$, כשה־$\mu$ עולה ב־5 גם $k$ עולה ב־5.</span></span></li>
+              <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>2. שונות ×2 ← k משתנה ×2</strong> <span class="why">לא נכון. אם שונות $\sigma^2$ מוכפלת ב־2, סטיית התקן $\sigma$ מוכפלת ב־$\sqrt{2}$. גם — רק החלק של $Z \cdot \sigma$ משתנה, לא $k$ כולו.</span></span></li>
+              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>3. $P(X > k) = 0.85$</strong> <span class="why">נכון. $P(X < k) + P(X > k) = 1$, ו־$1 - 0.15 = 0.85$.</span></span></li>
+            </ul>
+          </div>
+
+          <div class="final-answer">
+            א׳: $k = 59.6$. &nbsp;·&nbsp; ב׳: 1 ו־3 נכונים, 2 לא נכון.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <h2>15.3 · שינויים לינאריים על התפלגות נורמלית <span class="q-points">6 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>גובה של אתלט מתפלג: $H \sim N(180, 8)$ (בסנטימטרים).</p>
+
+      <p><strong>סעיף א׳:</strong> איזה מהביטויים הוא בעל ההסתברות הגבוהה ביותר? סמנו את כל התשובות הנכונות:</p>
+      <ol style="margin: 8px 24px;">
+        <li>$P(H < 164)$</li>
+        <li>$P(172 < H < 180)$</li>
+        <li>$P(180 < H < 188)$</li>
+        <li>$P(H > 200)$</li>
+      </ol>
+
+      <p><strong>סעיף ב׳:</strong> נמיר את הגובה ליחידות אינץ׳ (חלוקה בערך ב־2.54):</p>
+      <ol style="margin: 8px 24px;">
+        <li>מהי התוחלת החדשה?</li>
+        <li>מהי סטיית התקן החדשה?</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">סעיף א׳ · הסתברויות</div>
+            <p>$\mu = 180$, $\sigma = 8$, אז $\mu \pm \sigma = [172, 188]$.</p>
+            <ul>
+              <li>אפשרויות 2 ו־3 שוות (הסתברות זהה בשל סימטריה) וגם הגבוהות ביותר, כי כל אחת מכסה טווח בין $\mu$ ל־$\mu + \sigma$.</li>
+              <li>אפשרות 1: $H < 164$ = $H < \mu - 2\sigma$, זנב מרוחק, הסתברות קטנה.</li>
+              <li>אפשרות 4: $H > 200$ = $H > \mu + 2.5\sigma$, זנב עוד יותר מרוחק, קטנה עוד יותר.</li>
+            </ul>
+            <p>תשובות נכונות: <strong>2 ו־3</strong> (שווות).</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · המרה ליחידה חדשה</div>
+            <p>$H_{inch} = H / 2.54$, כלומר $H_{inch} = (1/2.54) \cdot H$.</p>
+            <p>לפי חוקי לינאריות: $E(aX) = aE(X)$, $\text{Var}(aX) = a^2 \text{Var}(X)$.</p>
+            $$\mu_{inch} = \frac{180}{2.54} \approx 70.87 \text{ inches}$$
+            $$\sigma_{inch} = \frac{8}{2.54} \approx 3.15 \text{ inches}$$
+          </div>
+
+          <div class="final-answer">
+            א׳: 2 ו־3. &nbsp;·&nbsp; ב׳: $\mu = 70.87$, $\sigma = 3.15$.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <h2>15.4 · גודל מדגם לרווח סמך <span class="q-points">7 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>חברה עוקבת אחר זמן הטעינה של סוללות. הוא מתפלג נורמלית עם תוחלת לא ידועה ושונות מוערכת של <strong>0.64</strong> דקות ריבוע.</p>
+
+      <p><strong>סעיף א׳:</strong> מהו גודל המדגם המינימלי $N$ שיש לדגום כדי לבנות רווח סמך <strong>ברוחב 0.2 דקות</strong> ברמת ביטחון של <strong>95%</strong>? הראו את החישוב.</p>
+
+      <p><strong>סעיף ב׳:</strong> נכון או לא נכון:</p>
+      <ol style="margin: 8px 24px;">
+        <li>עם רמת ביטחון של 99% במקום 95%, יידרש מדגם קטן יותר.</li>
+        <li>עם שונות מוערכת נמוכה יותר (0.36), יידרש מדגם קטן יותר.</li>
+        <li>אם נדרש רוחב של 0.1 דקות (חצי), גודל המדגם יגדל פי 2.</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">סעיף א׳</div>
+            <p>נוסחת רוחב הרווח: $\text{width} = 2 Z(1 - \alpha/2) \cdot \sigma / \sqrt{N}$.</p>
+            <p>עבור 95%: $Z(0.975) = 1.96$. סטיית תקן: $\sigma = \sqrt{0.64} = 0.8$.</p>
+            $$2 \cdot 1.96 \cdot \frac{0.8}{\sqrt{N}} = 0.2$$
+            $$\sqrt{N} = \frac{2 \cdot 1.96 \cdot 0.8}{0.2} = \frac{3.136}{0.2} = 15.68$$
+            $$N = 15.68^2 = 245.86 \Rightarrow N = 246$$
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף ב׳</div>
+            <ul class="mc-list">
+              <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>1. 99% ← קטן יותר</strong> <span class="why">לא נכון. ביטחון גבוה יותר דורש $Z$ גדול יותר ($Z(0.995) = 2.58 > 1.96$), ולכן $N$ יותר גדול.</span></span></li>
+              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>2. שונות 0.36 ← קטן יותר</strong> <span class="why">נכון. $N \propto \sigma^2$, פחות שונות → פחות דגימות.</span></span></li>
+              <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>3. רוחב ×½ ← $N$ ×2</strong> <span class="why">לא נכון. $N \propto 1/\text{width}^2$. חצי רוחב = $N$ פי <em>4</em>, לא פי 2.</span></span></li>
+            </ul>
+          </div>
+
+          <div class="final-answer">א׳: $N = 246$. &nbsp;·&nbsp; ב׳: רק 2 נכון.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 with graph -->
+  <h2>15.5 · פירוש רווחי סמך מגרף <span class="q-points">7 נקודות</span> <span class="graph-tag">גרף</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>ארבעה חוקרים מדדו את זמן התגובה הממוצע של משתמשים לפרסומת. התוחלת האמיתית היא $\mu = 3.5$ שניות. כל אחד מהם דגם כמות שונה של תצפיות ובנה רווח סמך של <strong>90%</strong>. איור:</p>
+
+      <div class="figure">
+        <svg viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg">
+          <line x1="220" y1="20" x2="220" y2="180" stroke="#78716c" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <text x="220" y="200" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#1c1917">μ = 3.5</text>
+          <!-- W: narrow, centered near mu -->
+          <text x="30" y="45" font-family="Assistant" font-size="14" font-weight="700" fill="#1c1917">W</text>
+          <line x1="200" y1="40" x2="240" y2="40" stroke="#1c1917" stroke-width="1.5"/>
+          <line x1="200" y1="35" x2="200" y2="45" stroke="#1c1917" stroke-width="1.5"/>
+          <line x1="240" y1="35" x2="240" y2="45" stroke="#1c1917" stroke-width="1.5"/>
+          <line x1="220" y1="30" x2="220" y2="50" stroke="#1d4ed8" stroke-width="3"/>
+          <!-- X: wide, contains mu -->
+          <text x="30" y="85" font-family="Assistant" font-size="14" font-weight="700" fill="#1c1917">X</text>
+          <line x1="130" y1="80" x2="310" y2="80" stroke="#1c1917" stroke-width="1.5"/>
+          <line x1="130" y1="75" x2="130" y2="85" stroke="#1c1917" stroke-width="1.5"/>
+          <line x1="310" y1="75" x2="310" y2="85" stroke="#1c1917" stroke-width="1.5"/>
+          <line x1="215" y1="70" x2="215" y2="90" stroke="#1d4ed8" stroke-width="3"/>
+          <!-- Y: medium, does not contain mu (shifted right) -->
+          <text x="30" y="125" font-family="Assistant" font-size="14" font-weight="700" fill="#1c1917">Y</text>
+          <line x1="255" y1="120" x2="365" y2="120" stroke="#dc2626" stroke-width="1.5"/>
+          <line x1="255" y1="115" x2="255" y2="125" stroke="#dc2626" stroke-width="1.5"/>
+          <line x1="365" y1="115" x2="365" y2="125" stroke="#dc2626" stroke-width="1.5"/>
+          <line x1="310" y1="110" x2="310" y2="130" stroke="#dc2626" stroke-width="3"/>
+          <!-- Z: medium, contains mu -->
+          <text x="30" y="165" font-family="Assistant" font-size="14" font-weight="700" fill="#1c1917">Z</text>
+          <line x1="170" y1="160" x2="290" y2="160" stroke="#1c1917" stroke-width="1.5"/>
+          <line x1="170" y1="155" x2="170" y2="165" stroke="#1c1917" stroke-width="1.5"/>
+          <line x1="290" y1="155" x2="290" y2="165" stroke="#1c1917" stroke-width="1.5"/>
+          <line x1="230" y1="150" x2="230" y2="170" stroke="#1d4ed8" stroke-width="3"/>
+        </svg>
+        <div class="cap">ארבעה רווחי סמך של 90%. כחול = ממוצע מדגמי $M$, שחור = גבולות הרווח, אדום מסמן שהרווח אינו מכיל את $\mu$.</div>
+      </div>
+
+      <p><strong>שאלות:</strong></p>
+      <ol style="margin: 8px 24px;" type="א">
+        <li>אילו רווחי סמך אינם מכילים את התוחלת האמיתית?</li>
+        <li>איזה חוקר, ככל הנראה, השתמש במדגם הגדול ביותר?</li>
+        <li>נכון או לא נכון: החוקר Y ״טעה בחישוב״.</li>
+        <li>אם היו בונים כעת רווח סמך של 95% במקום 90% — האם רווח W עדיין יכיל את $\mu$? הסבירו.</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">א׳ · מקרים שלא מכילים את μ</div>
+            <p><strong>Y בלבד</strong> — הרווח מ־3.9 עד 4.55 בערך, ולא כולל 3.5.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">ב׳ · מדגם הגדול ביותר</div>
+            <p><strong>W</strong> — הרווח הכי צר, ולכן $N$ הכי גדול (בהנחה של אותה שונות). הרוחב יורד עם $\sqrt{N}$.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">ג׳ · האם Y ״טעה״?</div>
+            <p><strong>לא בהכרח.</strong> רווח סמך של 90% מבטיח שרק 90% מהרווחים יכילו את $\mu$. הרווחת Y יכולה להיות תוצאה של דגימה אקראית ״לא־מוצלחת״, בלי כל טעות בחישוב. זה בדיוק ההיגיון של סטטיסטיקה בהסתברות.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">ד׳ · האם W ימשיך להכיל את μ ב־95%?</div>
+            <p><strong>בהכרח כן.</strong> העלאת רמת הביטחון (מ־90% ל־95%) <em>מרחיבה</em> את הרווחים. אם רווח W ב־90% כבר מכיל את $\mu$, הרווח הרחב יותר של 95% (סביב אותו ממוצע $M$) בוודאי יכיל את $\mu$ גם כן.</p>
+          </div>
+
+          <div class="final-answer">
+            א׳: Y. &nbsp;·&nbsp; ב׳: W. &nbsp;·&nbsp; ג׳: לא בהכרח. &nbsp;·&nbsp; ד׳: כן, כי הרווח יורחב.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <h2>15.6 · Multi-collinearity ברגרסיה <span class="q-points">10 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>אימנו מודל רגרסיה על נתוני נדל״ן עם 4 משתנים ($x_1, x_2, x_3, x_4$) ומשתנה תלוי <span class="term">price</span>. לא בוצע feature scaling.</p>
+
+      <p><strong>מטריצת מתאם:</strong></p>
+      <table style="font-family:var(--mono); font-size:13px;">
+        <tr><th></th><th class="num">x1 (סק״מ)</th><th class="num">x2 (חדרים)</th><th class="num">x3 (גיל בניין)</th><th class="num">x4 (קומה)</th><th class="num">price</th></tr>
+        <tr><td><strong>x1</strong></td><td class="num">1.00</td><td class="num highlight">0.93</td><td class="num">-0.05</td><td class="num">0.15</td><td class="num">0.82</td></tr>
+        <tr><td><strong>x2</strong></td><td class="num highlight">0.93</td><td class="num">1.00</td><td class="num">-0.04</td><td class="num">0.11</td><td class="num">0.78</td></tr>
+        <tr><td><strong>x3</strong></td><td class="num">-0.05</td><td class="num">-0.04</td><td class="num">1.00</td><td class="num">0.02</td><td class="num">-0.42</td></tr>
+        <tr><td><strong>x4</strong></td><td class="num">0.15</td><td class="num">0.11</td><td class="num">0.02</td><td class="num">1.00</td><td class="num">0.09</td></tr>
+      </table>
+
+      <p><strong>פלט Regression:</strong> $R^2 = 0.87$</p>
+      <table style="font-family:var(--mono); font-size:13px;">
+        <tr><th></th><th class="num">coef</th><th class="num">P&gt;|t|</th></tr>
+        <tr><td><strong>x1</strong></td><td class="num">4.2</td><td class="num">0.003</td></tr>
+        <tr><td><strong>x2</strong></td><td class="num">1.1</td><td class="num highlight">0.42</td></tr>
+        <tr><td><strong>x3</strong></td><td class="num">-3.5</td><td class="num">0.001</td></tr>
+        <tr><td><strong>x4</strong></td><td class="num">0.3</td><td class="num highlight">0.71</td></tr>
+      </table>
+
+      <p><strong>לכל טענה — נכון / לא נכון / לא ניתן לדעת:</strong></p>
+      <ol style="margin: 8px 24px;">
+        <li>הורדת <span class="term">x2</span> תגרום לירידה משמעותית ב־$R^2$.</li>
+        <li>הורדת <span class="term">x4</span> תגרום לירידה משמעותית ב־Adjusted $R^2$.</li>
+        <li><span class="term">x2</span> אין השפעה משמעותית על מחיר הדירה.</li>
+        <li>מדדי סק״מ (<span class="term">x1</span>) הם הגורם החזק ביותר במודל.</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">אבחון: multi-collinearity</div>
+            <p>המתאם בין <span class="term">x1</span> (סק״מ) ו־<span class="term">x2</span> (חדרים) הוא 0.93 — חזק מאוד. השניים נושאים אינפורמציה כמעט זהה. המודל ״שם את הקרדיט״ ב־<span class="term">x1</span> ומשאיר את <span class="term">x2</span> לא־מובהק.</p>
+          </div>
+
+          <ul class="mc-list">
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>1. הורדת x2 ← ירידה משמעותית ב־$R^2$</strong> <span class="why">לא נכון. <span class="term">x1</span> מכסה את אותו מידע (מתאם 0.93), אז $R^2$ יישאר כמעט זהה.</span></span></li>
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>2. הורדת x4 ← ירידה משמעותית ב־Adj $R^2$</strong> <span class="why">לא נכון. <span class="term">x4</span> לא מובהק (p=0.71) ומתאמו עם price הוא 0.09 — כמעט אין השפעה. הורדתו עשויה אפילו להגדיל את Adj $R^2$.</span></span></li>
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>3. x2 בלי השפעה על price</strong> <span class="why">לא נכון! מתאם 0.78 עם price זה משמעותי. p-value גבוה נובע מ־multi-collinearity, לא מהעדר קשר.</span></span></li>
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>4. x1 החזק ביותר</strong> <span class="why"><em>לא ניתן לדעת</em>. בלי scaling, גודל המקדם 4.2 של <span class="term">x1</span> תלוי בסקאלה. עמודת סק״מ יכולה להיות במאות ואילו <span class="term">x3</span> (גיל) בעשרות — לכן מקדמים לא ניתנים להשוואה.</span></span></li>
+          </ul>
+
+          <div class="final-answer">1: לא נכון. &nbsp;·&nbsp; 2: לא נכון. &nbsp;·&nbsp; 3: לא נכון. &nbsp;·&nbsp; 4: לא ניתן לדעת.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <h2>15.7 · KNN — התנהגות ב־edge cases <span class="q-points">10 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>נבנה מסווג KNN עם $K = 5$ על מאגר של 100 נקודות מסומנות ב־2 מחלקות (60 מ־A ו־40 מ־B). לכל טענה — נכון או לא נכון + הסבר:</p>
+      <ol style="margin: 8px 24px;">
+        <li>אם נגדיל את $K$ ל־100, המסווג תמיד יסווג את כל התצפיות כ־A.</li>
+        <li>KNN עם $K=1$ תמיד יסווג נכון את כל נקודות ה־train.</li>
+        <li>אם ניצור עותק זהה של תצפית חיובית וניתן משקל 2 בלימוד, זה יעזור. KNN רגיל.</li>
+        <li>נרמול $x_1 \in [0,1000]$ ו־$x_2 \in [0,1]$ הוא חובה — אחרת $x_1$ יבלע את השפעת $x_2$.</li>
+        <li>KNN מהיר ב־training אך איטי ב־prediction.</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <ul class="mc-list">
+            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>1. K=100 ← הכל A</strong> <span class="why">נכון. אם $K$ = כל ה־train, נעשה majority vote על כולם — הרוב הוא A (60 מ־A נגד 40 מ־B). כל תצפית תסווג כ־A.</span></span></li>
+              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>2. K=1 ← מדויק ב־train</strong> <span class="why">נכון. עבור נקודה מ־train, השכן הקרוב ביותר הוא היא עצמה (מרחק 0). לכן היא תסווג לפי תיוגה שלה.</span></span></li>
+              <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>3. שכפול תצפית + משקל</strong> <span class="why">לא נכון. KNN רגיל לא ״לומד״ ולא משתמש במשקלים בשלב האימון. שכפול תצפית יופיע בשכנות אבל לא ״ילמד״ באופן שונה.</span></span></li>
+              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>4. נרמול חובה</strong> <span class="why">נכון. KNN מבוסס על מרחק Euclidean או Manhattan. הבדל של 100 ב־$x_1$ יהיה משמעותית יותר מהבדל של 0.5 ב־$x_2$ בגלל סקאלה, למרות שאולי $x_2$ חשוב יותר.</span></span></li>
+              <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>5. מהיר ב־train, איטי ב־predict</strong> <span class="why">נכון! KNN לא ״מתאמן״ — הוא רק שומר את הנתונים ($O(1)$ ב־train). אבל בזמן ניבוי הוא צריך למצוא את $K$ השכנים הקרובים ביותר לכל נקודה חדשה ($O(n)$).</span></span></li>
+          </ul>
+
+          <div class="final-answer">1, 2, 4, 5 נכונים. &nbsp;·&nbsp; 3 לא נכון.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <h2>15.8 · דוגמאות למתאם ללא סיבתיות <span class="q-points">2 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>לכל זוג משתנים, קבע האם המתאם הוא סיבתי (causal) או ספיוריסטי (spurious). אם ספיוריסטי — ציין את הגורם המשותף.</p>
+      <ol style="margin: 8px 24px;">
+        <li>מספר שריפות ומספר כבאים בזירה.</li>
+        <li>מספר שעות שינה וציון במבחן.</li>
+        <li>מכירת מגפי גשם ואירועי טביעה.</li>
+        <li>נסיעה במיל ומאגר נהגים בעלי ותק.</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <ul>
+            <li><strong>1. שריפות וכבאים</strong> — ספיוריסטי (בעצם, זה כן קשור אבל בכיוון ההפוך למה שנראה). המתאם: שריפה גדולה יותר → יותר כבאים נדרשים. הגורם המשותף: גודל השריפה. לא ״כבאים גורמים לשריפה״ ולא ״שריפה גורמת לכבאים במובן ישיר״.</li>
+            <li><strong>2. שינה וציון</strong> — סיבתי (בערך). שינה משפרת ריכוז ובגלל זה משפרת ביצועים במבחן.</li>
+            <li><strong>3. מגפי גשם וטביעה</strong> — ספיוריסטי. הגורם המשותף: יורד גשם. גשם ← יותר מגפי גשם נמכרים, וגם גשם ← מים בבריכות ← יותר טביעות.</li>
+            <li><strong>4. נסיעה במיל וותק</strong> — יש כאן קשר סיבתי (ותק יותר גדול → נהגים שנוסעים יותר), אבל גם הכיוון ההפוך אפשרי (מי שנוסע יותר צובר ותק).</li>
+          </ul>
+
+          <div class="final-answer">
+            רק 3 היא ספיוריסטית קלאסית. שאר הזוגות מכילים מרכיב סיבתי כלשהו.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <h2>15.9 · פונקציות אקטיבציה חדשות <span class="q-points">14 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>רשת <span class="term">feed-forward</span>: קלט 20 → שכבה חבויה 16 (ReLU) → שכבה חבויה 8 (ReLU) → פלט 3 (softmax).</p>
+
+      <p><strong>סעיף 1:</strong> נכון / לא נכון — ניתן לאמן את הרשת אם נחליף softmax בפלט ב־<em>tanh</em> ($\tanh(z)$).</p>
+
+      <p><strong>סעיף 2:</strong> עבור כל אלטרנטיבה לשכבות פנימיות: (1) האם ניתן לאמן עם gradient descent? (2) האם איכות המודל תפגע?</p>
+      <ol style="margin: 8px 24px;" type="א">
+        <li>$f(z) = |z|$ (ערך מוחלט)</li>
+        <li>$f(z) = z^3$</li>
+        <li>$f(z) = \max(z, 0.01z)$ (leaky ReLU)</li>
+        <li>$f(z) = e^{-z^2}$ (Gaussian)</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">סעיף 1 · softmax → tanh</div>
+            <p><strong>לא נכון (ניתן להריץ אבל לא זהה לאיכות)</strong>. tanh נותן ערכים ב־$(-1, 1)$, לא הסתברויות. סכומם לא 1. ה־cross-entropy loss לא יעבוד כמו שצריך על ערכים שליליים או שאינם התפלגות.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">2.א · $f(z) = |z|$</div>
+            <p><strong>ניתן לאמן</strong> (גזירה בכל מקום מלבד 0, ניתן להגדיר subgradient). <strong>יש סיבה להניח פגיעה</strong> — סימטרית לגבי אפס, שני קלטים $z$ ו־$-z$ נותנים אותו פלט. הרשת מאבדת סימנים בקלטים.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">2.ב · $f(z) = z^3$</div>
+            <p><strong>ניתן לאמן</strong> (חלקה וגזירה). <strong>יש סיבה להניח פגיעה</strong> — הגרדיאנט מתפוצץ עבור $|z|$ גדול ($f'(z) = 3z^2$). גורם ל־exploding gradients. גם, בקרבת 0 הגרדיאנט קטן מאוד → vanishing.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">2.ג · Leaky ReLU</div>
+            <p><strong>ניתן לאמן</strong>. <strong>אין סיבה להניח פגיעה</strong> — למעשה זה שיפור ידוע על ReLU רגיל, פותר את בעיית ה־dying ReLU (נוירונים תמיד 0). זה שימוש נפוץ ומקובל.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">2.ד · Gaussian $e^{-z^2}$</div>
+            <p><strong>ניתן לאמן</strong> (חלקה). <strong>יש סיבה להניח פגיעה</strong> — הפונקציה מקבלת ערך גבוה סביב $z=0$ ומתאפסת עבור $|z|$ גדול. גם, סימטרית (זוגית), אז $f(z) = f(-z)$. הגרדיאנטים דועכים ל־0 עבור $|z|$ גדול (vanishing gradient).</p>
+          </div>
+
+          <div class="final-answer">
+            1: לא נכון. &nbsp;·&nbsp; 2.א: ניתן+יש. &nbsp;·&nbsp; 2.ב: ניתן+יש. &nbsp;·&nbsp; 2.ג: ניתן+אין. &nbsp;·&nbsp; 2.ד: ניתן+יש.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <h2>15.10 · חישוב Rand Score <span class="q-points">5 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>בוצע clustering עם $K = 2$ על 6 תצפיות. מה יודפס?</p>
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">rand_score2.py</span></div>
+<pre><code class="language-python">from sklearn.metrics.cluster import rand_score
+
+predicted = [0, 0, 1, 1, 1, 0]
+actual    = ['A', 'A', 'B', 'B', 'A', 'B']
+print(rand_score(actual, predicted))
+</code></pre>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">שיטת חישוב</div>
+            <p>$\binom{6}{2} = 15$ זוגות. עבור כל זוג נבדוק same-actual עם same-predicted.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">קבוצות</div>
+            <table style="font-size:12px;">
+              <tr><th>i</th><th>actual</th><th>predicted</th></tr>
+              <tr><td>1</td><td>A</td><td>0</td></tr>
+              <tr><td>2</td><td>A</td><td>0</td></tr>
+              <tr><td>3</td><td>B</td><td>1</td></tr>
+              <tr><td>4</td><td>B</td><td>1</td></tr>
+              <tr><td>5</td><td>A</td><td>1</td></tr>
+              <tr><td>6</td><td>B</td><td>0</td></tr>
+            </table>
+            <p>Actual A = {1, 2, 5}, Actual B = {3, 4, 6}. Same-actual pairs: $\binom{3}{2} + \binom{3}{2} = 3 + 3 = 6$.</p>
+            <p>Predicted 0 = {1, 2, 6}, Predicted 1 = {3, 4, 5}. Same-predicted pairs: $3 + 3 = 6$.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">$a$ ו־$b$</div>
+            <p><strong>$a$ (same בשניהם):</strong></p>
+            <ul>
+              <li>Actual A ∩ predicted 0: {1, 2} — זוג אחד.</li>
+              <li>Actual B ∩ predicted 1: {3, 4} — זוג אחד.</li>
+            </ul>
+            <p>$a = 2$.</p>
+            <p><strong>$b$ (different בשניהם):</strong> $b = 15 - 6 - 6 + 2 = 5$.</p>
+            $$\text{RI} = \frac{2 + 5}{15} = \frac{7}{15} \approx 0.467$$
+          </div>
+
+          <div class="final-answer">
+            הפלט: <span class="term">7/15 ≈ 0.467</span>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q11 - ROC curve: compute then draw -->
+  <h2>15.11 · חישוב ושרטוט ROC Curve <span class="q-points">10 נקודות</span> <span class="graph-tag">גרף</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>נתון קטע קוד הבונה <span class="term">ROC curve</span> עבור מסווג בינארי:</p>
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">roc_curve.py</span></div>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+
+y_true  = [1, 0, 1, 0, 1, 0]
+y_score = [0.9, 0.7, 0.6, 0.5, 0.3, 0.1]
+
+tpr_list, fpr_list = list(), list()
+thresholds = [0.0, 0.2, 0.4, 0.55, 0.65, 0.8, 1.0]
+
+for t in thresholds:
+    y_pred = [1 if s &gt;= t else 0 for s in y_score]
+    tp = sum(1 for a, p in zip(y_true, y_pred) if a==1 and p==1)
+    fp = sum(1 for a, p in zip(y_true, y_pred) if a==0 and p==1)
+    fn = sum(1 for a, p in zip(y_true, y_pred) if a==1 and p==0)
+    tn = sum(1 for a, p in zip(y_true, y_pred) if a==0 and p==0)
+    tpr_list.append(tp / (tp + fn) if tp+fn else 0)
+    fpr_list.append(fp / (fp + tn) if fp+tn else 0)
+
+plt.plot(fpr_list, tpr_list, marker='o')
+plt.xlabel("FPR"); plt.ylabel("TPR"); plt.show()
+</code></pre>
+
+      <p><strong>סעיף א׳:</strong> ציירו את הגרף שמתקבל כתוצאה מהרצת הקוד. בנו תחילה טבלה של $TP$, $FP$, $FN$, $TN$, $TPR$ ו־$FPR$ לכל סף.</p>
+      <p><strong>סעיף ב׳:</strong> הסבירו את הצורה הכללית של <span class="term">ROC Curve</span> במילים שלכם.</p>
+      <p><strong>סעיף ג׳:</strong> מהו הערך המקורב של <span class="term">AUC</span>, ומה זה אומר על איכות המסווג?</p>
+
+      <div class="keypoint">
+        <strong>איך לגשת לזה במבחן</strong> — הטבלה היא כל העבודה. ברגע שיש לך זוגות $(\text{FPR},\ \text{TPR})$ מסודרים, הציור הוא רק סימון הנקודות וחיבורן. אל תנסה לצייר לפני שהטבלה מוכנה.
+      </div>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">שלב 1 · בניית הטבלה</div>
+            <p>$y_{true} = [1, 0, 1, 0, 1, 0]$ — שלוש תצפיות חיוביות ושלוש שליליות. לכל סף מסווגים כחיובי כל תצפית עם ציון $\geq t$.</p>
+            <table style="font-size:12px;">
+              <tr><th class="num">t</th><th>מסווגים כחיובי</th><th class="num">TP</th><th class="num">FP</th><th class="num">FN</th><th class="num">TN</th><th class="num">TPR</th><th class="num">FPR</th></tr>
+              <tr><td class="num">0.0</td><td>כולם</td><td class="num">3</td><td class="num">3</td><td class="num">0</td><td class="num">0</td><td class="num">1.00</td><td class="num">1.00</td></tr>
+              <tr><td class="num">0.2</td><td>0.3 ומעלה</td><td class="num">3</td><td class="num">2</td><td class="num">0</td><td class="num">1</td><td class="num">1.00</td><td class="num">0.67</td></tr>
+              <tr><td class="num">0.4</td><td>0.5 ומעלה</td><td class="num">2</td><td class="num">2</td><td class="num">1</td><td class="num">1</td><td class="num">0.67</td><td class="num">0.67</td></tr>
+              <tr><td class="num">0.55</td><td>0.6 ומעלה</td><td class="num">2</td><td class="num">1</td><td class="num">1</td><td class="num">2</td><td class="num">0.67</td><td class="num">0.33</td></tr>
+              <tr><td class="num">0.65</td><td>0.7 ומעלה</td><td class="num">1</td><td class="num">1</td><td class="num">2</td><td class="num">2</td><td class="num">0.33</td><td class="num">0.33</td></tr>
+              <tr><td class="num">0.8</td><td>0.9 בלבד</td><td class="num">1</td><td class="num">0</td><td class="num">2</td><td class="num">3</td><td class="num">0.33</td><td class="num">0.00</td></tr>
+              <tr><td class="num">1.0</td><td>אף אחד</td><td class="num">0</td><td class="num">0</td><td class="num">3</td><td class="num">3</td><td class="num">0.00</td><td class="num">0.00</td></tr>
+            </table>
+            <p>דוגמה לחישוב שורה אחת — עבור $t = 0.55$ מסווגים כחיובי את הציונים 0.9, 0.7 ו־0.6, שהתיוג האמיתי שלהם הוא 1, 0 ו־1 בהתאמה. לכן $TP = 2$ ו־$FP = 1$, ומתוך התצפיות שנותרו $FN = 1$ ו־$TN = 2$:</p>
+            $$\text{TPR} = \frac{TP}{TP + FN} = \frac{2}{3} \approx 0.67 \qquad \text{FPR} = \frac{FP}{FP + TN} = \frac{1}{3} \approx 0.33$$
+          </div>
+
+          <div class="step">
+            <div class="step-label">שלב 2 · סימון הנקודות וחיבורן</div>
+            <p>מהטבלה מתקבלים הזוגות $(\text{FPR},\ \text{TPR})$ הבאים, מסודרים משמאל לימין על הציר האופקי:</p>
+            $$(0,\ 0) \quad (0,\ 0.33) \quad (0.33,\ 0.33) \quad (0.33,\ 0.67) \quad (0.67,\ 0.67) \quad (0.67,\ 1) \quad (1,\ 1)$$
+            <div class="figure">
+              <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="#e7e5e0" stroke-width="0.5">
+                  <line x1="70" y1="55" x2="370" y2="55"/>
+                  <line x1="70" y1="115" x2="370" y2="115"/>
+                  <line x1="70" y1="175" x2="370" y2="175"/>
+                  <line x1="70" y1="235" x2="370" y2="235"/>
+                  <line x1="130" y1="55" x2="130" y2="265"/>
+                  <line x1="190" y1="55" x2="190" y2="265"/>
+                  <line x1="250" y1="55" x2="250" y2="265"/>
+                  <line x1="310" y1="55" x2="310" y2="265"/>
+                </g>
+                <line x1="70" y1="265" x2="370" y2="55" stroke="#a3a3a3" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <text x="245" y="175" font-family="Assistant" font-size="11" fill="#78716c" transform="rotate(-35, 245, 175)">מסווג אקראי</text>
+                <line x1="70" y1="265" x2="370" y2="265" stroke="#1c1917" stroke-width="1.5"/>
+                <line x1="70" y1="55" x2="70" y2="265" stroke="#1c1917" stroke-width="1.5"/>
+                <g font-family="JetBrains Mono" font-size="10" fill="#44403c" text-anchor="middle">
+                  <text x="70" y="282">0.0</text>
+                  <text x="150" y="282">0.25</text>
+                  <text x="220" y="282">0.5</text>
+                  <text x="290" y="282">0.75</text>
+                  <text x="370" y="282">1.0</text>
+                </g>
+                <g font-family="JetBrains Mono" font-size="10" fill="#44403c" text-anchor="end">
+                  <text x="65" y="268">0.0</text>
+                  <text x="65" y="220">0.25</text>
+                  <text x="65" y="163">0.5</text>
+                  <text x="65" y="115">0.75</text>
+                  <text x="65" y="60">1.0</text>
+                </g>
+                <text x="220" y="305" text-anchor="middle" font-family="Assistant" font-size="12" fill="#1c1917">FPR</text>
+                <text x="25" y="160" text-anchor="middle" font-family="Assistant" font-size="12" fill="#1c1917" transform="rotate(-90, 25, 160)">TPR</text>
+                <path d="M 70 265 L 70 195 L 170 195 L 170 125 L 271 125 L 271 55 L 370 55" fill="none" stroke="#1d4ed8" stroke-width="2"/>
+                <g fill="#1d4ed8">
+                  <circle cx="70" cy="265" r="4"/>
+                  <circle cx="70" cy="195" r="4"/>
+                  <circle cx="170" cy="195" r="4"/>
+                  <circle cx="170" cy="125" r="4"/>
+                  <circle cx="271" cy="125" r="4"/>
+                  <circle cx="271" cy="55" r="4"/>
+                  <circle cx="370" cy="55" r="4"/>
+                </g>
+              </svg>
+              <div class="cap">הגרף המתקבל — עקומה עולה במדרגות מ־$(0,0)$ ל־$(1,1)$. הקו המקווקו הוא קו הייחוס של מסווג אקראי.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · הצורה הכללית</div>
+            <p>עקומה עולה מ־$(0,0)$ ל־$(1,1)$ — יש <span class="term">trade-off</span> בין <span class="term">TPR</span> ל־<span class="term">FPR</span>.</p>
+            <p>בסף גבוה מסווגים כחיובי רק את התצפיות הבטוחות ביותר, ולכן גם TPR וגם FPR נמוכים (הפינה השמאלית־תחתונה). ככל שמורידים את הסף שניהם עולים, עד שבסף אפס הכול מסווג כחיובי ומגיעים לפינה הימנית־עליונה.</p>
+            <p>מסווג טוב מטפס מהר כלפי מעלה לפני שהוא זז ימינה, כלומר העקומה שלו נדחקת אל הפינה השמאלית־עליונה.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף ג׳ · הערכת AUC</div>
+            <p>חישוב שטח המלבנים מתחת לעקומת המדרגות:</p>
+            $$\text{AUC} = 0.33 \cdot 0.33 + 0.33 \cdot 0.67 + 0.33 \cdot 1 \approx 0.67$$
+            <p>הערך מעל 0.5, כלומר <strong>המסווג טוב יותר מניחוש אקראי</strong>, אבל רחוק מהמושלם ($\text{AUC} = 1$). מדובר במסווג בינוני.</p>
+          </div>
+
+          <div class="final-answer">
+            א׳: עקומת מדרגות דרך שבע הנקודות שבטבלה. &nbsp;·&nbsp; ב׳: עולה מ־$(0,0)$ ל־$(1,1)$, trade-off בין TPR ל־FPR. &nbsp;·&nbsp; ג׳: $\text{AUC} \approx 0.67$, טוב מאקראי אך בינוני.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q12 -->
+  <h2>15.12 · PCA — אחוז שונות מוסברת <span class="q-points">7 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>בוצע PCA על מערך נתונים עם 8 features. הערכים העצמיים:</p>
+      $$\text{eigenvalues} = [4.5,\ 2.0,\ 1.5,\ 0.9,\ 0.6,\ 0.3,\ 0.15,\ 0.05]$$
+
+      <ol style="margin: 8px 24px;" type="א">
+        <li>מהו אחוז השונות המוסבר על ידי שלושת הרכיבים הראשונים?</li>
+        <li>כמה רכיבים דרושים כדי לשמור על לפחות 95% מהשונות?</li>
+        <li>נכון או לא נכון: הרכיב האחרון ($\lambda = 0.05$) חסר תרומה למסווג. הסבירו.</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">א׳ · שלושת הרכיבים הראשונים</div>
+            <p>סכום כולל: $4.5 + 2.0 + 1.5 + 0.9 + 0.6 + 0.3 + 0.15 + 0.05 = 10.0$.</p>
+            <p>שלושת הראשונים: $4.5 + 2.0 + 1.5 = 8.0$.</p>
+            $$\frac{8.0}{10.0} = 0.80 = 80\%$$
+          </div>
+
+          <div class="step">
+            <div class="step-label">ב׳ · שונות מוסברת מצטברת</div>
+            <table>
+              <tr><th>רכיבים</th><th class="num">שונות מצטברת</th><th class="num">אחוז</th></tr>
+              <tr><td>PC1</td><td class="num">4.5</td><td class="num">45%</td></tr>
+              <tr><td>PC1-2</td><td class="num">6.5</td><td class="num">65%</td></tr>
+              <tr><td>PC1-3</td><td class="num">8.0</td><td class="num">80%</td></tr>
+              <tr><td>PC1-4</td><td class="num">8.9</td><td class="num">89%</td></tr>
+              <tr><td class="highlight">PC1-5</td><td class="num highlight">9.5</td><td class="num highlight">95%</td></tr>
+            </table>
+            <p><strong>צריך 5 רכיבים.</strong></p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">ג׳ · האם הרכיב האחרון חסר תרומה?</div>
+            <p><strong>לא נכון (בהכרח).</strong> ערך עצמי נמוך אומר שהרכיב מסביר מעט שונות ב־data. אבל שונות נמוכה ↔ חשיבות סיווג אינם זהים. יתכן שהרכיב תופס מאפיין הבחנתי בין המחלקות שהוא לא מייצר שונות רבה.</p>
+            <p>עבור בעיות סיווג במיוחד: לפעמים דוקא הרכיבים הפחות שונים תופסים מידע משמעותי להבחנה.</p>
+          </div>
+
+          <div class="final-answer">
+            א׳: 80%. &nbsp;·&nbsp; ב׳: 5 רכיבים. &nbsp;·&nbsp; ג׳: לא נכון (שונות ≠ חשיבות לסיווג).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q13 -->
+  <h2>15.13 · Autoencoder — שינוי סף <span class="q-points">5 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>Autoencoder לזיהוי מכשירים פגומים בייצור. הסף לפגם מוגדר כאחוזון <strong>90</strong> של loss. עוברים לסף אחוזון <strong>95</strong> (מעלים את הסף).</p>
+
+      <p>נכון או לא נכון:</p>
+      <ol style="margin: 8px 24px;" type="א">
+        <li>Recall של מקרי פגם יגדל.</li>
+        <li>Recall של מקרי פגם יקטן או יישאר ללא שינוי.</li>
+        <li>Precision של מכשירים תקינים יגדל או יישאר ללא שינוי.</li>
+        <li>Precision של מקרי פגם יגדל או יישאר ללא שינוי.</li>
+        <li>מספר ה־positives המסומנים יעלה.</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">מה קורה כשמעלים את הסף?</div>
+            <p><strong>סף באחוזון 95 (גבוה יותר מ־90) → פחות תצפיות מוגדרות כפגם.</strong> אנחנו יותר שמרנים בסימון positives. פחות מסמנים = פחות positives.</p>
+          </div>
+
+          <ul class="mc-list">
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>א׳. Recall יגדל</strong> <span class="why">לא נכון. עם פחות positives, TP קטן או שווה, ו־FN גדל. Recall = TP/(TP+FN) יקטן או יישאר ללא שינוי.</span></span></li>
+            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>ב׳. Recall יקטן או יישאר</strong> <span class="why">נכון. זה הכיוון הנכון.</span></span></li>
+            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>ג׳. Precision של תקינים יגדל או יישאר</strong> <span class="why">נכון. יותר תקינים מסומנים כתקינים (TN גדול), מספר ה־FN גדל אבל precision של תקינים = TN/(TN+FN). יחסי? למעשה בגישה הזו יותר תצפיות (כולל פגמים) נכנסות לקבוצת ה־״תקין״. אבל הן שוב תקינות תואמות ממש → TN גדל בהחלט, ולכן precision של תקינים לא יורד.</span></span></li>
+            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>ד׳. Precision של פגמים יגדל או יישאר</strong> <span class="why">נכון. סף גבוה יותר → רק ה־״בטוחים ביותר״ מסומנים כפגם. Precision = TP/(TP+FP) יגדל כי מסירים FP מסופקים.</span></span></li>
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>ה׳. מספר positives יעלה</strong> <span class="why">לא נכון. סף גבוה יותר → פחות positives.</span></span></li>
+          </ul>
+
+          <div class="final-answer">ב׳, ג׳, ד׳ נכונים.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q14 -->
+  <h2>15.14 · CNN properties <span class="q-points">4 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>סמנו את כל הטענות הנכונות לגבי CNN:</p>
+      <ol style="margin: 8px 24px;" type="א">
+        <li>Pooling layers מקטינות את מספר הפרמטרים ומגבירות שמורה למיקום.</li>
+        <li>CNN חייב שכל הפילטרים יהיו באותו גודל.</li>
+        <li>הפילטרים בשכבה הראשונה בדרך כלל תופסים תבניות ברמת פיקסלים (edges, קווים).</li>
+        <li>CNN לא יכול להתמודד עם תמונות בגדלים שונים ללא preprocessing.</li>
+        <li>מספר הפרמטרים ב־Fully Connected layer של 1000 × 1000 קטן יותר ממספר הפרמטרים ב־Convolutional filter של $3 \times 3$.</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <ul class="mc-list">
+            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>א׳. Pooling לחיסכון פרמטרים ושמורה</strong> <span class="why">נכון. Max pooling / average pooling מקטינים גודל feature map (פחות חיבורים לשכבות הבאות) ומעניקים invariance קלה למיקום.</span></span></li>
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>ב׳. פילטרים באותו גודל</strong> <span class="why">לא נכון. אפשר לעשות multi-scale CNN עם פילטרים בגדלים שונים ($3\times 3$, $5\times 5$, $7\times 7$) באותה שכבה.</span></span></li>
+            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>ג׳. שכבה ראשונה — edges</strong> <span class="why">נכון. פילטרים בשכבה הראשונה תופסים מאפיינים ברמת פיקסלים (קווים אלכסוניים, שינויי צבע). שכבות עמוקות תופסות מבנים מורכבים יותר.</span></span></li>
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>ד׳. חייב תמונות בגודל אחיד</strong> <span class="why">לא נכון. שיטות שונות: (1) resize, (2) global average pooling בסוף, (3) Fully Convolutional Networks.</span></span></li>
+            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>ה׳. FC 1000×1000 קטן מ־Conv 3×3</strong> <span class="why">לא נכון. הפוך! FC ← מיליון פרמטרים ($1000 \cdot 1000$). Conv $3\times 3$ ← רק 9 פרמטרים לפילטר. זה יתרון מרכזי של CNN.</span></span></li>
+          </ul>
+
+          <div class="final-answer">נכונות: א׳ ו־ג׳ בלבד.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BONUS GRAPH Q1 -->
+  <h2>15.15 · בונוס — קריאת Confusion Matrix <span class="q-points">בונוס</span> <span class="graph-tag">גרף</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>נתונה confusion matrix עבור מסווג רב־מחלקתי (A, B, C):</p>
+
+      <div class="figure">
+        <svg viewBox="0 0 460 340" xmlns="http://www.w3.org/2000/svg">
+          <text x="230" y="25" text-anchor="middle" font-family="Assistant" font-size="14" font-weight="700" fill="#1c1917">Confusion Matrix</text>
+          <text x="230" y="290" text-anchor="middle" font-family="Assistant" font-size="12" fill="#44403c">Predicted</text>
+          <text x="30" y="170" text-anchor="middle" font-family="Assistant" font-size="12" fill="#44403c" transform="rotate(-90, 30, 170)">Actual</text>
+
+          <!-- Header row -->
+          <g font-family="JetBrains Mono" font-size="13" font-weight="700" fill="#1c1917" text-anchor="middle">
+            <text x="150" y="65">A</text>
+            <text x="240" y="65">B</text>
+            <text x="330" y="65">C</text>
+          </g>
+
+          <!-- Header col -->
+          <g font-family="JetBrains Mono" font-size="13" font-weight="700" fill="#1c1917" text-anchor="middle">
+            <text x="80" y="115">A</text>
+            <text x="80" y="175">B</text>
+            <text x="80" y="235">C</text>
+          </g>
+
+          <!-- Matrix cells -->
+          <rect x="105" y="80" width="90" height="60" fill="#dbeafe" stroke="#1c1917"/>
+          <text x="150" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="16" font-weight="700" fill="#1c1917">85</text>
+
+          <rect x="195" y="80" width="90" height="60" fill="#fee2e2" stroke="#1c1917"/>
+          <text x="240" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="#1c1917">7</text>
+
+          <rect x="285" y="80" width="90" height="60" fill="#fee2e2" stroke="#1c1917"/>
+          <text x="330" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="#1c1917">3</text>
+
+          <rect x="105" y="140" width="90" height="60" fill="#fee2e2" stroke="#1c1917"/>
+          <text x="150" y="175" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="#1c1917">12</text>
+
+          <rect x="195" y="140" width="90" height="60" fill="#dbeafe" stroke="#1c1917"/>
+          <text x="240" y="175" text-anchor="middle" font-family="JetBrains Mono" font-size="16" font-weight="700" fill="#1c1917">60</text>
+
+          <rect x="285" y="140" width="90" height="60" fill="#fee2e2" stroke="#1c1917"/>
+          <text x="330" y="175" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="#1c1917">8</text>
+
+          <rect x="105" y="200" width="90" height="60" fill="#fee2e2" stroke="#1c1917"/>
+          <text x="150" y="235" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="#1c1917">4</text>
+
+          <rect x="195" y="200" width="90" height="60" fill="#fee2e2" stroke="#1c1917"/>
+          <text x="240" y="235" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="#1c1917">6</text>
+
+          <rect x="285" y="200" width="90" height="60" fill="#dbeafe" stroke="#1c1917"/>
+          <text x="330" y="235" text-anchor="middle" font-family="JetBrains Mono" font-size="16" font-weight="700" fill="#1c1917">40</text>
+        </svg>
+        <div class="cap">Confusion matrix: השורה היא הכיתוב האמיתי (actual), העמודה היא הניבוי (predicted). התאים הכחולים באלכסון הם ההצלחות, האדומים הם הטעויות.</div>
+      </div>
+
+      <p><strong>חישבו:</strong></p>
+      <ol style="margin: 8px 24px;" type="א">
+        <li>Precision של מחלקה B.</li>
+        <li>Recall של מחלקה A.</li>
+        <li>Accuracy כללית.</li>
+        <li>לאיזו מחלקה יש הכי הרבה false positives?</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">א׳ · Precision של B</div>
+            <p>Precision(B) = TP(B) / (TP(B) + FP(B)) = TP(B) / [סכום העמודה B].</p>
+            <p>עמודה B: $7 + 60 + 6 = 73$. TP(B) = 60.</p>
+            $$\text{Precision}(B) = \frac{60}{73} \approx 0.822$$
+          </div>
+
+          <div class="step">
+            <div class="step-label">ב׳ · Recall של A</div>
+            <p>Recall(A) = TP(A) / (TP(A) + FN(A)) = TP(A) / [סכום השורה A].</p>
+            <p>שורה A: $85 + 7 + 3 = 95$. TP(A) = 85.</p>
+            $$\text{Recall}(A) = \frac{85}{95} \approx 0.895$$
+          </div>
+
+          <div class="step">
+            <div class="step-label">ג׳ · Accuracy כללית</div>
+            <p>סכום האלכסון (הצלחות): $85 + 60 + 40 = 185$.</p>
+            <p>סכום הכל: $85+7+3+12+60+8+4+6+40 = 225$.</p>
+            $$\text{Accuracy} = \frac{185}{225} \approx 0.822$$
+          </div>
+
+          <div class="step">
+            <div class="step-label">ד׳ · הכי הרבה FP</div>
+            <p>FP של כל מחלקה = סכום העמודה פחות התא באלכסון.</p>
+            <ul>
+              <li>FP(A) = $95 + 12 + 4 - 85 = ?$ בזהירות: FP(A) = (עמודה A) − TP(A) = $(85 + 12 + 4) - 85 = 16$.</li>
+              <li>FP(B) = $(7 + 60 + 6) - 60 = 13$.</li>
+              <li>FP(C) = $(3 + 8 + 40) - 40 = 11$.</li>
+            </ul>
+            <p><strong>מחלקה A יש הכי הרבה FP (16).</strong></p>
+          </div>
+
+          <div class="final-answer">
+            א׳: 0.822. &nbsp;·&nbsp; ב׳: 0.895. &nbsp;·&nbsp; ג׳: 0.822. &nbsp;·&nbsp; ד׳: A (16 FP).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BONUS GRAPH Q2 -->
+  <h2>15.16 · בונוס — השוואת ROC לשני מסווגים <span class="q-points">בונוס</span> <span class="graph-tag">גרף</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>נתונים ROC curves של שני מסווגים על אותם נתונים:</p>
+
+      <div class="figure">
+        <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg">
+          <text x="210" y="25" text-anchor="middle" font-family="Assistant" font-size="14" font-weight="700" fill="#1c1917">ROC Comparison</text>
+
+          <!-- Grid -->
+          <g stroke="#e7e5e0" stroke-width="0.5">
+            <line x1="70" y1="65" x2="390" y2="65"/>
+            <line x1="70" y1="130" x2="390" y2="130"/>
+            <line x1="70" y1="195" x2="390" y2="195"/>
+            <line x1="70" y1="260" x2="390" y2="260"/>
+            <line x1="150" y1="65" x2="150" y2="285"/>
+            <line x1="230" y1="65" x2="230" y2="285"/>
+            <line x1="310" y1="65" x2="310" y2="285"/>
+          </g>
+
+          <!-- Diagonal (random) -->
+          <line x1="70" y1="285" x2="390" y2="65" stroke="#a3a3a3" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+          <!-- Axes -->
+          <line x1="70" y1="285" x2="390" y2="285" stroke="#1c1917" stroke-width="1.5"/>
+          <line x1="70" y1="65" x2="70" y2="285" stroke="#1c1917" stroke-width="1.5"/>
+
+          <!-- Labels -->
+          <g font-family="JetBrains Mono" font-size="10" fill="#44403c" text-anchor="middle">
+            <text x="70" y="302">0</text>
+            <text x="150" y="302">0.25</text>
+            <text x="230" y="302">0.5</text>
+            <text x="310" y="302">0.75</text>
+            <text x="390" y="302">1.0</text>
+          </g>
+          <g font-family="JetBrains Mono" font-size="10" fill="#44403c" text-anchor="end">
+            <text x="65" y="289">0</text>
+            <text x="65" y="242">0.25</text>
+            <text x="65" y="197">0.5</text>
+            <text x="65" y="150">0.75</text>
+            <text x="65" y="70">1.0</text>
+          </g>
+          <text x="230" y="322" text-anchor="middle" font-family="Assistant" font-size="12" fill="#1c1917">FPR</text>
+          <text x="25" y="175" text-anchor="middle" font-family="Assistant" font-size="12" fill="#1c1917" transform="rotate(-90, 25, 175)">TPR</text>
+
+          <!-- Classifier X (good — high AUC) -->
+          <path d="M 70 285 Q 100 130, 200 90 T 390 65" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+          <text x="120" y="115" font-family="Assistant" font-size="13" font-weight="700" fill="#1d4ed8">מסווג X</text>
+
+          <!-- Classifier Y (worse — lower AUC, closer to diagonal) -->
+          <path d="M 70 285 Q 180 210, 260 145 T 390 65" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+          <text x="270" y="195" font-family="Assistant" font-size="13" font-weight="700" fill="#dc2626">מסווג Y</text>
+        </svg>
+        <div class="cap">שני ROC curves. מסווג X (כחול) קרוב יותר לפינה שמאלית־עליונה ← AUC גבוה יותר.</div>
+      </div>
+
+      <p><strong>שאלות:</strong></p>
+      <ol style="margin: 8px 24px;" type="א">
+        <li>איזה מסווג עדיף כללית? הסבירו.</li>
+        <li>איזה מהם עדיף כאשר FPR = 0.5?</li>
+        <li>לאיזה סף בערך יש X כאשר FPR = 0.2?</li>
+        <li>נכון או לא נכון: מסווג X בהכרח עדיף גם עבור threshold ספציפי.</li>
+      </ol>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">א׳ · מסווג עדיף כללית</div>
+            <p><strong>מסווג X</strong>. עקומתו קרובה יותר לפינה שמאלית־עליונה (TPR גבוה עם FPR נמוך). AUC(X) &gt; AUC(Y).</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">ב׳ · ב־FPR = 0.5</div>
+            <p><strong>מסווג X</strong>. בקריאת הגרף: כאשר FPR = 0.5, TPR של X ≈ 0.9, ו־TPR של Y ≈ 0.65.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">ג׳ · TPR של X ב־FPR = 0.2</div>
+            <p>בקריאה מהגרף: כאשר FPR = 0.2 (הקצה השמאלי), עקומת X מגיעה ל־TPR ≈ 0.7.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">ד׳ · תמיד עדיף?</div>
+            <p><strong>לא נכון (בכללי)</strong>. אם עקומת X היא <em>מעל</em> Y בכל נקודה, אז כן, X עדיף בכל סף. אבל בגרפים אמיתיים העקומות יכולות להיחתך — במצב כזה עדיפות תלוית סף. כאן, אין חיתוך גלוי אז נראה שכן, אבל הכלל הכללי הוא ״לא בהכרח״.</p>
+          </div>
+
+          <div class="final-answer">
+            א׳: X. &nbsp;·&nbsp; ב׳: X. &nbsp;·&nbsp; ג׳: TPR ≈ 0.7 ב־FPR=0.2. &nbsp;·&nbsp; ד׳: תלוי אם העקומות נחתכות.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL SUMMARY -->
+  <!-- Q17 - PR curve compute + draw -->
+  <h2>15.17 · חישוב ושרטוט Precision-Recall Curve <span class="q-points">10 נקודות</span> <span class="graph-tag">גרף</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>נתון קטע קוד הבונה <span class="term">precision-recall curve</span> עבור מחלקת POS בבעיית סיווג בינארי:</p>
+      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">pr_curve.py</span></div>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+import numpy as np
+
+y_true  = [1, 1, 0, 1, 0, 0]
+y_score = [0.85, 0.70, 0.65, 0.45, 0.30, 0.15]
+
+precision = list()
+recall = list()
+
+thresholds = [0.1, 0.2, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+
+for t in thresholds:
+    y_pred = [1 if p &gt;= t else 0 for p in y_score]
+
+    tp = sum(yt == 1 and yp == 1 for yt, yp in zip(y_true, y_pred))
+    fp = sum(yt == 0 and yp == 1 for yt, yp in zip(y_true, y_pred))
+    fn = sum(yt == 1 and yp == 0 for yt, yp in zip(y_true, y_pred))
+
+    precision.append(tp / (tp + fp) if tp + fp else 1)
+    recall.append(tp / (tp + fn))
+
+plt.plot(recall, precision, marker='o')
+plt.xlabel("Recall")
+plt.ylabel("Precision")
+plt.show()
+</code></pre>
+
+      <p><strong>סעיף א׳:</strong> ציירו את הגרף שמתקבל כתוצאה מהרצת הקוד.</p>
+      <p><strong>סעיף ב׳:</strong> הסבירו את הצורה הכללית של <span class="term">Precision-Recall Curve</span> במילים שלכם.</p>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">שלב 1 · טבלת הספים</div>
+            <p>שלוש תצפיות חיוביות (ציונים 0.85, 0.70, 0.45) ושלוש שליליות (0.65, 0.30, 0.15).</p>
+            <table style="font-size:12px;">
+              <tr><th class="num">t</th><th class="num">TP</th><th class="num">FP</th><th class="num">FN</th><th class="num">Precision</th><th class="num">Recall</th></tr>
+              <tr><td class="num">0.1</td><td class="num">3</td><td class="num">3</td><td class="num">0</td><td class="num">0.50</td><td class="num">1.00</td></tr>
+              <tr><td class="num">0.2</td><td class="num">3</td><td class="num">2</td><td class="num">0</td><td class="num">0.60</td><td class="num">1.00</td></tr>
+              <tr><td class="num">0.4</td><td class="num">3</td><td class="num">1</td><td class="num">0</td><td class="num">0.75</td><td class="num">1.00</td></tr>
+              <tr><td class="num">0.5</td><td class="num">2</td><td class="num">1</td><td class="num">1</td><td class="num">0.67</td><td class="num">0.67</td></tr>
+              <tr><td class="num">0.6</td><td class="num">2</td><td class="num">1</td><td class="num">1</td><td class="num">0.67</td><td class="num">0.67</td></tr>
+              <tr><td class="num">0.7</td><td class="num">2</td><td class="num">0</td><td class="num">1</td><td class="num">1.00</td><td class="num">0.67</td></tr>
+              <tr><td class="num">0.8</td><td class="num">1</td><td class="num">0</td><td class="num">2</td><td class="num">1.00</td><td class="num">0.33</td></tr>
+              <tr><td class="num">0.9</td><td class="num">0</td><td class="num">0</td><td class="num">3</td><td class="num">1.00</td><td class="num">0.00</td></tr>
+            </table>
+            <p>שימו לב לשורה האחרונה — בסף 0.9 אף תצפית לא מסווגת כחיובית, ולכן $TP + FP = 0$ והקוד מציב <span class="term">precision = 1</span> לפי התנאי שבסוגריים. זו מלכודת נפוצה.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">שלב 2 · הגרף</div>
+            <p>הצירים הם $x = \text{Recall}$ ו־$y = \text{Precision}$, והנקודות מחוברות בסדר שבו הקוד הוסיף אותן (מסף נמוך לסף גבוה):</p>
+            <div class="figure">
+              <svg viewBox="0 0 440 320" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="#e7e5e0" stroke-width="0.5">
+                  <line x1="80" y1="55" x2="380" y2="55"/>
+                  <line x1="80" y1="107" x2="380" y2="107"/>
+                  <line x1="80" y1="160" x2="380" y2="160"/>
+                  <line x1="80" y1="212" x2="380" y2="212"/>
+                  <line x1="155" y1="55" x2="155" y2="265"/>
+                  <line x1="230" y1="55" x2="230" y2="265"/>
+                  <line x1="305" y1="55" x2="305" y2="265"/>
+                </g>
+                <line x1="80" y1="265" x2="380" y2="265" stroke="#1c1917" stroke-width="1.5"/>
+                <line x1="80" y1="55" x2="80" y2="265" stroke="#1c1917" stroke-width="1.5"/>
+                <g font-family="JetBrains Mono" font-size="10" fill="#44403c" text-anchor="middle">
+                  <text x="80" y="282">0.0</text>
+                  <text x="155" y="282">0.25</text>
+                  <text x="230" y="282">0.5</text>
+                  <text x="305" y="282">0.75</text>
+                  <text x="380" y="282">1.0</text>
+                </g>
+                <g font-family="JetBrains Mono" font-size="10" fill="#44403c" text-anchor="end">
+                  <text x="75" y="268">0.0</text>
+                  <text x="75" y="216">0.25</text>
+                  <text x="75" y="164">0.5</text>
+                  <text x="75" y="111">0.75</text>
+                  <text x="75" y="59">1.0</text>
+                </g>
+                <text x="230" y="305" text-anchor="middle" font-family="Assistant" font-size="12" fill="#1c1917">Recall</text>
+                <text x="30" y="160" text-anchor="middle" font-family="Assistant" font-size="12" fill="#1c1917" transform="rotate(-90, 30, 160)">Precision</text>
+                <path d="M 380 160 L 380 139 L 380 108 L 280 125 L 280 55 L 180 55 L 80 55" fill="none" stroke="#1d4ed8" stroke-width="2"/>
+                <g fill="#1d4ed8">
+                  <circle cx="380" cy="160" r="4"/>
+                  <circle cx="380" cy="139" r="4"/>
+                  <circle cx="380" cy="108" r="4"/>
+                  <circle cx="280" cy="125" r="4"/>
+                  <circle cx="280" cy="55" r="4"/>
+                  <circle cx="180" cy="55" r="4"/>
+                  <circle cx="80" cy="55" r="4"/>
+                </g>
+              </svg>
+              <div class="cap">הגרף המתקבל. שלוש הנקודות הימניות יושבות כולן על $\text{Recall} = 1$ עם precision עולה, ולכן נראות כקטע אנכי.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · הצורה הכללית</div>
+            <p>עקומה עם מגמה כללית של ירידה — יש <span class="term">trade-off</span> בין <span class="term">precision</span> ל־<span class="term">recall</span> עבור מחלקה מסוימת.</p>
+            <p>בסף גבוה מסווגים כחיובי רק את התצפיות הבטוחות ביותר, ולכן ה־precision גבוה אבל ה־recall נמוך. ככל שמורידים את הסף תופסים יותר חיוביים אמיתיים (recall עולה) אבל נכנסים גם יותר FP (precision יורד).</p>
+          </div>
+
+          <div class="final-answer">
+            א׳: עקומה דרך שבע הנקודות שבטבלה. &nbsp;·&nbsp; ב׳: מגמת ירידה כללית, trade-off בין precision ל־recall.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q18 - Elbow method -->
+  <h2>15.18 · חישוב ושרטוט שיטת המרפק <span class="q-points">8 נקודות</span> <span class="graph-tag">גרף</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>הורץ <span class="term">K-Means</span> על מערך נתונים עם ערכי $K$ שונים, ונמדד ה־<span class="term">inertia</span> (סכום ריבועי המרחקים לתוך כל אשכול) בכל הרצה:</p>
+
+      <table>
+        <tr><th class="num">K</th><td class="num">1</td><td class="num">2</td><td class="num">3</td><td class="num">4</td><td class="num">5</td><td class="num">6</td><td class="num">7</td></tr>
+        <tr><th class="num">inertia</th><td class="num">1200</td><td class="num">500</td><td class="num">260</td><td class="num">210</td><td class="num">180</td><td class="num">160</td><td class="num">150</td></tr>
+      </table>
+
+      <p><strong>סעיף א׳:</strong> שרטטו את גרף ה־<span class="term">inertia</span> כפונקציה של $K$.</p>
+      <p><strong>סעיף ב׳:</strong> קבעו לפי הגרף את ערך $K$ המתאים, והסבירו את הנימוק.</p>
+      <p><strong>סעיף ג׳:</strong> נכון או לא נכון — מכיוון ש־inertia ממשיך לרדת גם אחרי $K = 5$, כדאי לבחור את $K$ הגדול ביותר האפשרי.</p>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">שלב 1 · חישוב הירידות</div>
+            <p>הדרך המהירה לאתר את המרפק היא לחשב את גודל הירידה בין ערכי $K$ עוקבים:</p>
+            <table style="font-size:12px;">
+              <tr><th>מעבר</th><th class="num">1←2</th><th class="num">2←3</th><th class="num">3←4</th><th class="num">4←5</th><th class="num">5←6</th><th class="num">6←7</th></tr>
+              <tr><th>ירידה</th><td class="num">700</td><td class="num">240</td><td class="num">50</td><td class="num">30</td><td class="num">20</td><td class="num">10</td></tr>
+            </table>
+            <p>הירידות החדות הן עד $K = 3$. מ־$K = 3$ ואילך הירידה קטנה בסדר גודל (50 ופחות מול 240 ו־700).</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">שלב 2 · הגרף</div>
+            <div class="figure">
+              <svg viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="#e7e5e0" stroke-width="0.5">
+                  <line x1="80" y1="50" x2="420" y2="50"/>
+                  <line x1="80" y1="100" x2="420" y2="100"/>
+                  <line x1="80" y1="150" x2="420" y2="150"/>
+                  <line x1="80" y1="200" x2="420" y2="200"/>
+                </g>
+                <line x1="80" y1="250" x2="420" y2="250" stroke="#1c1917" stroke-width="1.5"/>
+                <line x1="80" y1="40" x2="80" y2="250" stroke="#1c1917" stroke-width="1.5"/>
+                <g font-family="JetBrains Mono" font-size="10" fill="#44403c" text-anchor="middle">
+                  <text x="110" y="267">1</text>
+                  <text x="160" y="267">2</text>
+                  <text x="210" y="267">3</text>
+                  <text x="260" y="267">4</text>
+                  <text x="310" y="267">5</text>
+                  <text x="360" y="267">6</text>
+                  <text x="410" y="267">7</text>
+                </g>
+                <g font-family="JetBrains Mono" font-size="10" fill="#44403c" text-anchor="end">
+                  <text x="75" y="253">0</text>
+                  <text x="75" y="204">300</text>
+                  <text x="75" y="154">600</text>
+                  <text x="75" y="104">900</text>
+                  <text x="75" y="54">1200</text>
+                </g>
+                <text x="250" y="288" text-anchor="middle" font-family="Assistant" font-size="12" fill="#1c1917">מספר אשכולות (K)</text>
+                <text x="28" y="145" text-anchor="middle" font-family="Assistant" font-size="12" fill="#1c1917" transform="rotate(-90, 28, 145)">Inertia</text>
+                <path d="M 110 50 L 160 167 L 210 207 L 260 215 L 310 220 L 360 223 L 410 225" fill="none" stroke="#4f46e5" stroke-width="2.5"/>
+                <g fill="#4f46e5">
+                  <circle cx="110" cy="50" r="4"/>
+                  <circle cx="160" cy="167" r="4"/>
+                  <circle cx="210" cy="207" r="4"/>
+                  <circle cx="260" cy="215" r="4"/>
+                  <circle cx="310" cy="220" r="4"/>
+                  <circle cx="360" cy="223" r="4"/>
+                  <circle cx="410" cy="225" r="4"/>
+                </g>
+                <circle cx="210" cy="207" r="11" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+                <text x="228" y="182" font-family="Assistant" font-size="12" font-weight="700" fill="#dc2626">המרפק</text>
+              </svg>
+              <div class="cap">גרף שיטת המרפק. הירידה החדה נעצרת ב־$K = 3$, ומשם העקומה כמעט שטוחה.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · בחירת K</div>
+            <p><strong>$K = 3$.</strong> זו הנקודה שבה העקומה ״נשברת״ — לפניה כל תוספת אשכול מורידה את ה־inertia משמעותית, ואחריה התוספת שולית. זהו האיזון בין פשטות המודל לבין איכות ההתאמה.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף ג׳ · האם לבחור K מקסימלי?</div>
+            <p><strong>לא נכון.</strong> ה־inertia תמיד יורד כאשר $K$ גדל — בקיצון, כאשר $K$ שווה למספר התצפיות, כל נקודה היא אשכול משל עצמה וה־inertia הוא אפס. זה לא מלמד דבר על מבנה הנתונים ומהווה <span class="term">overfitting</span> מובהק.</p>
+            <p>לכן בוחרים לפי המרפק ולא לפי הערך המינימלי.</p>
+          </div>
+
+          <div class="final-answer">
+            א׳: עקומה יורדת חדות ואז מתיישרת. &nbsp;·&nbsp; ב׳: $K = 3$. &nbsp;·&nbsp; ג׳: לא נכון.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q19 - Histogram reading -->
+  <h2>15.19 · קריאת היסטוגרמה והטיה <span class="q-points">7 נקודות</span> <span class="graph-tag">גרף</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>נאספו נתוני שכר חודשי (באלפי שקלים) מ־80 עובדים. ההתפלגות מוצגת בהיסטוגרמה:</p>
+
+      <div class="figure">
+        <svg viewBox="0 0 440 300" xmlns="http://www.w3.org/2000/svg">
+          <line x1="70" y1="250" x2="400" y2="250" stroke="#1c1917" stroke-width="1.5"/>
+          <line x1="70" y1="60" x2="70" y2="250" stroke="#1c1917" stroke-width="1.5"/>
+
+          <rect x="72" y="178" width="40" height="72" fill="#c7d2fe" stroke="#4f46e5"/>
+          <rect x="114" y="82" width="40" height="168" fill="#c7d2fe" stroke="#4f46e5"/>
+          <rect x="156" y="130" width="40" height="120" fill="#c7d2fe" stroke="#4f46e5"/>
+          <rect x="198" y="190" width="40" height="60" fill="#c7d2fe" stroke="#4f46e5"/>
+          <rect x="240" y="220" width="40" height="30" fill="#c7d2fe" stroke="#4f46e5"/>
+          <rect x="282" y="232" width="40" height="18" fill="#c7d2fe" stroke="#4f46e5"/>
+          <rect x="324" y="238" width="40" height="12" fill="#c7d2fe" stroke="#4f46e5"/>
+
+          <g font-family="JetBrains Mono" font-size="11" fill="#1c1917" text-anchor="middle" font-weight="700">
+            <text x="92" y="172">12</text>
+            <text x="134" y="76">28</text>
+            <text x="176" y="124">20</text>
+            <text x="218" y="184">10</text>
+            <text x="260" y="214">5</text>
+            <text x="302" y="226">3</text>
+            <text x="344" y="232">2</text>
+          </g>
+
+          <g font-family="JetBrains Mono" font-size="9" fill="#44403c" text-anchor="middle">
+            <text x="92" y="265">5-10</text>
+            <text x="134" y="265">10-15</text>
+            <text x="176" y="265">15-20</text>
+            <text x="218" y="265">20-25</text>
+            <text x="260" y="265">25-30</text>
+            <text x="302" y="265">30-35</text>
+            <text x="344" y="265">35-40</text>
+          </g>
+
+          <text x="230" y="288" text-anchor="middle" font-family="Assistant" font-size="12" fill="#1c1917">שכר חודשי (אלפי ש״ח)</text>
+          <text x="28" y="155" text-anchor="middle" font-family="Assistant" font-size="12" fill="#1c1917" transform="rotate(-90, 28, 155)">תדירות</text>
+        </svg>
+        <div class="cap">היסטוגרמת שכר של 80 עובדים, בתחומים ברוחב 5 אלף ש״ח.</div>
+      </div>
+
+      <p><strong>סעיף א׳:</strong> האם ההתפלגות מוטה? לאיזה כיוון?</p>
+      <p><strong>סעיף ב׳:</strong> מי גדול יותר — הממוצע או החציון? נמקו בלי לחשב.</p>
+      <p><strong>סעיף ג׳:</strong> חשבו את הממוצע המקורב לפי אמצעי התחומים.</p>
+      <p><strong>סעיף ד׳:</strong> באיזה תחום נמצא החציון?</p>
+      <p><strong>סעיף ה׳:</strong> איזה מדד מרכזי עדיף לדווח עליו כאן, ומדוע?</p>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">סעיף א׳ · כיוון ההטיה</div>
+            <p>מרבית התצפיות מרוכזות בתחומים הנמוכים, ומימין נמתח זנב ארוך ודק של שכר גבוה (10, 5, 3, 2 עובדים).</p>
+            <p>זנב ימני פירושו <strong>הטיה חיובית</strong> (right-skewed / positively skewed).</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · ממוצע מול חציון</div>
+            <p><strong>הממוצע גדול מהחציון.</strong> הזנב הימני מכיל ערכים קיצוניים גבוהים שמושכים את הממוצע כלפי מעלה, בעוד החציון מבוסס על מיקום בלבד ולכן כמעט לא מושפע מהם.</p>
+            <p>זהו הכלל הכללי — בהטיה חיובית: ממוצע $>$ חציון. בהטיה שלילית: ממוצע $<$ חציון.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף ג׳ · חישוב הממוצע</div>
+            <p>מכפילים כל אמצע תחום בתדירות שלו, מסכמים, ומחלקים ב־80:</p>
+            $$\frac{7.5 \cdot 12 + 12.5 \cdot 28 + 17.5 \cdot 20 + 22.5 \cdot 10 + 27.5 \cdot 5 + 32.5 \cdot 3 + 37.5 \cdot 2}{80}$$
+            $$= \frac{90 + 350 + 350 + 225 + 137.5 + 97.5 + 75}{80} = \frac{1325}{80} \approx 16.6$$
+            <p>הממוצע המקורב הוא כ־16.6 אלף ש״ח.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף ד׳ · מיקום החציון</div>
+            <p>עם $n = 80$, החציון נמצא בין התצפית ה־40 לתצפית ה־41. נבנה תדירות מצטברת:</p>
+            <table style="font-size:12px;">
+              <tr><th>תחום</th><th class="num">תדירות</th><th class="num">מצטבר</th></tr>
+              <tr><td>5-10</td><td class="num">12</td><td class="num">12</td></tr>
+              <tr><td class="highlight">10-15</td><td class="num highlight">28</td><td class="num highlight">40</td></tr>
+              <tr><td class="highlight">15-20</td><td class="num highlight">20</td><td class="num highlight">60</td></tr>
+              <tr><td>20-25</td><td class="num">10</td><td class="num">70</td></tr>
+              <tr><td>25-30</td><td class="num">5</td><td class="num">75</td></tr>
+              <tr><td>30-35</td><td class="num">3</td><td class="num">78</td></tr>
+              <tr><td>35-40</td><td class="num">2</td><td class="num">80</td></tr>
+            </table>
+            <p>התצפית ה־40 היא האחרונה בתחום 10-15, והתצפית ה־41 היא הראשונה בתחום 15-20. לכן <strong>החציון נמצא סביב הגבול 15</strong>.</p>
+            <p>שימו לב שאכן $16.6 > 15$, כלומר החישוב מאשש את הנימוק שבסעיף ב׳.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-label">סעיף ה׳ · איזה מדד לדווח</div>
+            <p><strong>החציון.</strong> בהתפלגות מוטה עם זנב של ערכים קיצוניים, הממוצע מציג תמונה מטעה — הוא מושך כלפי מעלה בגלל מיעוט של משכורות גבוהות ואינו מייצג את העובד הטיפוסי.</p>
+            <p>החציון עמיד בפני ערכים קיצוניים ולכן מתאר טוב יותר את מרכז ההתפלגות. זו הסיבה שדיווחי שכר במשק מציגים בדרך כלל שכר חציוני ולא ממוצע.</p>
+          </div>
+
+          <div class="final-answer">
+            א׳: הטיה חיובית (זנב ימני). &nbsp;·&nbsp; ב׳: ממוצע $>$ חציון. &nbsp;·&nbsp; ג׳: כ־16.6. &nbsp;·&nbsp; ד׳: סביב 15 (גבול התחומים 10-15 ו־15-20). &nbsp;·&nbsp; ה׳: החציון, בגלל עמידות לערכים קיצוניים.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>סיכום מהיר לרגע לפני המבחן</h2>
+
+  <div class="box summary">
+    <div class="box-head"><span class="icon">📌</span>הנקודות שהכי סביר לפתור נכון בקלות</div>
+    <div class="box-body">
+      <ol>
+        <li>
+          <strong>נורמלית</strong> — תמיד: $k = \mu + Z \sigma$. אם ידוע $P(X&lt;k) = p$, מצא $Z(p)$ בטבלה.
+        </li>
+        <li>
+          <strong>שינויים לינאריים</strong> — $E(aX+b) = a\mu + b$, $\sigma_{new} = |a|\sigma$.
+        </li>
+        <li>
+          <strong>גודל מדגם</strong> — $N \propto 1/w^2$ (רוחב חצי → $N$ פי 4), $N \propto \sigma^2$, $N \propto Z^2$.
+        </li>
+        <li>
+          <strong>Multi-collinearity</strong> — פוגע בפרשנות מקדמים ובמובהקות, לא ב־$R^2$ ולא בניבוי. תמיד לחשוד אם מתאם &gt; 0.7.
+        </li>
+        <li>
+          <strong>KNN</strong> — חובה feature scaling! K גדול → underfitting, K=1 → overfitting.
+        </li>
+        <li>
+          <strong>Softmax בפלט</strong> חובה לסיווג רב־מחלקתי. ReLU/sigmoid בפלט לא נותן התפלגות.
+        </li>
+        <li>
+          <strong>PCA — שונות מוסברת</strong> — סכם ערכים עצמיים, חלק לסכום הכולל. סף 90% ← ספירה מצטברת.
+        </li>
+        <li>
+          <strong>שונות ↔ חשיבות לסיווג</strong> — לא זהים. אל תאמר ״רכיב עם שונות נמוכה חסר חשיבות״.
+        </li>
+        <li>
+          <strong>הורדת סף באוטואנקודר</strong> — יותר positives, recall עולה, precision של negatives יורדת.
+        </li>
+        <li>
+          <strong>PR/ROC curves</strong> — $\text{AUC} = 1$ מושלם ו־$0.5$ אקראי, ועדיף המסווג שעקומתו קרובה יותר לפינה השמאלית־עליונה &nbsp;·&nbsp; בנה תמיד את טבלת הספים לפני השרטוט.
+        </li>
+        <li>
+          <strong>Confusion matrix רב־מחלקתית</strong> — סכום עמודה = TP+FP של המחלקה. סכום שורה = TP+FN של המחלקה.
+        </li>
+        <li>
+          <strong>CNN</strong> — יתרונות: פחות פרמטרים מ־FC, weight sharing, היררכיית מאפיינים. אין הבטחות של דיוק מקסימלי.
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div style="height: 60px"></div>
+  <div style="display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid var(--rule); margin-top:48px;">
+    <a href="index.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">&larr; חזרה לעמוד הבית</a>
+    <a href="14-moed-a.html" style="color:var(--indigo-7); text-decoration:none; font-weight:600;">מבחן מועד א׳ &rarr;</a>
+  </div>
+
+</main>
+
+</div>
+</body>
+</html>

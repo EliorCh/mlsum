@@ -177,6 +177,8 @@
   <div class="nav-label">נספח</div>
   <ul class="nav-list">
     <li><a href="13-code-patterns.html"><span class="nav-num">13</span>תבניות קוד למטלות</a></li>
+    <li><a href="14-moed-a.html"><span class="nav-num">14</span>מבחן מועד א׳ + פתרונות</a></li>
+    <li><a href="15-moed-b-prep.html"><span class="nav-num">15</span>הכנה למועד ב׳</a></li>
   </ul>
   <div class="nav-label">אתר נלווה</div>
   <ul class="nav-list">
@@ -392,12 +394,17 @@
     <div class="box-body">
       <p>רשת feed-forward בנויה משכבות. כל שכבה מקבלת קלט מהשכבה הקודמת ומעבירה לשכבה הבאה.</p>
 
-      <h4>רשת דו־שכבתית (פשוטה)</h4>
+      <h4>רשת עם שכבה חבויה אחת (הפשוטה ביותר)</h4>
+      <p>המבנה: <strong>input layer</strong> ← <strong>hidden layer</strong> ← <strong>output layer</strong>. סופרים <em>שכבות משקלות</em>: יש כאן 2 (input→hidden ו־hidden→output). לפי הקונבנציה של הקורס, סופרים <em>שכבות של נוירונים</em>: input נחשב שכבה בפני עצמה, אז זו רשת <strong>3־שכבתית</strong>.</p>
       <ul>
-        <li><strong>input layer</strong>: הקלט $\mathbf{x}$.</li>
-        <li><strong>hidden layer</strong>: $\mathbf{h} = \sigma(W \cdot \mathbf{x} + \mathbf{b})$, כאשר $W$ הוא מטריצת משקלות.</li>
-        <li><strong>output layer</strong>: $\mathbf{y} = \sigma(U \cdot \mathbf{h} + \mathbf{b}^{(h)})$, כאשר $U$ מטריצת המשקלות של השכבה השנייה.</li>
+        <li><strong>input layer</strong> — הקלט $\mathbf{x}$. אין חישוב, רק הזנת הנתונים.</li>
+        <li><strong>hidden layer</strong> — $\mathbf{h} = \sigma(W \cdot \mathbf{x} + \mathbf{b})$, כאשר $W$ מטריצת המשקלות של השכבה הראשונה.</li>
+        <li><strong>output layer</strong> — $\mathbf{y} = \sigma(U \cdot \mathbf{h} + \mathbf{b}^{(h)})$, כאשר $U$ מטריצת המשקלות של השכבה השנייה.</li>
       </ul>
+
+      <div class="keypoint">
+        <strong>חשוב לדעת למבחן</strong> — כשהמבחן אומר ״רשת עם 16 נוירונים בקלט, שתי שכבות חבויות, ופלט של 4 נוירונים״ — סופרים כל שכבה: קלט + 2 חבויות + פלט = <strong>רשת 4־שכבתית</strong>. שכבת הקלט לא ״מחשבת״ שום דבר, היא רק מזינה את הנתונים.
+      </div>
 
       <h4>פלט אחד או הרבה?</h4>
       <ul>
