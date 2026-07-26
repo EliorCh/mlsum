@@ -682,12 +682,12 @@
         <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
         <div class="solution">
           <div class="step">
-            <div class="step-label">סעיף 1 · softmax → ReLU בפלט</div>
+            <div class="step-label">סעיף 1 · softmax &larr; ReLU בפלט</div>
             <p><strong>לא נכון.</strong> צמתי שכבת הפלט לא יהיו הסתברויות, וסכומם לא יהיה 1. זו לא תהיה התפלגות תקינה מעל המחלקות. גם ה־cross-entropy loss יעבוד רע.</p>
           </div>
 
           <div class="step">
-            <div class="step-label">סעיף 2 · softmax → sigmoid בפלט</div>
+            <div class="step-label">סעיף 2 · softmax &larr; sigmoid בפלט</div>
             <p><strong>לא נכון.</strong> כמו סעיף 1 — הפלטים לא יהיו התפלגות. המצב אפילו יותר גרוע כי sigmoid יכול לתת ערכים שליליים ב־log (בפלט של $\log(0) = -\infty$).</p>
           </div>
 
@@ -908,7 +908,7 @@ plt.xlabel("Recall"); plt.ylabel("Precision"); plt.show()
                   <circle cx="172" cy="60" r="4"/>
                 </g>
               </svg>
-              <div class="cap">גרף Precision-Recall Curve — כל נקודה מייצגת סף שונה. Recall נמוך → Precision גבוה (סף גבוה, מזהים רק את הבטוחים). Recall גבוה → Precision יורד.</div>
+              <div class="cap">גרף Precision-Recall Curve — כל נקודה מייצגת סף שונה. Recall נמוך &larr; Precision גבוה (סף גבוה, מזהים רק את הבטוחים). Recall גבוה &larr; Precision יורד.</div>
             </div>
           </div>
 
@@ -1002,14 +1002,14 @@ plt.xlabel("Recall"); plt.ylabel("Precision"); plt.show()
         <div class="solution">
           <div class="step">
             <div class="step-label">מה המשמעות של הורדת הסף?</div>
-            <p><strong>סף באחוזון 95 → סף באחוזון 93</strong> — פחות תנועות מוגדרות כתקינות, יותר תנועות מוגדרות כהונאה. מסמנים יותר תצפיות כ־positive (הונאה).</p>
+            <p><strong>סף באחוזון 95 &larr; סף באחוזון 93</strong> — פחות תנועות מוגדרות כתקינות, יותר תנועות מוגדרות כהונאה. מסמנים יותר תצפיות כ־positive (הונאה).</p>
           </div>
 
           <div class="step">
             <div class="step-label">איך זה משפיע?</div>
             <ul>
-              <li><strong>Recall של הונאות</strong> = TP / (TP+FN). מסמנים יותר positives → TP יגדל או יישאר ללא שינוי (מציאת יותר הונאות). ה־recall <em>יגדל או יישאר ללא שינוי</em>.</li>
-              <li><strong>Precision של תנועות תקינות</strong> = TN / (TN+FN). מסמנים יותר positives → TN <em>יורד</em> (פחות תנועות תקינות מוגדרות כתקינות). ה־precision <em>יורד או יישאר ללא שינוי</em>.</li>
+              <li><strong>Recall של הונאות</strong> = TP / (TP+FN). מסמנים יותר positives &larr; TP יגדל או יישאר ללא שינוי (מציאת יותר הונאות). ה־recall <em>יגדל או יישאר ללא שינוי</em>.</li>
+              <li><strong>Precision של תנועות תקינות</strong> = TN / (TN+FN). מסמנים יותר positives &larr; TN <em>יורד</em> (פחות תנועות תקינות מוגדרות כתקינות). ה־precision <em>יורד או יישאר ללא שינוי</em>.</li>
             </ul>
           </div>
 

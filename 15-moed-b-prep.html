@@ -198,9 +198,8 @@
 
   <p class="lead">
     <strong>איך להשתמש בפרק:</strong> נסה לפתור כל שאלה לפני שאתה מציץ בפתרון.
-    כל שאלה נבנתה על סמך שאלה מקבילה במועד א׳ אבל עם ערכים ופרטים אחרים.
-    השאלות משקפות את סגנון הניסוח של המרצים ופורמט השאלות שלהם.
-    <strong>הפתרונות עברו בדיקה כפולה מול חומרי ההרצאה והפתרון הרשמי של מועד א׳.</strong>
+    כל שאלה עוסקת באותו <em>נושא</em> כמו שאלה מקבילה במועד א׳, אבל דורשת <em>משימה שונה</em> — לא רק מספרים אחרים באותו תרגיל. למשל, במקום ״מצא את המשתנה הסידורי״ תתבקש לסווג טיפוסי משתנים ולהחליט על dummy encoding; במקום לקרוא פלט רגרסיה עם collinearity תפרש מודל מתוקנן ותשווה מקדמים. כך אתה מתרגל את ההבנה, לא את השינון.
+    <strong>כל הפתרונות אומתו חישובית לפני הכתיבה.</strong>
   </p>
 
   <div class="box theory">
@@ -227,508 +226,475 @@
       <table>
         <tr><th>נושא</th><th>מועד א׳</th><th>שאלה בפרק זה</th><th>דגש חשוב</th></tr>
         <tr><td>Ordinal / categorical variables</td><td>שאלה 1</td><td>15.1</td><td>הבדל בין ordinal ל־nominal</td></tr>
-        <tr><td>התפלגות נורמלית — מציאת ערך</td><td>שאלה 2</td><td>15.2</td><td>שימוש בטבלת Z</td></tr>
-        <tr><td>הסתברויות והמרות לינאריות</td><td>שאלה 3</td><td>15.3</td><td>$E(aX+b), \text{Var}(aX+b)$</td></tr>
-        <tr><td>גודל מדגם ורוחב רווח סמך</td><td>שאלה 4</td><td>15.4</td><td>יחסי $N$, $\sigma$, $Z$</td></tr>
+        <tr><td>התפלגות נורמלית — z-scores</td><td>שאלה 2</td><td>15.2</td><td>השוואת ביצוע יחסי</td></tr>
+        <tr><td>צירוף משתנים נורמליים</td><td>שאלה 3</td><td>15.3</td><td>שונות של סכום והפרש</td></tr>
+        <tr><td>רווח סמך — עבודה לאחור</td><td>שאלה 4</td><td>15.4</td><td>מ־$N$ נתון לרוחב</td></tr>
         <tr><td>פירוש רווחי סמך</td><td>שאלה 5</td><td>15.5</td><td><strong>גרף!</strong></td></tr>
-        <tr><td>Regression + multi-collinearity</td><td>שאלה 6</td><td>15.6</td><td>קריאת summary output</td></tr>
-        <tr><td>KNN / NNR</td><td>שאלה 7</td><td>15.7</td><td>מפרש התנהגות edge case</td></tr>
-        <tr><td>Correlation vs causation</td><td>שאלה 8</td><td>15.8</td><td>דוגמה יצירתית</td></tr>
-        <tr><td>Neural networks — פונקציות אקטיבציה</td><td>שאלה 9</td><td>15.9</td><td>מה שובר את האימון</td></tr>
-        <tr><td>Rand Score / clustering metrics</td><td>שאלה 10</td><td>15.10</td><td>חישוב ידני</td></tr>
+        <tr><td>רגרסיה מתוקננת</td><td>שאלה 6</td><td>15.6</td><td>השוואת מקדמים אחרי scaling</td></tr>
+        <tr><td>KNN + חישוב מרחקים</td><td>שאלה 7</td><td>15.7</td><td>איך scaling הופך סיווג</td></tr>
+        <tr><td>משתנה מבלבל (confounder)</td><td>שאלה 8</td><td>15.8</td><td>זיהוי + ניסוי מבוקר</td></tr>
+        <tr><td>תכנון רשת + ספירת פרמטרים</td><td>שאלה 9</td><td>15.9</td><td>שכבות, משקלים, softmax</td></tr>
+        <tr><td>Purity של clustering</td><td>שאלה 10</td><td>15.10</td><td>חישוב + חולשת המדד</td></tr>
         <tr><td>Precision-Recall / ROC curves</td><td>שאלה 11</td><td>15.11</td><td><strong>חישוב טבלה ואז שרטוט</strong></td></tr>
-        <tr><td>PCA — eigenvalues</td><td>שאלה 12</td><td>15.12</td><td>שונות מוסברת מצטברת</td></tr>
-        <tr><td>Autoencoder — threshold tuning</td><td>שאלה 13</td><td>15.13</td><td>השפעה על precision/recall</td></tr>
-        <tr><td>CNN properties</td><td>שאלה 14</td><td>15.14</td><td>נכון/לא נכון קלאסי</td></tr>
+        <tr><td>PCA — בחירת רכיבים</td><td>שאלה 12</td><td>15.12</td><td>מטרת שונות → רכיבים</td></tr>
+        <tr><td>Autoencoder — סיווג בפועל</td><td>שאלה 13</td><td>15.13</td><td>חישוב P/R משגיאות שחזור</td></tr>
+        <tr><td>CNN — ספירת פרמטרים</td><td>שאלה 14</td><td>15.14</td><td>קונבולוציה מול FC</td></tr>
         <tr><td class="highlight"><strong>בונוס — גרפים נוספים</strong></td><td>—</td><td class="highlight">15.15–15.19</td><td class="highlight"><strong>Confusion matrix, ROC, PR, מרפק, היסטוגרמה</strong></td></tr>
       </table>
     </div>
   </div>
 
-  <!-- Q1 -->
-  <h2>15.1 · משתנים סידוריים <span class="q-points">2 נקודות</span></h2>
+  <!-- Q1 - now: build a scenario, classify multiple var types not just ordinal -->
+  <h2>15.1 · סיווג טיפוסי משתנים <span class="q-points">3 נקודות</span></h2>
 
   <div class="box exercise">
     <div class="box-head"><span class="icon">📝</span>השאלה</div>
     <div class="box-body">
-      <p>נתונים משתנים במחקר על שירותים רפואיים. סמנו את כל המשתנים הקטגוריים הסידוריים (<span class="term">ordinal</span>):</p>
+      <p>חוקרת בונה מודל לניבוי זמן המתנה במרפאה. עבור כל משתנה, סמנו את הטיפוס: <strong>קטגורי nominal</strong>, <strong>קטגורי ordinal</strong>, <strong>מספרי בדיד</strong>, או <strong>מספרי רציף</strong>.</p>
       <ol style="margin: 8px 24px;">
-        <li>מגדר: זכר / נקבה / אחר</li>
-        <li>מספר טלפון של המטופל</li>
-        <li>רמת כאב: אין, קל, בינוני, חזק, בלתי־נסבל</li>
-        <li>מחוז מגורים: צפון, מרכז, דרום, ירושלים</li>
-        <li>גיל בשנים</li>
-        <li>שנת ותק של הרופא</li>
-        <li>סוג ביטוח: פרטי, קופ״ח, ממלכתי</li>
-        <li>שביעות רצון: 1 (לא מרוצה) עד 5 (מרוצה מאוד)</li>
+        <li>דחיפות הפנייה: שגרתי, דחוף, מיידי</li>
+        <li>מספר המטופלים שלפניך בתור</li>
+        <li>משקל המטופל בק״ג</li>
+        <li>יום בשבוע של הביקור</li>
+        <li>טמפרטורת הגוף במעלות</li>
       </ol>
+      <p>ולאחר מכן: אילו מהמשתנים דורשים <span class="term">dummy encoding</span> לפני הכנסה למודל רגרסיה, ואילו אפשר להשאיר כמספר?</p>
 
       <div class="exercise-card">
         <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
         <div class="solution">
           <div class="step">
-            <div class="step-label">חוק פסח: מספרי או קטגורי?</div>
-            <p>קודם בודקים אם המשתנה מספרי (רציף/בדיד) או קטגורי. אם קטגורי — האם יש סדר טבעי?</p>
-          </div>
-
-          <ul class="mc-list">
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>1. מגדר</strong> <span class="why">קטגורי nominal — אין סדר.</span></span></li>
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>2. מספר טלפון</strong> <span class="why">מזהה, לא משתנה בעצם. אין סדר מספרי משמעותי.</span></span></li>
-            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>3. רמת כאב</strong> <span class="why">ordinal — סדר טבעי: אין &lt; קל &lt; בינוני &lt; חזק &lt; בלתי־נסבל.</span></span></li>
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>4. מחוז</strong> <span class="why">קטגורי nominal — אין סדר טבעי.</span></span></li>
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>5. גיל</strong> <span class="why">מספרי רציף, לא קטגורי.</span></span></li>
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>6. שנת ותק</strong> <span class="why">מספרי בדיד, לא קטגורי.</span></span></li>
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>7. סוג ביטוח</strong> <span class="why">קטגורי nominal.</span></span></li>
-            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>8. שביעות רצון 1-5</strong> <span class="why">ordinal — סדר טבעי בסקאלה (Likert scale).</span></span></li>
-          </ul>
-
-          <div class="final-answer">תשובה: 3 ו־8.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Q2 -->
-  <h2>15.2 · התפלגות נורמלית — מציאת ערך <span class="q-points">6 נקודות</span></h2>
-
-  <div class="box exercise">
-    <div class="box-head"><span class="icon">📝</span>השאלה</div>
-    <div class="box-body">
-      <p>ציוני מבחן במתמטיקה מתפלגים נורמלית: $X \sim N(70, 10)$ (תוחלת 70, סטיית תקן 10).</p>
-      <p><strong>סעיף א׳:</strong> ידוע כי $P(X < k) = 0.15$. מצאו את הערך $k$. הראו חישוב.</p>
-      <p><strong>סעיף ב׳:</strong> סמנו נכון/לא נכון:</p>
-      <ol style="margin: 8px 24px;">
-        <li>אם התוחלת תגדל ב־5, הערך של $k$ ישתנה ב־5 בכיוון החיובי.</li>
-        <li>אם השונות תוכפל, הערך של $k$ ישתנה פי 2.</li>
-        <li>הסתברות $P(X > k) = 0.85$.</li>
-      </ol>
-
-      <div class="exercise-card">
-        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
-        <div class="solution">
-          <div class="step">
-            <div class="step-label">סעיף א׳</div>
-            <p>$P(X < k) = 0.15$ אומר $Z_{0.15} = -1.04$ (מהטבלה: $Z(0.15) \approx -1.04$).</p>
-            <p>$k = \mu + Z \cdot \sigma = 70 + (-1.04)(10) = 70 - 10.4 = 59.6$</p>
-          </div>
-
-          <div class="step">
-            <div class="step-label">סעיף ב׳</div>
+            <div class="step-label">סיווג הטיפוסים</div>
             <ul class="mc-list">
-              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>1. תוחלת +5 ← k גדל ב־5</strong> <span class="why">נכון. $k = \mu + Z\sigma$, כשה־$\mu$ עולה ב־5 גם $k$ עולה ב־5.</span></span></li>
-              <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>2. שונות ×2 ← k משתנה ×2</strong> <span class="why">לא נכון. אם שונות $\sigma^2$ מוכפלת ב־2, סטיית התקן $\sigma$ מוכפלת ב־$\sqrt{2}$. גם — רק החלק של $Z \cdot \sigma$ משתנה, לא $k$ כולו.</span></span></li>
-              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>3. $P(X > k) = 0.85$</strong> <span class="why">נכון. $P(X < k) + P(X > k) = 1$, ו־$1 - 0.15 = 0.85$.</span></span></li>
+              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>1. דחיפות</strong> <span class="why">קטגורי ordinal — יש סדר טבעי (שגרתי &lt; דחוף &lt; מיידי).</span></span></li>
+              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>2. מספר מטופלים בתור</strong> <span class="why">מספרי בדיד — ספירה של יחידות שלמות.</span></span></li>
+              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>3. משקל בק״ג</strong> <span class="why">מספרי רציף — יכול לקבל כל ערך בטווח.</span></span></li>
+              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>4. יום בשבוע</strong> <span class="why">קטגורי nominal — אין סדר אמיתי (יום ג׳ לא ״גדול״ מיום ב׳ במובן כמותי). זהירות: קל לחשוב שזה ordinal.</span></span></li>
+              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>5. טמפרטורת גוף</strong> <span class="why">מספרי רציף.</span></span></li>
             </ul>
           </div>
-
+          <div class="step">
+            <div class="step-label">Dummy encoding</div>
+            <p><strong>דורשים dummy encoding:</strong> יום בשבוע (nominal) — חובה, כי אין משמעות מספרית. דחיפות (ordinal) — לרוב ממפים למספרים סדורים (1, 2, 3), אבל dummy מותר גם.</p>
+            <p><strong>נשארים כמספר:</strong> מספר מטופלים, משקל, טמפרטורה — כולם כבר מספריים.</p>
+          </div>
           <div class="final-answer">
-            א׳: $k = 59.6$. &nbsp;·&nbsp; ב׳: 1 ו־3 נכונים, 2 לא נכון.
+            1 ordinal, 2 בדיד, 3 רציף, 4 nominal, 5 רציף. &nbsp;·&nbsp; יום בשבוע חייב dummy encoding.
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Q3 -->
-  <h2>15.3 · שינויים לינאריים על התפלגות נורמלית <span class="q-points">6 נקודות</span></h2>
+  <!-- Q2 - now: given TWO students' z-scores, compare — different task -->
+  <h2>15.2 · השוואת ציונים מנורמלים <span class="q-points">6 נקודות</span></h2>
 
   <div class="box exercise">
     <div class="box-head"><span class="icon">📝</span>השאלה</div>
     <div class="box-body">
-      <p>גובה של אתלט מתפלג: $H \sim N(180, 8)$ (בסנטימטרים).</p>
-
-      <p><strong>סעיף א׳:</strong> איזה מהביטויים הוא בעל ההסתברות הגבוהה ביותר? סמנו את כל התשובות הנכונות:</p>
-      <ol style="margin: 8px 24px;">
-        <li>$P(H < 164)$</li>
-        <li>$P(172 < H < 180)$</li>
-        <li>$P(180 < H < 188)$</li>
-        <li>$P(H > 200)$</li>
-      </ol>
-
-      <p><strong>סעיף ב׳:</strong> נמיר את הגובה ליחידות אינץ׳ (חלוקה בערך ב־2.54):</p>
-      <ol style="margin: 8px 24px;">
-        <li>מהי התוחלת החדשה?</li>
-        <li>מהי סטיית התקן החדשה?</li>
-      </ol>
+      <p>שלושה סטודנטים ניגשו לשלושה מבחנים שונים, שכל אחד מהם מתפלג נורמלית עם פרמטרים אחרים:</p>
+      <table>
+        <tr><th>סטודנט</th><th>מבחן</th><th class="num">ציון</th><th class="num">תוחלת</th><th class="num">סטיית תקן</th></tr>
+        <tr><td>אבי</td><td>סטטיסטיקה</td><td class="num">85</td><td class="num">70</td><td class="num">10</td></tr>
+        <tr><td>בת אל</td><td>אלגברה</td><td class="num">81</td><td class="num">69</td><td class="num">8</td></tr>
+        <tr><td>גיל</td><td>חדו״א</td><td class="num">88</td><td class="num">75</td><td class="num">5</td></tr>
+      </table>
+      <p><strong>סעיף א׳:</strong> מי מהשלושה היה הכי טוב <em>יחסית</em> לכיתה שלו? חשבו z-scores.</p>
+      <p><strong>סעיף ב׳:</strong> אבי ובת אל קיבלו ציונים גבוהים דומים (85 ו־81). האם הביצוע היחסי שלהם דומה? הסבירו.</p>
+      <p><strong>סעיף ג׳:</strong> נכון או לא נכון — סטודנט עם ציון גולמי נמוך יותר תמיד יהיה בעל z-score נמוך יותר.</p>
 
       <div class="exercise-card">
         <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
         <div class="solution">
           <div class="step">
-            <div class="step-label">סעיף א׳ · הסתברויות</div>
-            <p>$\mu = 180$, $\sigma = 8$, אז $\mu \pm \sigma = [172, 188]$.</p>
-            <ul>
-              <li>אפשרויות 2 ו־3 שוות (הסתברות זהה בשל סימטריה) וגם הגבוהות ביותר, כי כל אחת מכסה טווח בין $\mu$ ל־$\mu + \sigma$.</li>
-              <li>אפשרות 1: $H < 164$ = $H < \mu - 2\sigma$, זנב מרוחק, הסתברות קטנה.</li>
-              <li>אפשרות 4: $H > 200$ = $H > \mu + 2.5\sigma$, זנב עוד יותר מרוחק, קטנה עוד יותר.</li>
-            </ul>
-            <p>תשובות נכונות: <strong>2 ו־3</strong> (שווות).</p>
+            <div class="step-label">סעיף א׳ · חישוב z-scores</div>
+            <p>הנוסחה: $z = \frac{x - \mu}{\sigma}$. ה־z-score מודד כמה סטיות תקן מעל הממוצע.</p>
+            $$z_{\text{אבי}} = \frac{85 - 70}{10} = 1.5 \qquad z_{\text{בת אל}} = \frac{81 - 69}{8} = 1.5 \qquad z_{\text{גיל}} = \frac{88 - 75}{5} = 2.6$$
+            <p><strong>גיל</strong> הכי טוב יחסית — 2.6 סטיות תקן מעל הממוצע, הרבה מעל השניים האחרים.</p>
           </div>
-
           <div class="step">
-            <div class="step-label">סעיף ב׳ · המרה ליחידה חדשה</div>
-            <p>$H_{inch} = H / 2.54$, כלומר $H_{inch} = (1/2.54) \cdot H$.</p>
-            <p>לפי חוקי לינאריות: $E(aX) = aE(X)$, $\text{Var}(aX) = a^2 \text{Var}(X)$.</p>
-            $$\mu_{inch} = \frac{180}{2.54} \approx 70.87 \text{ inches}$$
-            $$\sigma_{inch} = \frac{8}{2.54} \approx 3.15 \text{ inches}$$
+            <div class="step-label">סעיף ב׳ · אבי מול בת אל</div>
+            <p><strong>כן, הביצוע היחסי שלהם זהה.</strong> למרות הציונים הגולמיים השונים (85 מול 81), שניהם קיבלו z-score של בדיוק 1.5. כלומר שניהם היו 1.5 סטיות תקן מעל הממוצע בכיתה שלהם — אותה עמדה יחסית בדיוק.</p>
           </div>
-
+          <div class="step">
+            <div class="step-label">סעיף ג׳</div>
+            <p><strong>לא נכון.</strong> הדוגמה שלנו מפריכה: בת אל (81) קיבלה z-score גבוה מאבי? לא — שניהם 1.5. אבל אילו בת אל היתה מקבלת 81 במבחן קל עם $\mu=60, \sigma=5$, ה־z שלה היה $\frac{81-60}{5}=4.2$, גבוה בהרבה מאבי עם 85. הציון הגולמי לבדו לא קובע — הפרמטרים של ההתפלגות משנים הכל.</p>
+          </div>
           <div class="final-answer">
-            א׳: 2 ו־3. &nbsp;·&nbsp; ב׳: $\mu = 70.87$, $\sigma = 3.15$.
+            א׳: גיל (z=2.6). &nbsp;·&nbsp; ב׳: כן, זהה (z=1.5 לשניהם). &nbsp;·&nbsp; ג׳: לא נכון.
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Q4 -->
-  <h2>15.4 · גודל מדגם לרווח סמך <span class="q-points">7 נקודות</span></h2>
+  <!-- Q3 - now: combination of two normals (sum/difference), different task -->
+  <h2>15.3 · צירוף וקיזוז משתנים נורמליים <span class="q-points">6 נקודות</span></h2>
 
   <div class="box exercise">
     <div class="box-head"><span class="icon">📝</span>השאלה</div>
     <div class="box-body">
-      <p>חברה עוקבת אחר זמן הטעינה של סוללות. הוא מתפלג נורמלית עם תוחלת לא ידועה ושונות מוערכת של <strong>0.64</strong> דקות ריבוע.</p>
-
-      <p><strong>סעיף א׳:</strong> מהו גודל המדגם המינימלי $N$ שיש לדגום כדי לבנות רווח סמך <strong>ברוחב 0.2 דקות</strong> ברמת ביטחון של <strong>95%</strong>? הראו את החישוב.</p>
-
-      <p><strong>סעיף ב׳:</strong> נכון או לא נכון:</p>
-      <ol style="margin: 8px 24px;">
-        <li>עם רמת ביטחון של 99% במקום 95%, יידרש מדגם קטן יותר.</li>
-        <li>עם שונות מוערכת נמוכה יותר (0.36), יידרש מדגם קטן יותר.</li>
-        <li>אם נדרש רוחב של 0.1 דקות (חצי), גודל המדגם יגדל פי 2.</li>
-      </ol>
+      <p>מפעל מייצר קופסאות. משקל הקופסה הריקה מתפלג $C \sim N(200, 6)$ גרם, ומשקל התכולה מתפלג $T \sim N(800, 8)$ גרם, באופן בלתי־תלוי.</p>
+      <p><strong>סעיף א׳:</strong> מהי התוחלת ומהי סטיית התקן של המשקל הכולל $W = C + T$?</p>
+      <p><strong>סעיף ב׳:</strong> בקרת איכות מודדת את ההפרש $D = T - C$ בין התכולה לקופסה. מהי סטיית התקן של $D$?</p>
+      <p><strong>סעיף ג׳:</strong> נכון או לא נכון — סטיית התקן של הסכום קטנה מסכום סטיות התקן של שני הרכיבים.</p>
 
       <div class="exercise-card">
         <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
         <div class="solution">
           <div class="step">
-            <div class="step-label">סעיף א׳</div>
-            <p>נוסחת רוחב הרווח: $\text{width} = 2 Z(1 - \alpha/2) \cdot \sigma / \sqrt{N}$.</p>
-            <p>עבור 95%: $Z(0.975) = 1.96$. סטיית תקן: $\sigma = \sqrt{0.64} = 0.8$.</p>
-            $$2 \cdot 1.96 \cdot \frac{0.8}{\sqrt{N}} = 0.2$$
-            $$\sqrt{N} = \frac{2 \cdot 1.96 \cdot 0.8}{0.2} = \frac{3.136}{0.2} = 15.68$$
-            $$N = 15.68^2 = 245.86 \Rightarrow N = 246$$
+            <div class="step-label">הכלל · שונות של סכום משתנים בלתי־תלויים</div>
+            <p>עבור משתנים בלתי־תלויים, <strong>השונויות מתחברות</strong> — גם בחיבור וגם בחיסור:</p>
+            $$\text{Var}(C + T) = \text{Var}(C) + \text{Var}(T) \qquad \text{Var}(T - C) = \text{Var}(T) + \text{Var}(C)$$
+            <p>סטיות התקן <em>לא</em> מתחברות ישירות — צריך לעבור דרך השונות.</p>
           </div>
-
           <div class="step">
-            <div class="step-label">סעיף ב׳</div>
-            <ul class="mc-list">
-              <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>1. 99% ← קטן יותר</strong> <span class="why">לא נכון. ביטחון גבוה יותר דורש $Z$ גדול יותר ($Z(0.995) = 2.58 > 1.96$), ולכן $N$ יותר גדול.</span></span></li>
-              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>2. שונות 0.36 ← קטן יותר</strong> <span class="why">נכון. $N \propto \sigma^2$, פחות שונות → פחות דגימות.</span></span></li>
-              <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>3. רוחב ×½ ← $N$ ×2</strong> <span class="why">לא נכון. $N \propto 1/\text{width}^2$. חצי רוחב = $N$ פי <em>4</em>, לא פי 2.</span></span></li>
-            </ul>
+            <div class="step-label">סעיף א׳ · הסכום</div>
+            <p>תוחלת: $\mu_W = 200 + 800 = 1000$ גרם.</p>
+            <p>שונות: $\sigma_W^2 = 6^2 + 8^2 = 36 + 64 = 100$, ולכן $\sigma_W = \sqrt{100} = 10$ גרם.</p>
           </div>
-
-          <div class="final-answer">א׳: $N = 246$. &nbsp;·&nbsp; ב׳: רק 2 נכון.</div>
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · ההפרש</div>
+            <p>גם בחיסור השונויות מתחברות: $\sigma_D^2 = 8^2 + 6^2 = 100$, ולכן $\sigma_D = 10$ גרם. זהה לסכום!</p>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ג׳</div>
+            <p><strong>נכון.</strong> סכום סטיות התקן הוא $6 + 8 = 14$, אבל סטיית התקן של הסכום היא $\sqrt{36+64}=10 < 14$. זה תמיד כך — שונות מתחברת אבל שורש של סכום קטן מסכום השורשים.</p>
+          </div>
+          <div class="final-answer">
+            א׳: $\mu = 1000$, $\sigma = 10$. &nbsp;·&nbsp; ב׳: $\sigma_D = 10$. &nbsp;·&nbsp; ג׳: נכון ($10 < 14$).
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Q5 with graph -->
+  <!-- Q4 - now: GIVEN a sample size, work backwards to find achievable width/confidence -->
+  <h2>15.4 · רווח סמך — עבודה לאחור <span class="q-points">7 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>חוקר כבר אסף מדגם של <strong>64</strong> תצפיות ממשתנה שסטיית התקן שלו ידועה: $\sigma = 12$.</p>
+      <p><strong>סעיף א׳:</strong> מהו רוחב רווח הסמך שהוא יכול לבנות ברמת ביטחון 95%?</p>
+      <p><strong>סעיף ב׳:</strong> החוקר רוצה לצמצם את הרוחב בחצי. בכמה עליו להגדיל את המדגם?</p>
+      <p><strong>סעיף ג׳:</strong> חברו רוצה רוחב זהה לזה של סעיף א׳, אבל ברמת ביטחון 99%. האם יספיקו לו 64 תצפיות? הסבירו בלי לחשב את המספר המדויק.</p>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">סעיף א׳ · חישוב הרוחב</div>
+            <p>רוחב $= 2 \cdot Z(0.975) \cdot \frac{\sigma}{\sqrt{N}}$. עם $Z(0.975) = 1.96$:</p>
+            $$\text{width} = 2 \cdot 1.96 \cdot \frac{12}{\sqrt{64}} = 2 \cdot 1.96 \cdot \frac{12}{8} = 2 \cdot 1.96 \cdot 1.5 = 5.88$$
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · חצי רוחב</div>
+            <p>הרוחב פרופורציוני ל־$1/\sqrt{N}$. כדי לחצות את הרוחב צריך להכפיל את $\sqrt{N}$ פי 2, כלומר להכפיל את $N$ פי <strong>4</strong>.</p>
+            <p>מ־64 ל־<strong>256</strong> תצפיות.</p>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ג׳ · אותו רוחב, ביטחון גבוה יותר</div>
+            <p><strong>לא יספיקו 64.</strong> ביטחון 99% דורש $Z(0.995) = 2.58$, גדול מ־1.96. עם אותם $\sigma$ ו־$N$, ה־$Z$ הגדול יותר יגדיל את הרוחב. כדי לשמור על הרוחב הקטן, החבר חייב מדגם גדול יותר מ־64 שיפצה על ה־$Z$ הגדול.</p>
+          </div>
+          <div class="final-answer">
+            א׳: רוחב $= 5.88$. &nbsp;·&nbsp; ב׳: פי 4 (מ־64 ל־256). &nbsp;·&nbsp; ג׳: לא, צריך מדגם גדול יותר.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 - graph, but different scenario: paired before/after CIs -->
   <h2>15.5 · פירוש רווחי סמך מגרף <span class="q-points">7 נקודות</span> <span class="graph-tag">גרף</span></h2>
 
   <div class="box exercise">
     <div class="box-head"><span class="icon">📝</span>השאלה</div>
     <div class="box-body">
-      <p>ארבעה חוקרים מדדו את זמן התגובה הממוצע של משתמשים לפרסומת. התוחלת האמיתית היא $\mu = 3.5$ שניות. כל אחד מהם דגם כמות שונה של תצפיות ובנה רווח סמך של <strong>90%</strong>. איור:</p>
+      <p>מודדים את זמן הריצה (בשניות) של שתי גרסאות תוכנה. לכל גרסה נבנה רווח סמך של 95% לזמן הריצה הממוצע, מתוך מדגמים גדולים:</p>
 
       <div class="figure">
-        <svg viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg">
-          <line x1="220" y1="20" x2="220" y2="180" stroke="#78716c" stroke-width="1.5" stroke-dasharray="5,3"/>
-          <text x="220" y="200" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#1c1917">μ = 3.5</text>
-          <!-- W: narrow, centered near mu -->
-          <text x="30" y="45" font-family="Assistant" font-size="14" font-weight="700" fill="#1c1917">W</text>
-          <line x1="200" y1="40" x2="240" y2="40" stroke="#1c1917" stroke-width="1.5"/>
-          <line x1="200" y1="35" x2="200" y2="45" stroke="#1c1917" stroke-width="1.5"/>
-          <line x1="240" y1="35" x2="240" y2="45" stroke="#1c1917" stroke-width="1.5"/>
-          <line x1="220" y1="30" x2="220" y2="50" stroke="#1d4ed8" stroke-width="3"/>
-          <!-- X: wide, contains mu -->
-          <text x="30" y="85" font-family="Assistant" font-size="14" font-weight="700" fill="#1c1917">X</text>
-          <line x1="130" y1="80" x2="310" y2="80" stroke="#1c1917" stroke-width="1.5"/>
-          <line x1="130" y1="75" x2="130" y2="85" stroke="#1c1917" stroke-width="1.5"/>
-          <line x1="310" y1="75" x2="310" y2="85" stroke="#1c1917" stroke-width="1.5"/>
-          <line x1="215" y1="70" x2="215" y2="90" stroke="#1d4ed8" stroke-width="3"/>
-          <!-- Y: medium, does not contain mu (shifted right) -->
-          <text x="30" y="125" font-family="Assistant" font-size="14" font-weight="700" fill="#1c1917">Y</text>
-          <line x1="255" y1="120" x2="365" y2="120" stroke="#dc2626" stroke-width="1.5"/>
-          <line x1="255" y1="115" x2="255" y2="125" stroke="#dc2626" stroke-width="1.5"/>
-          <line x1="365" y1="115" x2="365" y2="125" stroke="#dc2626" stroke-width="1.5"/>
-          <line x1="310" y1="110" x2="310" y2="130" stroke="#dc2626" stroke-width="3"/>
-          <!-- Z: medium, contains mu -->
-          <text x="30" y="165" font-family="Assistant" font-size="14" font-weight="700" fill="#1c1917">Z</text>
-          <line x1="170" y1="160" x2="290" y2="160" stroke="#1c1917" stroke-width="1.5"/>
-          <line x1="170" y1="155" x2="170" y2="165" stroke="#1c1917" stroke-width="1.5"/>
-          <line x1="290" y1="155" x2="290" y2="165" stroke="#1c1917" stroke-width="1.5"/>
-          <line x1="230" y1="150" x2="230" y2="170" stroke="#1d4ed8" stroke-width="3"/>
+        <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="JetBrains Mono" font-size="10" fill="#44403c" text-anchor="middle">
+            <text x="90" y="180">2.0</text>
+            <text x="190" y="180">2.5</text>
+            <text x="290" y="180">3.0</text>
+            <text x="390" y="180">3.5</text>
+            <text x="460" y="180">4.0</text>
+          </g>
+          <line x1="70" y1="160" x2="470" y2="160" stroke="#1c1917" stroke-width="1.5"/>
+          <text x="270" y="197" text-anchor="middle" font-family="Assistant" font-size="12" fill="#1c1917">זמן ריצה ממוצע (שניות)</text>
+
+          <text x="30" y="65" font-family="Assistant" font-size="13" font-weight="700" fill="#1d4ed8">גרסה A</text>
+          <line x1="150" y1="60" x2="330" y2="60" stroke="#1d4ed8" stroke-width="2"/>
+          <line x1="150" y1="53" x2="150" y2="67" stroke="#1d4ed8" stroke-width="2"/>
+          <line x1="330" y1="53" x2="330" y2="67" stroke="#1d4ed8" stroke-width="2"/>
+          <circle cx="240" cy="60" r="4" fill="#1d4ed8"/>
+
+          <text x="30" y="120" font-family="Assistant" font-size="13" font-weight="700" fill="#059669">גרסה B</text>
+          <line x1="350" y1="115" x2="430" y2="115" stroke="#059669" stroke-width="2"/>
+          <line x1="350" y1="108" x2="350" y2="122" stroke="#059669" stroke-width="2"/>
+          <line x1="430" y1="108" x2="430" y2="122" stroke="#059669" stroke-width="2"/>
+          <circle cx="390" cy="115" r="4" fill="#059669"/>
         </svg>
-        <div class="cap">ארבעה רווחי סמך של 90%. כחול = ממוצע מדגמי $M$, שחור = גבולות הרווח, אדום מסמן שהרווח אינו מכיל את $\mu$.</div>
+        <div class="cap">רווחי סמך של 95% לזמן הריצה הממוצע. גרסה A: בערך [2.4, 3.3]. גרסה B: בערך [3.25, 3.65].</div>
       </div>
 
-      <p><strong>שאלות:</strong></p>
-      <ol style="margin: 8px 24px;" type="א">
-        <li>אילו רווחי סמך אינם מכילים את התוחלת האמיתית?</li>
-        <li>איזה חוקר, ככל הנראה, השתמש במדגם הגדול ביותר?</li>
-        <li>נכון או לא נכון: החוקר Y ״טעה בחישוב״.</li>
-        <li>אם היו בונים כעת רווח סמך של 95% במקום 90% — האם רווח W עדיין יכיל את $\mu$? הסבירו.</li>
-      </ol>
+      <p><strong>סעיף א׳:</strong> איזו גרסה מהירה יותר בממוצע? עד כמה אפשר לסמוך על המסקנה?</p>
+      <p><strong>סעיף ב׳:</strong> הרווח של גרסה A רחב יותר מזה של B. מה זה מרמז על המדגמים?</p>
+      <p><strong>סעיף ג׳:</strong> הרווחים חופפים מעט (סביב 3.25-3.3). מה המשמעות לגבי ההשוואה?</p>
+      <p><strong>סעיף ד׳:</strong> נכון או לא נכון — מכיוון שהרווחים חופפים, ההפרש בזמני הריצה בוודאי אינו מובהק סטטיסטית.</p>
 
       <div class="exercise-card">
         <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
         <div class="solution">
           <div class="step">
-            <div class="step-label">א׳ · מקרים שלא מכילים את μ</div>
-            <p><strong>Y בלבד</strong> — הרווח מ־3.9 עד 4.55 בערך, ולא כולל 3.5.</p>
+            <div class="step-label">סעיף א׳ · מי מהיר יותר</div>
+            <p><strong>גרסה A מהירה יותר</strong> — מרכזה סביב 2.85 שניות מול 3.45 של B. רוב הרווח של A נמצא משמאל (זמנים נמוכים) לרווח של B.</p>
           </div>
-
           <div class="step">
-            <div class="step-label">ב׳ · מדגם הגדול ביותר</div>
-            <p><strong>W</strong> — הרווח הכי צר, ולכן $N$ הכי גדול (בהנחה של אותה שונות). הרוחב יורד עם $\sqrt{N}$.</p>
+            <div class="step-label">סעיף ב׳ · הרוחב הגדול של A</div>
+            <p>רוחב גדול יותר מרמז על <strong>מדגם קטן יותר</strong> עבור A (או שונות גדולה יותר בזמני הריצה שלה). הרוחב פרופורציוני ל־$\sigma/\sqrt{N}$.</p>
           </div>
-
           <div class="step">
-            <div class="step-label">ג׳ · האם Y ״טעה״?</div>
-            <p><strong>לא בהכרח.</strong> רווח סמך של 90% מבטיח שרק 90% מהרווחים יכילו את $\mu$. הרווחת Y יכולה להיות תוצאה של דגימה אקראית ״לא־מוצלחת״, בלי כל טעות בחישוב. זה בדיוק ההיגיון של סטטיסטיקה בהסתברות.</p>
+            <div class="step-label">סעיף ג׳ · החפיפה</div>
+            <p>החפיפה הקלה סביב 3.25-3.3 אומרת שיש <em>אזור ערכים</em> שבו התוחלת האמיתית של שתי הגרסאות עשויה להימצא. זה מחליש מעט את הביטחון שהן באמת שונות, אבל לא שולל אותו.</p>
           </div>
-
           <div class="step">
-            <div class="step-label">ד׳ · האם W ימשיך להכיל את μ ב־95%?</div>
-            <p><strong>בהכרח כן.</strong> העלאת רמת הביטחון (מ־90% ל־95%) <em>מרחיבה</em> את הרווחים. אם רווח W ב־90% כבר מכיל את $\mu$, הרווח הרחב יותר של 95% (סביב אותו ממוצע $M$) בוודאי יכיל את $\mu$ גם כן.</p>
+            <div class="step-label">סעיף ד׳ · חפיפה ומובהקות</div>
+            <p><strong>לא נכון.</strong> זו טעות נפוצה. חפיפה קלה של רווחי סמך <em>אינה</em> מוכיחה שההפרש לא מובהק. מבחן מובהקות פורמלי להפרש (למשל רווח סמך להפרש עצמו) יכול עדיין להראות מובהקות גם כשהרווחים הבודדים חופפים מעט.</p>
           </div>
-
           <div class="final-answer">
-            א׳: Y. &nbsp;·&nbsp; ב׳: W. &nbsp;·&nbsp; ג׳: לא בהכרח. &nbsp;·&nbsp; ד׳: כן, כי הרווח יורחב.
+            א׳: A מהירה יותר. &nbsp;·&nbsp; ב׳: מדגם קטן יותר של A. &nbsp;·&nbsp; ג׳: מחליש מעט את הביטחון. &nbsp;·&nbsp; ד׳: לא נכון.
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Q6 -->
-  <h2>15.6 · Multi-collinearity ברגרסיה <span class="q-points">10 נקודות</span></h2>
+  <!-- Q6 - now: interpret a SCALED regression, decide which var matters most, plus a prediction -->
+  <h2>15.6 · פירוש רגרסיה מתוקננת <span class="q-points">10 נקודות</span></h2>
 
   <div class="box exercise">
     <div class="box-head"><span class="icon">📝</span>השאלה</div>
     <div class="box-body">
-      <p>אימנו מודל רגרסיה על נתוני נדל״ן עם 4 משתנים ($x_1, x_2, x_3, x_4$) ומשתנה תלוי <span class="term">price</span>. לא בוצע feature scaling.</p>
-
-      <p><strong>מטריצת מתאם:</strong></p>
+      <p>מודל רגרסיה מנבא ציון שביעות רצון מדירה. הפעם <strong>בוצע feature scaling</strong> (תקנון) על כל המשתנים, כך שהמקדמים ניתנים להשוואה. הפלט:</p>
       <table style="font-family:var(--mono); font-size:13px;">
-        <tr><th></th><th class="num">x1 (סק״מ)</th><th class="num">x2 (חדרים)</th><th class="num">x3 (גיל בניין)</th><th class="num">x4 (קומה)</th><th class="num">price</th></tr>
-        <tr><td><strong>x1</strong></td><td class="num">1.00</td><td class="num highlight">0.93</td><td class="num">-0.05</td><td class="num">0.15</td><td class="num">0.82</td></tr>
-        <tr><td><strong>x2</strong></td><td class="num highlight">0.93</td><td class="num">1.00</td><td class="num">-0.04</td><td class="num">0.11</td><td class="num">0.78</td></tr>
-        <tr><td><strong>x3</strong></td><td class="num">-0.05</td><td class="num">-0.04</td><td class="num">1.00</td><td class="num">0.02</td><td class="num">-0.42</td></tr>
-        <tr><td><strong>x4</strong></td><td class="num">0.15</td><td class="num">0.11</td><td class="num">0.02</td><td class="num">1.00</td><td class="num">0.09</td></tr>
+        <tr><th></th><th class="num">coef (מתוקנן)</th><th class="num">P&gt;|t|</th></tr>
+        <tr><td><strong>שטח</strong></td><td class="num highlight">0.71</td><td class="num">0.000</td></tr>
+        <tr><td><strong>מספר חדרים</strong></td><td class="num">0.62</td><td class="num">0.002</td></tr>
+        <tr><td><strong>גיל הבניין</strong></td><td class="num">-0.34</td><td class="num">0.011</td></tr>
+        <tr><td><strong>מרחק מהמרכז</strong></td><td class="num">-0.28</td><td class="num">0.020</td></tr>
       </table>
+      <p>$R^2 = 0.79$.</p>
+      <p><strong>סעיף א׳:</strong> לאיזה משתנה ההשפעה החזקה ביותר על שביעות הרצון? הפעם אפשר לענות בוודאות — למה?</p>
+      <p><strong>סעיף ב׳:</strong> מה המשמעות של הסימן השלילי במקדם ״גיל הבניין״?</p>
+      <p><strong>סעיף ג׳:</strong> נכון או לא נכון — מכיוון שכל ארבעת המקדמים מובהקים (p&lt;0.05), אין multi-collinearity במודל.</p>
 
-      <p><strong>פלט Regression:</strong> $R^2 = 0.87$</p>
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">סעיף א׳ · המשתנה החזק ביותר</div>
+            <p><strong>שטח</strong>, עם מקדם מתוקנן 0.71 (הגדול ביותר בערכו המוחלט). <strong>הפעם אפשר לענות בוודאות</strong> כי בוצע feature scaling — כל המשתנים באותה סקאלה, ולכן גודל המקדם משקף ישירות את עוצמת ההשפעה. זו בדיוק ההבחנה מהשאלה במועד א׳, שם לא בוצע scaling ולכן לא ניתן היה לענות.</p>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · הסימן השלילי</div>
+            <p>ככל שגיל הבניין <em>עולה</em>, שביעות הרצון <em>יורדת</em>. קשר הפוך — בניינים ישנים יותר מקבלים ציון נמוך יותר, כשכל שאר המשתנים קבועים.</p>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ג׳ · מובהקות ו־collinearity</div>
+            <p><strong>לא נכון (לא ניתן להסיק זאת).</strong> מובהקות של כל המקדמים היא <em>אינדיקציה</em> לכך שכנראה אין collinearity חמור, אבל לא הוכחה. multi-collinearity מתון יכול להתקיים גם כשכל המשתנים מובהקים. הכלי הישיר לבדיקה הוא מטריצת המתאם או VIF, לא רק ה־p-values.</p>
+          </div>
+          <div class="final-answer">
+            א׳: שטח (מקדם 0.71, ואפשר להשוות כי יש scaling). &nbsp;·&nbsp; ב׳: קשר הפוך — בניין ישן יותר, שביעות רצון נמוכה יותר. &nbsp;·&nbsp; ג׳: לא נכון.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 - now: KNN with a worked distance table + tie-breaking, different task -->
+  <h2>15.7 · KNN — חישוב שכנים והשפעת סקאלה <span class="q-points">10 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>מסווג KNN עם $K = 3$ מנבא אישור הלוואה. שני מאפיינים: <strong>הכנסה חודשית</strong> (בש״ח) ו־<strong>ותק שנים</strong>. נתוני האימון:</p>
       <table style="font-family:var(--mono); font-size:13px;">
-        <tr><th></th><th class="num">coef</th><th class="num">P&gt;|t|</th></tr>
-        <tr><td><strong>x1</strong></td><td class="num">4.2</td><td class="num">0.003</td></tr>
-        <tr><td><strong>x2</strong></td><td class="num">1.1</td><td class="num highlight">0.42</td></tr>
-        <tr><td><strong>x3</strong></td><td class="num">-3.5</td><td class="num">0.001</td></tr>
-        <tr><td><strong>x4</strong></td><td class="num">0.3</td><td class="num highlight">0.71</td></tr>
+        <tr><th>נקודה</th><th class="num">הכנסה</th><th class="num">ותק</th><th>תווית</th></tr>
+        <tr><td>P1</td><td class="num">12000</td><td class="num">8</td><td>מאושר</td></tr>
+        <tr><td>P2</td><td class="num">12300</td><td class="num">1</td><td>נדחה</td></tr>
+        <tr><td>P3</td><td class="num">11500</td><td class="num">9</td><td>מאושר</td></tr>
       </table>
-
-      <p><strong>לכל טענה — נכון / לא נכון / לא ניתן לדעת:</strong></p>
-      <ol style="margin: 8px 24px;">
-        <li>הורדת <span class="term">x2</span> תגרום לירידה משמעותית ב־$R^2$.</li>
-        <li>הורדת <span class="term">x4</span> תגרום לירידה משמעותית ב־Adjusted $R^2$.</li>
-        <li><span class="term">x2</span> אין השפעה משמעותית על מחיר הדירה.</li>
-        <li>מדדי סק״מ (<span class="term">x1</span>) הם הגורם החזק ביותר במודל.</li>
-      </ol>
+      <p>מבקש חדש: הכנסה 12250, ותק 8.</p>
+      <p><strong>סעיף א׳:</strong> חשבו את המרחק האוקלידי מהמבקש לכל נקודה <em>בלי</em> תקנון. מי השכן הקרוב ביותר?</p>
+      <p><strong>סעיף ב׳:</strong> עכשיו תקננו כל מאפיין ל־[0,1] (min-max) וחשבו שוב. האם השכן הקרוב השתנה?</p>
+      <p><strong>סעיף ג׳:</strong> מה המסקנה לגבי חשיבות ה־feature scaling ב־KNN?</p>
 
       <div class="exercise-card">
         <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
         <div class="solution">
           <div class="step">
-            <div class="step-label">אבחון: multi-collinearity</div>
-            <p>המתאם בין <span class="term">x1</span> (סק״מ) ו־<span class="term">x2</span> (חדרים) הוא 0.93 — חזק מאוד. השניים נושאים אינפורמציה כמעט זהה. המודל ״שם את הקרדיט״ ב־<span class="term">x1</span> ומשאיר את <span class="term">x2</span> לא־מובהק.</p>
-          </div>
-
-          <ul class="mc-list">
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>1. הורדת x2 ← ירידה משמעותית ב־$R^2$</strong> <span class="why">לא נכון. <span class="term">x1</span> מכסה את אותו מידע (מתאם 0.93), אז $R^2$ יישאר כמעט זהה.</span></span></li>
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>2. הורדת x4 ← ירידה משמעותית ב־Adj $R^2$</strong> <span class="why">לא נכון. <span class="term">x4</span> לא מובהק (p=0.71) ומתאמו עם price הוא 0.09 — כמעט אין השפעה. הורדתו עשויה אפילו להגדיל את Adj $R^2$.</span></span></li>
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>3. x2 בלי השפעה על price</strong> <span class="why">לא נכון! מתאם 0.78 עם price זה משמעותי. p-value גבוה נובע מ־multi-collinearity, לא מהעדר קשר.</span></span></li>
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>4. x1 החזק ביותר</strong> <span class="why"><em>לא ניתן לדעת</em>. בלי scaling, גודל המקדם 4.2 של <span class="term">x1</span> תלוי בסקאלה. עמודת סק״מ יכולה להיות במאות ואילו <span class="term">x3</span> (גיל) בעשרות — לכן מקדמים לא ניתנים להשוואה.</span></span></li>
-          </ul>
-
-          <div class="final-answer">1: לא נכון. &nbsp;·&nbsp; 2: לא נכון. &nbsp;·&nbsp; 3: לא נכון. &nbsp;·&nbsp; 4: לא ניתן לדעת.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Q7 -->
-  <h2>15.7 · KNN — התנהגות ב־edge cases <span class="q-points">10 נקודות</span></h2>
-
-  <div class="box exercise">
-    <div class="box-head"><span class="icon">📝</span>השאלה</div>
-    <div class="box-body">
-      <p>נבנה מסווג KNN עם $K = 5$ על מאגר של 100 נקודות מסומנות ב־2 מחלקות (60 מ־A ו־40 מ־B). לכל טענה — נכון או לא נכון + הסבר:</p>
-      <ol style="margin: 8px 24px;">
-        <li>אם נגדיל את $K$ ל־100, המסווג תמיד יסווג את כל התצפיות כ־A.</li>
-        <li>KNN עם $K=1$ תמיד יסווג נכון את כל נקודות ה־train.</li>
-        <li>אם ניצור עותק זהה של תצפית חיובית וניתן משקל 2 בלימוד, זה יעזור. KNN רגיל.</li>
-        <li>נרמול $x_1 \in [0,1000]$ ו־$x_2 \in [0,1]$ הוא חובה — אחרת $x_1$ יבלע את השפעת $x_2$.</li>
-        <li>KNN מהיר ב־training אך איטי ב־prediction.</li>
-      </ol>
-
-      <div class="exercise-card">
-        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
-        <div class="solution">
-          <ul class="mc-list">
-            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>1. K=100 ← הכל A</strong> <span class="why">נכון. אם $K$ = כל ה־train, נעשה majority vote על כולם — הרוב הוא A (60 מ־A נגד 40 מ־B). כל תצפית תסווג כ־A.</span></span></li>
-              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>2. K=1 ← מדויק ב־train</strong> <span class="why">נכון. עבור נקודה מ־train, השכן הקרוב ביותר הוא היא עצמה (מרחק 0). לכן היא תסווג לפי תיוגה שלה.</span></span></li>
-              <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>3. שכפול תצפית + משקל</strong> <span class="why">לא נכון. KNN רגיל לא ״לומד״ ולא משתמש במשקלים בשלב האימון. שכפול תצפית יופיע בשכנות אבל לא ״ילמד״ באופן שונה.</span></span></li>
-              <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>4. נרמול חובה</strong> <span class="why">נכון. KNN מבוסס על מרחק Euclidean או Manhattan. הבדל של 100 ב־$x_1$ יהיה משמעותית יותר מהבדל של 0.5 ב־$x_2$ בגלל סקאלה, למרות שאולי $x_2$ חשוב יותר.</span></span></li>
-              <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>5. מהיר ב־train, איטי ב־predict</strong> <span class="why">נכון! KNN לא ״מתאמן״ — הוא רק שומר את הנתונים ($O(1)$ ב־train). אבל בזמן ניבוי הוא צריך למצוא את $K$ השכנים הקרובים ביותר לכל נקודה חדשה ($O(n)$).</span></span></li>
-          </ul>
-
-          <div class="final-answer">1, 2, 4, 5 נכונים. &nbsp;·&nbsp; 3 לא נכון.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Q8 -->
-  <h2>15.8 · דוגמאות למתאם ללא סיבתיות <span class="q-points">2 נקודות</span></h2>
-
-  <div class="box exercise">
-    <div class="box-head"><span class="icon">📝</span>השאלה</div>
-    <div class="box-body">
-      <p>לכל זוג משתנים, קבע האם המתאם הוא סיבתי (causal) או ספיוריסטי (spurious). אם ספיוריסטי — ציין את הגורם המשותף.</p>
-      <ol style="margin: 8px 24px;">
-        <li>מספר שריפות ומספר כבאים בזירה.</li>
-        <li>מספר שעות שינה וציון במבחן.</li>
-        <li>מכירת מגפי גשם ואירועי טביעה.</li>
-        <li>נסיעה במיל ומאגר נהגים בעלי ותק.</li>
-      </ol>
-
-      <div class="exercise-card">
-        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
-        <div class="solution">
-          <ul>
-            <li><strong>1. שריפות וכבאים</strong> — ספיוריסטי (בעצם, זה כן קשור אבל בכיוון ההפוך למה שנראה). המתאם: שריפה גדולה יותר → יותר כבאים נדרשים. הגורם המשותף: גודל השריפה. לא ״כבאים גורמים לשריפה״ ולא ״שריפה גורמת לכבאים במובן ישיר״.</li>
-            <li><strong>2. שינה וציון</strong> — סיבתי (בערך). שינה משפרת ריכוז ובגלל זה משפרת ביצועים במבחן.</li>
-            <li><strong>3. מגפי גשם וטביעה</strong> — ספיוריסטי. הגורם המשותף: יורד גשם. גשם ← יותר מגפי גשם נמכרים, וגם גשם ← מים בבריכות ← יותר טביעות.</li>
-            <li><strong>4. נסיעה במיל וותק</strong> — יש כאן קשר סיבתי (ותק יותר גדול → נהגים שנוסעים יותר), אבל גם הכיוון ההפוך אפשרי (מי שנוסע יותר צובר ותק).</li>
-          </ul>
-
-          <div class="final-answer">
-            רק 3 היא ספיוריסטית קלאסית. שאר הזוגות מכילים מרכיב סיבתי כלשהו.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Q9 -->
-  <h2>15.9 · פונקציות אקטיבציה חדשות <span class="q-points">14 נקודות</span></h2>
-
-  <div class="box exercise">
-    <div class="box-head"><span class="icon">📝</span>השאלה</div>
-    <div class="box-body">
-      <p>רשת <span class="term">feed-forward</span>: קלט 20 → שכבה חבויה 16 (ReLU) → שכבה חבויה 8 (ReLU) → פלט 3 (softmax).</p>
-
-      <p><strong>סעיף 1:</strong> נכון / לא נכון — ניתן לאמן את הרשת אם נחליף softmax בפלט ב־<em>tanh</em> ($\tanh(z)$).</p>
-
-      <p><strong>סעיף 2:</strong> עבור כל אלטרנטיבה לשכבות פנימיות: (1) האם ניתן לאמן עם gradient descent? (2) האם איכות המודל תפגע?</p>
-      <ol style="margin: 8px 24px;" type="א">
-        <li>$f(z) = |z|$ (ערך מוחלט)</li>
-        <li>$f(z) = z^3$</li>
-        <li>$f(z) = \max(z, 0.01z)$ (leaky ReLU)</li>
-        <li>$f(z) = e^{-z^2}$ (Gaussian)</li>
-      </ol>
-
-      <div class="exercise-card">
-        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
-        <div class="solution">
-          <div class="step">
-            <div class="step-label">סעיף 1 · softmax → tanh</div>
-            <p><strong>לא נכון (ניתן להריץ אבל לא זהה לאיכות)</strong>. tanh נותן ערכים ב־$(-1, 1)$, לא הסתברויות. סכומם לא 1. ה־cross-entropy loss לא יעבוד כמו שצריך על ערכים שליליים או שאינם התפלגות.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-label">2.א · $f(z) = |z|$</div>
-            <p><strong>ניתן לאמן</strong> (גזירה בכל מקום מלבד 0, ניתן להגדיר subgradient). <strong>יש סיבה להניח פגיעה</strong> — סימטרית לגבי אפס, שני קלטים $z$ ו־$-z$ נותנים אותו פלט. הרשת מאבדת סימנים בקלטים.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-label">2.ב · $f(z) = z^3$</div>
-            <p><strong>ניתן לאמן</strong> (חלקה וגזירה). <strong>יש סיבה להניח פגיעה</strong> — הגרדיאנט מתפוצץ עבור $|z|$ גדול ($f'(z) = 3z^2$). גורם ל־exploding gradients. גם, בקרבת 0 הגרדיאנט קטן מאוד → vanishing.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-label">2.ג · Leaky ReLU</div>
-            <p><strong>ניתן לאמן</strong>. <strong>אין סיבה להניח פגיעה</strong> — למעשה זה שיפור ידוע על ReLU רגיל, פותר את בעיית ה־dying ReLU (נוירונים תמיד 0). זה שימוש נפוץ ומקובל.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-label">2.ד · Gaussian $e^{-z^2}$</div>
-            <p><strong>ניתן לאמן</strong> (חלקה). <strong>יש סיבה להניח פגיעה</strong> — הפונקציה מקבלת ערך גבוה סביב $z=0$ ומתאפסת עבור $|z|$ גדול. גם, סימטרית (זוגית), אז $f(z) = f(-z)$. הגרדיאנטים דועכים ל־0 עבור $|z|$ גדול (vanishing gradient).</p>
-          </div>
-
-          <div class="final-answer">
-            1: לא נכון. &nbsp;·&nbsp; 2.א: ניתן+יש. &nbsp;·&nbsp; 2.ב: ניתן+יש. &nbsp;·&nbsp; 2.ג: ניתן+אין. &nbsp;·&nbsp; 2.ד: ניתן+יש.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Q10 -->
-  <h2>15.10 · חישוב Rand Score <span class="q-points">5 נקודות</span></h2>
-
-  <div class="box exercise">
-    <div class="box-head"><span class="icon">📝</span>השאלה</div>
-    <div class="box-body">
-      <p>בוצע clustering עם $K = 2$ על 6 תצפיות. מה יודפס?</p>
-      <div class="code-label"><span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span><span class="name">rand_score2.py</span></div>
-<pre><code class="language-python">from sklearn.metrics.cluster import rand_score
-
-predicted = [0, 0, 1, 1, 1, 0]
-actual    = ['A', 'A', 'B', 'B', 'A', 'B']
-print(rand_score(actual, predicted))
-</code></pre>
-
-      <div class="exercise-card">
-        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
-        <div class="solution">
-          <div class="step">
-            <div class="step-label">שיטת חישוב</div>
-            <p>$\binom{6}{2} = 15$ זוגות. עבור כל זוג נבדוק same-actual עם same-predicted.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-label">קבוצות</div>
+            <div class="step-label">סעיף א׳ · מרחק ללא תקנון</div>
+            <p>המרחק נשלט כמעט לגמרי על ידי ההכנסה, כי הסקאלה שלה גדולה פי אלפים מהוותק:</p>
             <table style="font-size:12px;">
-              <tr><th>i</th><th>actual</th><th>predicted</th></tr>
-              <tr><td>1</td><td>A</td><td>0</td></tr>
-              <tr><td>2</td><td>A</td><td>0</td></tr>
-              <tr><td>3</td><td>B</td><td>1</td></tr>
-              <tr><td>4</td><td>B</td><td>1</td></tr>
-              <tr><td>5</td><td>A</td><td>1</td></tr>
-              <tr><td>6</td><td>B</td><td>0</td></tr>
+              <tr><th>נקודה</th><th>חישוב</th><th class="num">מרחק</th></tr>
+              <tr><td>P1</td><td>$\sqrt{250^2 + 0^2}$</td><td class="num">250</td></tr>
+              <tr><td>P2</td><td>$\sqrt{50^2 + 7^2}$</td><td class="num">50.5</td></tr>
+              <tr><td>P3</td><td>$\sqrt{750^2 + 1^2}$</td><td class="num">750</td></tr>
             </table>
-            <p>Actual A = {1, 2, 5}, Actual B = {3, 4, 6}. Same-actual pairs: $\binom{3}{2} + \binom{3}{2} = 3 + 3 = 6$.</p>
-            <p>Predicted 0 = {1, 2, 6}, Predicted 1 = {3, 4, 5}. Same-predicted pairs: $3 + 3 = 6$.</p>
+            <p>השכן הקרוב ביותר הוא <strong>P2 (נדחה)</strong> — למרות שהוותק שלו (1) רחוק מאוד מהמבקש (8).</p>
           </div>
-
           <div class="step">
-            <div class="step-label">$a$ ו־$b$</div>
-            <p><strong>$a$ (same בשניהם):</strong></p>
-            <ul>
-              <li>Actual A ∩ predicted 0: {1, 2} — זוג אחד.</li>
-              <li>Actual B ∩ predicted 1: {3, 4} — זוג אחד.</li>
-            </ul>
-            <p>$a = 2$.</p>
-            <p><strong>$b$ (different בשניהם):</strong> $b = 15 - 6 - 6 + 2 = 5$.</p>
-            $$\text{RI} = \frac{2 + 5}{15} = \frac{7}{15} \approx 0.467$$
+            <div class="step-label">סעיף ב׳ · מרחק לאחר תקנון</div>
+            <p>טווח הכנסה: [11500, 12300], טווח ותק: [1, 9]. המבקש המתוקנן: הכנסה $\frac{12250-11500}{800}=0.94$, ותק $\frac{8-1}{8}=0.88$.</p>
+            <table style="font-size:12px;">
+              <tr><th>נקודה</th><th>מתוקנן</th><th class="num">מרחק</th></tr>
+              <tr><td>P1</td><td>(0.63, 0.88)</td><td class="num">0.31</td></tr>
+              <tr><td>P2</td><td>(1.0, 0.0)</td><td class="num">0.88</td></tr>
+              <tr><td>P3</td><td>(0.0, 1.0)</td><td class="num">0.95</td></tr>
+            </table>
+            <p>עכשיו השכן הקרוב ביותר הוא <strong>P1 (מאושר)</strong> — התוצאה התהפכה!</p>
           </div>
-
+          <div class="step">
+            <div class="step-label">סעיף ג׳ · המסקנה</div>
+            <p>בלי תקנון, ההכנסה ״בלעה״ לחלוטין את הוותק, וקיבלנו סיווג ״נדחה״ על בסיס מאפיין אחד בלבד. אחרי תקנון, שני המאפיינים תורמים באופן מאוזן, והמבקש (הכנסה גבוהה + ותק גבוה) מסווג נכון כ״מאושר״.</p>
+            <p><strong>feature scaling הוא קריטי ב־KNN</strong> — הוא יכול לשנות את הסיווג לגמרי, לא רק לשפר דיוק שולית.</p>
+          </div>
           <div class="final-answer">
-            הפלט: <span class="term">7/15 ≈ 0.467</span>.
+            א׳: P2 (נדחה). &nbsp;·&nbsp; ב׳: כן, השתנה ל־P1 (מאושר). &nbsp;·&nbsp; ג׳: scaling יכול להפוך את הסיווג.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 - now: identify the confound / direction, different framing -->
+  <h2>15.8 · זיהוי משתנה מבלבל <span class="q-points">3 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>עיתון מדווח: ״מחקר מצא מתאם חיובי חזק בין <strong>מספר שעות שילדים מבלים בחוגי העשרה</strong> לבין <strong>הישגיהם הלימודיים</strong>. המסקנה: חוגי העשרה משפרים הישגים.״</p>
+      <p><strong>סעיף א׳:</strong> מהו הכשל הלוגי במסקנה?</p>
+      <p><strong>סעיף ב׳:</strong> הציעו משתנה מבלבל (confounder) אחד שיכול להסביר את המתאם בלי קשר סיבתי ישיר.</p>
+      <p><strong>סעיף ג׳:</strong> איזה סוג ניסוי היה נדרש כדי לבסס קשר סיבתי אמיתי?</p>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">סעיף א׳ · הכשל</div>
+            <p>הכשל הקלאסי: <strong>מתאם אינו סיבתיות</strong>. העובדה ששני משתנים עולים יחד לא מוכיחה שאחד גורם לשני. ייתכן גורם שלישי שמשפיע על שניהם.</p>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · משתנה מבלבל</div>
+            <p>דוגמאות טובות:</p>
+            <ul>
+              <li><strong>מצב סוציו־אקונומי של המשפחה</strong> — משפחות מבוססות יכולות לממן גם חוגים <em>וגם</em> ספרים, שיעורים פרטיים וסביבה לימודית תומכת. הכסף מסביר את שני המשתנים.</li>
+              <li><strong>מעורבות ההורים</strong> — הורים מעורבים רושמים לחוגים וגם עוזרים בשיעורי הבית.</li>
+            </ul>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ג׳ · הניסוי הנדרש</div>
+            <p><strong>ניסוי מבוקר אקראי</strong> (randomized controlled trial). מקצים ילדים <em>אקראית</em> לקבוצת חוגים ולקבוצת ביקורת, כך שהמשתנים המבלבלים מתפזרים באופן שווה בין הקבוצות. רק הקצאה אקראית מנתקת את הקשר בין החוגים למשתנים המבלבלים ומאפשרת מסקנה סיבתית.</p>
+          </div>
+          <div class="final-answer">
+            א׳: מתאם ≠ סיבתיות. &nbsp;·&nbsp; ב׳: מצב סוציו־אקונומי / מעורבות הורים. &nbsp;·&nbsp; ג׳: ניסוי מבוקר אקראי.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q9 - now: design constraints, count params, different task -->
+  <h2>15.9 · תכנון רשת וספירת פרמטרים <span class="q-points">14 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>רשת <span class="term">feed-forward</span> לסיווג ל־5 מחלקות: קלט 10 → שכבה חבויה 6 → שכבה חבויה 4 → פלט 5.</p>
+      <p><strong>סעיף א׳:</strong> כמה שכבות יש ברשת לפי הקונבנציה של הקורס? (רמז — סופרים כל שכבה כולל קלט)</p>
+      <p><strong>סעיף ב׳:</strong> חשבו את מספר המשקלים (weights) בין שכבת הקלט לשכבה החבויה הראשונה, בלי הטיות (bias).</p>
+      <p><strong>סעיף ג׳:</strong> איזו פונקציית אקטיבציה חייבת להיות בשכבת הפלט, ולמה?</p>
+      <p><strong>סעיף ד׳:</strong> חבר מציע להשתמש ב־ReLU בכל השכבות כולל הפלט. הסבירו מה יישבר בשני שלבים: (1) האם האימון ירוץ טכנית? (2) האם התוצאה תהיה שימושית?</p>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">סעיף א׳ · ספירת שכבות</div>
+            <p>קלט + 2 חבויות + פלט = <strong>4 שכבות</strong>. שכבת הקלט נספרת למרות שאינה מבצעת חישוב — היא רק מזינה את הנתונים.</p>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · ספירת משקלים</div>
+            <p>כל נוירון בשכבה החבויה הראשונה (6 נוירונים) מחובר לכל 10 נוירוני הקלט:</p>
+            $$10 \times 6 = 60 \text{ משקלים}$$
+            <p>(אם היו סופרים גם הטיות, היו מוסיפים 6 — נוירון אחד לכל נוירון חבוי.)</p>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ג׳ · אקטיבציית הפלט</div>
+            <p><strong>Softmax.</strong> יש 5 מחלקות, ואנחנו רוצים שהפלט יהיה התפלגות הסתברויות — 5 ערכים חיוביים שסכומם 1. רק softmax מבטיח זאת.</p>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ד׳ · ReLU בפלט</div>
+            <p><strong>(1) האם ירוץ טכנית?</strong> כן. ReLU גזירה (כמעט בכל מקום), אז gradient descent יעבוד ולא יקרוס.</p>
+            <p><strong>(2) האם התוצאה שימושית?</strong> לא. פלטי ReLU אינם התפלגות — הם ערכים אי־שליליים ללא אילוץ שסכומם 1. אי אפשר לפרש אותם כהסתברויות, וה־cross-entropy loss יעבוד רע. המודל לא ילמד לסווג היטב.</p>
+          </div>
+          <div class="final-answer">
+            א׳: 4 שכבות. &nbsp;·&nbsp; ב׳: 60 משקלים. &nbsp;·&nbsp; ג׳: softmax (התפלגות הסתברויות). &nbsp;·&nbsp; ד׳: ירוץ טכנית אבל לא שימושי.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q10 - now: PURITY computation (not rand score), different metric -->
+  <h2>15.10 · חישוב Purity של clustering <span class="q-points">5 נקודות</span></h2>
+
+  <div class="box exercise">
+    <div class="box-head"><span class="icon">📝</span>השאלה</div>
+    <div class="box-body">
+      <p>בוצע clustering על 10 תצפיות מתויגות, והתקבלו 3 אשכולות. הטבלה מראה את התוויות האמיתיות בכל אשכול:</p>
+      <table>
+        <tr><th>אשכול</th><th>תוויות אמיתיות של החברים</th><th class="num">גודל</th></tr>
+        <tr><td>C1</td><td>A, A, A, B</td><td class="num">4</td></tr>
+        <tr><td>C2</td><td>B, B, C</td><td class="num">3</td></tr>
+        <tr><td>C3</td><td>C, C, A</td><td class="num">3</td></tr>
+      </table>
+      <p><strong>סעיף א׳:</strong> חשבו את ה־<span class="term">purity</span> של ה־clustering.</p>
+      <p><strong>סעיף ב׳:</strong> מה היה ה־purity אילו כל תצפית היתה באשכול נפרד משלה (10 אשכולות)? מה זה מלמד על המדד?</p>
+      <p><strong>סעיף ג׳:</strong> נכון או לא נכון — purity של 1.0 מעיד תמיד על clustering מצוין.</p>
+
+      <div class="exercise-card">
+        <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
+        <div class="solution">
+          <div class="step">
+            <div class="step-label">הנוסחה</div>
+            <p>$\text{Purity} = \frac{1}{N} \sum_{k} \max_j |C_k \cap T_j|$ — לכל אשכול לוקחים את התווית השכיחה ביותר, סוכמים, ומחלקים ב־$N$.</p>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף א׳ · החישוב</div>
+            <ul>
+              <li>C1 = {A, A, A, B}: התווית השכיחה A, מופיעה 3 פעמים.</li>
+              <li>C2 = {B, B, C}: התווית השכיחה B, מופיעה 2 פעמים.</li>
+              <li>C3 = {C, C, A}: התווית השכיחה C, מופיעה 2 פעמים.</li>
+            </ul>
+            $$\text{Purity} = \frac{3 + 2 + 2}{10} = \frac{7}{10} = 0.7$$
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · 10 אשכולות נפרדים</div>
+            <p>אם כל תצפית באשכול משלה, כל אשכול ״טהור״ לחלוטין (תווית אחת בלבד), ולכן:</p>
+            $$\text{Purity} = \frac{1 + 1 + \ldots + 1}{10} = \frac{10}{10} = 1.0$$
+            <p>זה חושף את החולשה של המדד — purity <em>עולה</em> ככל שיש יותר אשכולות, ומגיע ל־1 בקיצון חסר התועלת של אשכול לכל נקודה.</p>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ג׳</div>
+            <p><strong>לא נכון.</strong> כמו שראינו בסעיף ב׳, purity = 1.0 מתקבל גם כשמפצלים לאשכולות קטנטנים חסרי משמעות. לכן purity לבדו לא מספיק — צריך לשקול גם את מספר האשכולות, או להשתמש במדד משלים כמו Rand Index.</p>
+          </div>
+          <div class="final-answer">
+            א׳: 0.7. &nbsp;·&nbsp; ב׳: 1.0 — המדד מוטה לטובת הרבה אשכולות. &nbsp;·&nbsp; ג׳: לא נכון.
           </div>
         </div>
       </div>
@@ -865,124 +831,146 @@ plt.xlabel("FPR"); plt.ylabel("TPR"); plt.show()
     </div>
   </div>
 
-  <!-- Q12 -->
-  <h2>15.12 · PCA — אחוז שונות מוסברת <span class="q-points">7 נקודות</span></h2>
+  <!-- Q12 - now: PCA reverse — given a variance target, and interpret proportion, different task -->
+  <h2>15.12 · PCA — בחירת רכיבים ופירוש <span class="q-points">7 נקודות</span></h2>
 
   <div class="box exercise">
     <div class="box-head"><span class="icon">📝</span>השאלה</div>
     <div class="box-body">
-      <p>בוצע PCA על מערך נתונים עם 8 features. הערכים העצמיים:</p>
-      $$\text{eigenvalues} = [4.5,\ 2.0,\ 1.5,\ 0.9,\ 0.6,\ 0.3,\ 0.15,\ 0.05]$$
-
-      <ol style="margin: 8px 24px;" type="א">
-        <li>מהו אחוז השונות המוסבר על ידי שלושת הרכיבים הראשונים?</li>
-        <li>כמה רכיבים דרושים כדי לשמור על לפחות 95% מהשונות?</li>
-        <li>נכון או לא נכון: הרכיב האחרון ($\lambda = 0.05$) חסר תרומה למסווג. הסבירו.</li>
-      </ol>
+      <p>בוצע PCA על מערך עם 5 תכונות. במקום ערכים עצמיים, נתון ישירות אחוז השונות שכל רכיב מסביר:</p>
+      <table>
+        <tr><th>רכיב</th><th class="num">PC1</th><th class="num">PC2</th><th class="num">PC3</th><th class="num">PC4</th><th class="num">PC5</th></tr>
+        <tr><th>שונות מוסברת</th><td class="num">43%</td><td class="num">21%</td><td class="num">18%</td><td class="num">11%</td><td class="num">7%</td></tr>
+      </table>
+      <p><strong>סעיף א׳:</strong> חוקר רוצה לשמור על לפחות 80% מהשונות. כמה רכיבים ייקח, וכמה שונות בדיוק הוא ישמר?</p>
+      <p><strong>סעיף ב׳:</strong> חוקרת אחרת מוכנה לוותר על עד 15% מהשונות. כמה רכיבים היא יכולה להסיר?</p>
+      <p><strong>סעיף ג׳:</strong> נכון או לא נכון — אם מסירים את PC5 (7%), מובטח שדיוק המסווג יירד בפחות מ־7%.</p>
 
       <div class="exercise-card">
         <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
         <div class="solution">
           <div class="step">
-            <div class="step-label">א׳ · שלושת הרכיבים הראשונים</div>
-            <p>סכום כולל: $4.5 + 2.0 + 1.5 + 0.9 + 0.6 + 0.3 + 0.15 + 0.05 = 10.0$.</p>
-            <p>שלושת הראשונים: $4.5 + 2.0 + 1.5 = 8.0$.</p>
-            $$\frac{8.0}{10.0} = 0.80 = 80\%$$
-          </div>
-
-          <div class="step">
-            <div class="step-label">ב׳ · שונות מוסברת מצטברת</div>
+            <div class="step-label">שונות מצטברת</div>
             <table>
-              <tr><th>רכיבים</th><th class="num">שונות מצטברת</th><th class="num">אחוז</th></tr>
-              <tr><td>PC1</td><td class="num">4.5</td><td class="num">45%</td></tr>
-              <tr><td>PC1-2</td><td class="num">6.5</td><td class="num">65%</td></tr>
-              <tr><td>PC1-3</td><td class="num">8.0</td><td class="num">80%</td></tr>
-              <tr><td>PC1-4</td><td class="num">8.9</td><td class="num">89%</td></tr>
-              <tr><td class="highlight">PC1-5</td><td class="num highlight">9.5</td><td class="num highlight">95%</td></tr>
+              <tr><th>רכיבים</th><th class="num">מצטבר</th></tr>
+              <tr><td>PC1</td><td class="num">43%</td></tr>
+              <tr><td>PC1-2</td><td class="num">64%</td></tr>
+              <tr><td class="highlight">PC1-3</td><td class="num highlight">82%</td></tr>
+              <tr><td>PC1-4</td><td class="num">93%</td></tr>
+              <tr><td>PC1-5</td><td class="num">100%</td></tr>
             </table>
-            <p><strong>צריך 5 רכיבים.</strong></p>
           </div>
-
           <div class="step">
-            <div class="step-label">ג׳ · האם הרכיב האחרון חסר תרומה?</div>
-            <p><strong>לא נכון (בהכרח).</strong> ערך עצמי נמוך אומר שהרכיב מסביר מעט שונות ב־data. אבל שונות נמוכה ↔ חשיבות סיווג אינם זהים. יתכן שהרכיב תופס מאפיין הבחנתי בין המחלקות שהוא לא מייצר שונות רבה.</p>
-            <p>עבור בעיות סיווג במיוחד: לפעמים דוקא הרכיבים הפחות שונים תופסים מידע משמעותי להבחנה.</p>
+            <div class="step-label">סעיף א׳ · לפחות 80%</div>
+            <p>שני רכיבים נותנים 64% (פחות מ־80%). שלושה רכיבים נותנים 82% ≥ 80%. <strong>3 רכיבים, ובהם 82% מהשונות.</strong></p>
           </div>
-
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · לוותר על עד 15%</div>
+            <p>אם מסירים PC5 בלבד מוותרים על 7%. אם מסירים PC4+PC5 מוותרים על $11\% + 7\% = 18\%$ — יותר מדי. לכן היא יכולה להסיר <strong>רכיב אחד בלבד (PC5)</strong>, ולוותר על 7%.</p>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ג׳ · שונות מול דיוק</div>
+            <p><strong>לא נכון.</strong> אין קשר מובטח בין אחוז השונות שרכיב מסביר לבין תרומתו לדיוק הסיווג. ייתכן ש־PC5, למרות שהוא מסביר רק 7% מהשונות, דווקא מכיל את המידע ההבחנתי החשוב בין המחלקות — ואז הסרתו תפגע בדיוק ביותר מ־7%. שונות ותרומה לסיווג הם שני דברים שונים.</p>
+          </div>
           <div class="final-answer">
-            א׳: 80%. &nbsp;·&nbsp; ב׳: 5 רכיבים. &nbsp;·&nbsp; ג׳: לא נכון (שונות ≠ חשיבות לסיווג).
+            א׳: 3 רכיבים (82%). &nbsp;·&nbsp; ב׳: רכיב אחד (PC5). &nbsp;·&nbsp; ג׳: לא נכון.
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Q13 -->
-  <h2>15.13 · Autoencoder — שינוי סף <span class="q-points">5 נקודות</span></h2>
+  <!-- Q13 - now: autoencoder, given actual reconstruction errors + threshold, classify -->
+  <h2>15.13 · Autoencoder — סיווג לפי שגיאת שחזור <span class="q-points">6 נקודות</span></h2>
 
   <div class="box exercise">
     <div class="box-head"><span class="icon">📝</span>השאלה</div>
     <div class="box-body">
-      <p>Autoencoder לזיהוי מכשירים פגומים בייצור. הסף לפגם מוגדר כאחוזון <strong>90</strong> של loss. עוברים לסף אחוזון <strong>95</strong> (מעלים את הסף).</p>
-
-      <p>נכון או לא נכון:</p>
-      <ol style="margin: 8px 24px;" type="א">
-        <li>Recall של מקרי פגם יגדל.</li>
-        <li>Recall של מקרי פגם יקטן או יישאר ללא שינוי.</li>
-        <li>Precision של מכשירים תקינים יגדל או יישאר ללא שינוי.</li>
-        <li>Precision של מקרי פגם יגדל או יישאר ללא שינוי.</li>
-        <li>מספר ה־positives המסומנים יעלה.</li>
-      </ol>
+      <p>Autoencoder אומן על עסקאות תקינות. לשש עסקאות חדשות חושבה שגיאת השחזור (loss):</p>
+      <table style="font-family:var(--mono); font-size:13px;">
+        <tr><th>עסקה</th><th class="num">T1</th><th class="num">T2</th><th class="num">T3</th><th class="num">T4</th><th class="num">T5</th><th class="num">T6</th></tr>
+        <tr><th>loss</th><td class="num">0.12</td><td class="num">0.85</td><td class="num">0.20</td><td class="num">0.55</td><td class="num">0.90</td><td class="num">0.30</td></tr>
+        <tr><th>אמת</th><td>תקין</td><td>הונאה</td><td>תקין</td><td>הונאה</td><td>הונאה</td><td>תקין</td></tr>
+      </table>
+      <p><strong>סעיף א׳:</strong> עם סף 0.50 (כל loss מעליו = הונאה), בנו את החיזויים וחשבו Precision ו־Recall של מחלקת ההונאה.</p>
+      <p><strong>סעיף ב׳:</strong> מורידים את הסף ל־0.25. חשבו מחדש. איזה מדד השתפר ואיזה נפגע?</p>
+      <p><strong>סעיף ג׳:</strong> אם המטרה היא לתפוס כמה שיותר הונאות גם במחיר של אזעקות שווא, איזה סף עדיף?</p>
 
       <div class="exercise-card">
         <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
         <div class="solution">
           <div class="step">
-            <div class="step-label">מה קורה כשמעלים את הסף?</div>
-            <p><strong>סף באחוזון 95 (גבוה יותר מ־90) → פחות תצפיות מוגדרות כפגם.</strong> אנחנו יותר שמרנים בסימון positives. פחות מסמנים = פחות positives.</p>
+            <div class="step-label">סעיף א׳ · סף 0.50</div>
+            <p>מסומנים כהונאה (loss ≥ 0.50): T2 (0.85), T4 (0.55), T5 (0.90).</p>
+            <table style="font-size:12px;">
+              <tr><th>עסקה</th><th class="num">loss</th><th>חיזוי</th><th>אמת</th><th>סוג</th></tr>
+              <tr><td>T2</td><td class="num">0.85</td><td>הונאה</td><td>הונאה</td><td>TP</td></tr>
+              <tr><td>T4</td><td class="num">0.55</td><td>הונאה</td><td>הונאה</td><td>TP</td></tr>
+              <tr><td>T5</td><td class="num">0.90</td><td>הונאה</td><td>הונאה</td><td>TP</td></tr>
+            </table>
+            <p>שלושת ההונאות האמיתיות (T2, T4, T5) נתפסו, ואף עסקה תקינה לא סומנה בטעות. $TP = 3$, $FP = 0$, $FN = 0$.</p>
+            $$\text{Precision} = \frac{3}{3+0} = 1.0 \qquad \text{Recall} = \frac{3}{3+0} = 1.0$$
           </div>
-
-          <ul class="mc-list">
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>א׳. Recall יגדל</strong> <span class="why">לא נכון. עם פחות positives, TP קטן או שווה, ו־FN גדל. Recall = TP/(TP+FN) יקטן או יישאר ללא שינוי.</span></span></li>
-            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>ב׳. Recall יקטן או יישאר</strong> <span class="why">נכון. זה הכיוון הנכון.</span></span></li>
-            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>ג׳. Precision של תקינים יגדל או יישאר</strong> <span class="why">נכון. יותר תקינים מסומנים כתקינים (TN גדול), מספר ה־FN גדל אבל precision של תקינים = TN/(TN+FN). יחסי? למעשה בגישה הזו יותר תצפיות (כולל פגמים) נכנסות לקבוצת ה־״תקין״. אבל הן שוב תקינות תואמות ממש → TN גדל בהחלט, ולכן precision של תקינים לא יורד.</span></span></li>
-            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>ד׳. Precision של פגמים יגדל או יישאר</strong> <span class="why">נכון. סף גבוה יותר → רק ה־״בטוחים ביותר״ מסומנים כפגם. Precision = TP/(TP+FP) יגדל כי מסירים FP מסופקים.</span></span></li>
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>ה׳. מספר positives יעלה</strong> <span class="why">לא נכון. סף גבוה יותר → פחות positives.</span></span></li>
-          </ul>
-
-          <div class="final-answer">ב׳, ג׳, ד׳ נכונים.</div>
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · סף 0.25</div>
+            <p>מסומנים כהונאה (loss ≥ 0.25): T2, T4, T5, וגם T6 (0.30) שהיא תקינה.</p>
+            <p>$TP = 3$ (עדיין תפסנו את כל ההונאות), $FP = 1$ (T6 סומנה בטעות), $FN = 0$.</p>
+            $$\text{Precision} = \frac{3}{3+1} = 0.75 \qquad \text{Recall} = \frac{3}{3+0} = 1.0$$
+            <p>ה־<strong>Recall נשאר 1.0</strong> (עדיין תופסים את כל ההונאות), אבל ה־<strong>Precision נפגע</strong> (ירד מ־1.0 ל־0.75) בגלל אזעקת השווא על T6.</p>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ג׳ · לתפוס כמה שיותר הונאות</div>
+            <p><strong>הסף הנמוך (0.25)</strong> — או אף נמוך ממנו. הורדת הסף מגדילה את ה־Recall (תופסים יותר הונאות) על חשבון Precision (יותר אזעקות שווא). כשהמטרה היא לא לפספס הונאות, זה ה־trade-off הרצוי.</p>
+          </div>
+          <div class="final-answer">
+            א׳: P=1.0, R=1.0. &nbsp;·&nbsp; ב׳: R נשאר 1.0, P ירד ל־0.75. &nbsp;·&nbsp; ג׳: סף נמוך (0.25).
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Q14 -->
-  <h2>15.14 · CNN properties <span class="q-points">4 נקודות</span></h2>
+  <!-- Q14 - now: CNN parameter counting, concrete computation, different task -->
+  <h2>15.14 · CNN — ספירת פרמטרים והשוואה <span class="q-points">5 נקודות</span></h2>
 
   <div class="box exercise">
     <div class="box-head"><span class="icon">📝</span>השאלה</div>
     <div class="box-body">
-      <p>סמנו את כל הטענות הנכונות לגבי CNN:</p>
-      <ol style="margin: 8px 24px;" type="א">
-        <li>Pooling layers מקטינות את מספר הפרמטרים ומגבירות שמורה למיקום.</li>
-        <li>CNN חייב שכל הפילטרים יהיו באותו גודל.</li>
-        <li>הפילטרים בשכבה הראשונה בדרך כלל תופסים תבניות ברמת פיקסלים (edges, קווים).</li>
-        <li>CNN לא יכול להתמודד עם תמונות בגדלים שונים ללא preprocessing.</li>
-        <li>מספר הפרמטרים ב־Fully Connected layer של 1000 × 1000 קטן יותר ממספר הפרמטרים ב־Convolutional filter של $3 \times 3$.</li>
-      </ol>
+      <p>נתונה תמונת grayscale בגודל $28 \times 28$ (channel אחד). משווים שתי גישות לשכבה הראשונה:</p>
+      <ul style="margin:8px 24px;">
+        <li><strong>גישה A — קונבולוציה:</strong> 8 פילטרים בגודל $5 \times 5$.</li>
+        <li><strong>גישה B — Fully Connected:</strong> שכבה צפופה עם 100 נוירונים המחוברת לכל הפיקסלים.</li>
+      </ul>
+      <p><strong>סעיף א׳:</strong> כמה פרמטרים (משקלים + הטיה) יש בשכבת הקונבולוציה?</p>
+      <p><strong>סעיף ב׳:</strong> כמה משקלים יש בשכבת ה־Fully Connected (בלי הטיות)?</p>
+      <p><strong>סעיף ג׳:</strong> פי כמה גדולה שכבת ה־FC? מהי המסקנה העקרונית?</p>
+      <p><strong>סעיף ד׳:</strong> נכון או לא נכון — שיתוף המשקלים בקונבולוציה הוא הסיבה שאותו פילטר יכול לזהות תבנית בכל מקום בתמונה.</p>
 
       <div class="exercise-card">
         <button class="reveal-btn" onclick="this.parentElement.classList.toggle('open')">הצג פתרון</button>
         <div class="solution">
-          <ul class="mc-list">
-            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>א׳. Pooling לחיסכון פרמטרים ושמורה</strong> <span class="why">נכון. Max pooling / average pooling מקטינים גודל feature map (פחות חיבורים לשכבות הבאות) ומעניקים invariance קלה למיקום.</span></span></li>
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>ב׳. פילטרים באותו גודל</strong> <span class="why">לא נכון. אפשר לעשות multi-scale CNN עם פילטרים בגדלים שונים ($3\times 3$, $5\times 5$, $7\times 7$) באותה שכבה.</span></span></li>
-            <li class="correct"><span class="mc-marker"></span><span class="mc-text"><strong>ג׳. שכבה ראשונה — edges</strong> <span class="why">נכון. פילטרים בשכבה הראשונה תופסים מאפיינים ברמת פיקסלים (קווים אלכסוניים, שינויי צבע). שכבות עמוקות תופסות מבנים מורכבים יותר.</span></span></li>
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>ד׳. חייב תמונות בגודל אחיד</strong> <span class="why">לא נכון. שיטות שונות: (1) resize, (2) global average pooling בסוף, (3) Fully Convolutional Networks.</span></span></li>
-            <li class="wrong"><span class="mc-marker"></span><span class="mc-text"><strong>ה׳. FC 1000×1000 קטן מ־Conv 3×3</strong> <span class="why">לא נכון. הפוך! FC ← מיליון פרמטרים ($1000 \cdot 1000$). Conv $3\times 3$ ← רק 9 פרמטרים לפילטר. זה יתרון מרכזי של CNN.</span></span></li>
-          </ul>
-
-          <div class="final-answer">נכונות: א׳ ו־ג׳ בלבד.</div>
+          <div class="step">
+            <div class="step-label">סעיף א׳ · פרמטרים בקונבולוציה</div>
+            <p>כל פילטר הוא $5 \times 5 = 25$ משקלים על channel אחד, ועוד הטיה אחת: $25 + 1 = 26$ פרמטרים לפילטר. עם 8 פילטרים:</p>
+            $$8 \times (5 \times 5 \times 1 + 1) = 8 \times 26 = 208 \text{ פרמטרים}$$
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ב׳ · משקלים ב־FC</div>
+            <p>התמונה משוטחת ל־$28 \times 28 = 784$ פיקסלים, וכל אחד מחובר לכל 100 הנוירונים:</p>
+            $$784 \times 100 = 78{,}400 \text{ משקלים}$$
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ג׳ · היחס</div>
+            $$\frac{78{,}400}{208} \approx 377$$
+            <p>שכבת ה־FC גדולה פי כ־377! <strong>המסקנה:</strong> קונבולוציה חוסכת דרמטית בפרמטרים בזכות שני עקרונות — פילטר קטן ומקומי (לא מתחבר לכל הפיקסלים) ושיתוף משקלים (אותו פילטר על כל התמונה). זה מה שהופך CNN למעשי לתמונות.</p>
+          </div>
+          <div class="step">
+            <div class="step-label">סעיף ד׳ · שיתוף משקלים</div>
+            <p><strong>נכון.</strong> אותו פילטר (אותם 25 משקלים) מוחל על כל המיקומים בתמונה. לכן אם הפילטר למד לזהות קצה אנכי, הוא יזהה אותו בכל מקום שהוא מופיע — זהו ה־translation invariance של CNN.</p>
+          </div>
+          <div class="final-answer">
+            א׳: 208. &nbsp;·&nbsp; ב׳: 78,400. &nbsp;·&nbsp; ג׳: פי ~377, קונבולוציה חוסכת פרמטרים. &nbsp;·&nbsp; ד׳: נכון.
+          </div>
         </div>
       </div>
     </div>
@@ -1532,13 +1520,13 @@ plt.show()
           <strong>שינויים לינאריים</strong> — $E(aX+b) = a\mu + b$, $\sigma_{new} = |a|\sigma$.
         </li>
         <li>
-          <strong>גודל מדגם</strong> — $N \propto 1/w^2$ (רוחב חצי → $N$ פי 4), $N \propto \sigma^2$, $N \propto Z^2$.
+          <strong>גודל מדגם</strong> — $N \propto 1/w^2$ (רוחב חצי &larr; $N$ פי 4), $N \propto \sigma^2$, $N \propto Z^2$.
         </li>
         <li>
           <strong>Multi-collinearity</strong> — פוגע בפרשנות מקדמים ובמובהקות, לא ב־$R^2$ ולא בניבוי. תמיד לחשוד אם מתאם &gt; 0.7.
         </li>
         <li>
-          <strong>KNN</strong> — חובה feature scaling! K גדול → underfitting, K=1 → overfitting.
+          <strong>KNN</strong> — חובה feature scaling! K גדול &larr; underfitting, K=1 &larr; overfitting.
         </li>
         <li>
           <strong>Softmax בפלט</strong> חובה לסיווג רב־מחלקתי. ReLU/sigmoid בפלט לא נותן התפלגות.
